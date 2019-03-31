@@ -1,0 +1,25 @@
+﻿<p-progressSpinner *ngIf="!items" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <p-calendar [locale]="helpers.locale" [(ngModel)]="dateValue" [inputStyle]="{'width':'120px'}" dateFormat="yy-mm-dd" placeholder="{{ 'Date' | translate }}" [showIcon]="true"></p-calendar>
+            <button pButton type="button" label="{{ 'Refresh' | translate }}" (click)="getData()" style="margin-left: 50px" class="ui-button-primary" icon="pi pi-refresh"></button>
+        </div>
+    </p-toolbar>
+
+    <p-dataTable [value]="items" [totalRecords]="totalItems" [responsive]="true" #dt>
+        <p-header>
+            <span>{{ 'Loaded' | translate }} <b>{{loaded}}</b></span>
+            &nbsp;&nbsp;<span>{{ 'Unloaded' | translate }} <b>{{unloaded}}</b></span>
+            &nbsp;&nbsp;<span>{{ 'Stock' | translate }} <b>{{stock}}</b></span>
+        </p-header>
+        <p-column field="sku" header="SKU" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}" filterMatchMode="contains"></p-column>     
+        <p-column field="name" header="{{ 'Name' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}" filterMatchMode="contains"></p-column>
+        <p-column field="loaded" header="{{ 'Loaded' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
+        <p-column field="unloaded" header="{{ 'Unloaded' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
+        <p-column field="stock" header="{{ 'Stock' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
+    </p-dataTable>
+
+</div>

@@ -1,0 +1,70 @@
+<table *ngIf="formsSelected" class="ui-datatable inputtext" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr style="background-color: whitesmoke"> 
+            <td style="width: 20%"><label>{{ 'Attribute' | translate }}</label></td> 
+            <td><label>{{ 'Values' | translate }}</label></td>
+            <td style="width: 60px">
+                <button pButton type="button" (click)="openAttributesClick()" class="ui-button-secondary" icon="pi pi-folder-open"></button>
+            </td>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="2"><strong>{{totalRecords}}</strong> {{ 'articles' | translate }}</td>
+            <td>
+                <button pButton type="button" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>                    
+            </td>
+        </tr>
+    </tfoot>
+    <tbody> 
+        <tr *ngFor="let item of formsSelected"> 
+            <td>
+                <p-autoComplete [(ngModel)]="item.name" (onSelect)="updateAttributes($event)" [suggestions]="filteredNames" (completeMethod)="filterAttributes($event)"
+                    [minLength]="1">
+                </p-autoComplete>    
+            </td> 
+            <td>
+                <p-autoComplete [(ngModel)]="item.values" (onSelect)="updateAttributes($event)" [suggestions]="filteredNames" (completeMethod)="filterAttributeValues($event, item.id)" 
+                    [minLength]="1" [multiple]="true">
+                </p-autoComplete>
+            </td>
+            <td>
+                <button pButton type="button" (click)="removeClick()" class="ui-button-primary" icon="pi pi-times"></button>                    
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p *ngIf="product.productId>0">
+    <span>* {{ 'Click for change pricing, packaging, etc. by attribute values' | translate }}</span>
+    <p-tree [value]="productInfo" layout="horizontal" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="nodeSelect($event)"></p-tree>        
+</p>
+
+<span>* {{ 'Override barcodes' | translate }}</span>
+<div *ngIf="product.productId>0" class="ui-datatable inputtext">
+    <p-dropdown [options]="tags" [(ngModel)]="selectedTag" (onChange)="tagChanged($event)" [style]="{'width':'200px'}">
+        <ng-template let-tag pTemplate="selectedItem">{{tag.label}}</ng-template>
+        <ng-template let-tag pTemplate="item">{{tag.label}}</ng-template>
+    </p-dropdown>
+    <table *ngIf="articleForm" class="inputtext" style="margin: 10px 0" cellpadding="2" cellspacing="2">
+        <thead>
+            <tr style="background-color: whitesmoke"> 
+                <td *ngFor="let h of articleForm.header" align="center"><strong>{{h}}</strong></td> 
+            </tr>
+        </thead>
+        <tbody> 
+            <tr *ngFor="let item of articleForm.body"> 
+                <td *ngFor="let col of item; let i = index" align="center">
+                    <div *ngIf="i < product.attributes.length - 1;then labels else inputs"></div>
+                    <ng-template #labels>
+                        <span>{{col.value}}</span>
+                    </ng-template>
+                    <ng-template #inputs>
+                        <input pInputText type="text" size="13" title="{{col.value}}" [(ngModel)]="col.value" />
+                    </ng-template>
+                </td> 
+            </tr> 
+        </tbody>
+    </table>   
+    <button *ngIf="articleForm" pButton type="button" label="{{ 'Save barcodes' | translate }}" (click)="saveClick()" icon="pi pi-money-bill" style="width:300px"></button>
+</div>

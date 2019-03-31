@@ -1,0 +1,99 @@
+﻿<p-progressSpinner *ngIf="!stores" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" title="{{ 'Add' | translate }}" label="{{totalRecords}}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+        </div>
+        <div class="ui-toolbar-group-right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input #gb type="text" pInputText placeholder="{{ 'Search' | translate }}">
+        </div>
+    </p-toolbar>
+
+    <p-dataTable *ngIf="!displayPanel" [responsive]="true" [value]="stores"
+        selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)"
+        [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5"
+        [globalFilter]="gb" #dt>
+        <p-column field="storeId" header="Id" [style]="{'width':'100px'}" [sortable]="true"></p-column>
+        <p-column field="storeName" header="{{ 'Name' | translate }}" [sortable]="true"></p-column>
+        <p-column field="storeCity" header="{{ 'City' | translate }}" [sortable]="true"></p-column>
+        <p-column field="storeCountry" header="{{ 'Country' | translate }}" [sortable]="true"></p-column>
+    </p-dataTable>
+
+    <p-panel *ngIf="displayPanel">
+        <p-header>
+            <div class="ui-helper-clearfix">
+                <span class="ui-panel-title" style="font-size:20px;display:inline-block;margin-top:6px"><b>{{ 'Store' | translate }}</b></span>
+                <button pButton type="button" label="{{ 'Close' | translate }}" (click)="closeClick()" style="float: right" class="ui-button-secondary" icon="pi pi-times"></button>
+            </div>
+        </p-header>
+        <form [formGroup]="dataform">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label>Id</label></div>
+                    <div class="ui-grid-col-8">{{selected.storeId}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="name">{{ 'Name' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="name" [(ngModel)]="selected.storeName"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['name'].valid&&dataform.controls['name'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Name' | translate }} {{ 'is required' | translate }}
+                        </div>
+                </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="address">{{ 'Address' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="address" [(ngModel)]="selected.storeAddress"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['address'].valid&&dataform.controls['address'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Address' | translate }} {{ 'is required' | translate }}
+                        </div>
+                </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="city">{{ 'City' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="city" [(ngModel)]="selected.storeCity"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['city'].valid&&dataform.controls['city'].dirty">
+                            <i class="fa fa-close"></i> {{ 'City' | translate }} {{ 'is required' | translate }}
+                        </div>
+                </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="zip">{{ 'Zip' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="zip" [(ngModel)]="selected.storeZip"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['zip'].valid&&dataform.controls['zip'].dirty">
+                            <i class="fa fa-close"></i>
+                            <span *ngIf="dataform.controls['zip'].errors['required']">{{ 'Zip' | translate }} {{ 'is required' | translate }}</span>
+                            <span *ngIf="dataform.controls['zip'].errors['minlength']">{{ 'Must be equals than 5 characters' | translate }}</span>
+                            <span *ngIf="dataform.controls['zip'].errors['maxlength']">{{ 'Must be equals than 5 characters' | translate }}</span>
+                        </div>
+                </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="country">{{ 'Country' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="country" [(ngModel)]="selected.storeCountry"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['country'].valid&&dataform.controls['country'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Country' | translate }} {{ 'is required' | translate }}
+                        </div>
+                </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <button *ngIf="selected.storeId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>
+                    </div>
+                    <div class="ui-grid-col-4"></div>
+                    <div class="ui-grid-col-4">
+                        <button type="button" pButton icon="pi pi-save" class="ui-button-primary" (click)="saveClick()" label="{{ 'Save' | translate }}" [disabled]="!dataform.valid"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+
+</div>

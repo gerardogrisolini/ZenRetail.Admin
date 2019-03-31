@@ -1,0 +1,126 @@
+﻿<p-progressSpinner *ngIf="!tags||selected&&selected.tagGroupId>0&&!values" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+     <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" title="{{ 'Add' | translate }}" label="{{totalRecords}}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+            <button pButton type="button" title="{{ 'Edit' | translate }}" (click)="editClick()" class="ui-button-primary" icon="pi pi-pencil"></button>
+        </div>
+        <div class="ui-toolbar-group-right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input #gb type="text" pInputText placeholder="{{ 'Search' | translate }}">
+        </div>
+    </p-toolbar>
+
+    <p-dataTable *ngIf="!displayPanel" [responsive]="true" [value]="tags"
+        selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)"
+        [globalFilter]="gb" #dt>
+        <p-column field="tagGroupId" header="Id" [style]="{'width':'10%'}" [sortable]="true"></p-column>
+        <p-column field="tagGroupName" header="{{ 'Name' | translate }}" [sortable]="true"></p-column>
+    </p-dataTable>
+
+    <p-panel *ngIf="displayPanel">
+        <p-header>
+            <div class="ui-helper-clearfix">
+                <span class="ui-panel-title" style="font-size:20px;display:inline-block;margin-top:6px"><b>{{ 'Tag' | translate }}</b></span>
+                <button pButton type="button" label="{{ 'Close' | translate }}" (click)="closeClick()" style="float: right" class="ui-button-secondary" icon="pi pi-times"></button>
+            </div>
+        </p-header>
+        <form [formGroup]="dataform">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px" *ngIf="selected">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label>Id</label></div>
+                    <div class="ui-grid-col-8">{{selected.tagGroupId}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="name">{{ 'Name' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="name" [(ngModel)]="selected.tagGroupName"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['name'].valid&&dataform.controls['name'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Name' | translate }} {{ 'is required' | translate }}
+                        </div>
+                </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <button *ngIf="selected.tagGroupId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>
+                    </div>
+                    <div class="ui-grid-col-4"></div>
+                    <div class="ui-grid-col-4">
+                        <button type="button" pButton icon="pi pi-save" (click)="saveClick()" class="ui-button-primary" label="{{ 'Save' | translate }}" [disabled]="!dataform.valid"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+    
+</div>
+<br>
+<div class="container-fluid">
+    
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" label="{{totalValues}}" title="{{ 'Add' | translate }}" (click)="addValueClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+        </div>
+    </p-toolbar>
+
+    <p-dataTable *ngIf="!displayPanelValue" [responsive]="true" [value]="values"
+        selectionMode="single" [(selection)]="selectedValue" (onRowSelect)="onRowValueSelect($event)"
+        [globalFilter]="gb" #dt>
+        <p-column field="tagValueId" header="Id" [style]="{'width':'100px'}" [sortable]="true"></p-column>
+        <p-column field="tagValueCode" header="{{ 'Code' | translate }}" [sortable]="true"></p-column>
+        <p-column field="tagValueName" header="{{ 'Name' | translate }}" [sortable]="true"></p-column>
+    </p-dataTable>
+
+    <p-panel *ngIf="displayPanelValue">
+        <p-header>
+            <div class="ui-helper-clearfix">
+                <span class="ui-panel-title" style="font-size:20px;display:inline-block;margin-top:6px"><b>{{ 'Tag Value' | translate }}</b></span>
+                <button pButton type="button" label="{{ 'Close' | translate }}" (click)="closeValueClick()" style="float: right" class="ui-button-secondary" icon="pi pi-times"></button>
+            </div>
+        </p-header>
+        <form [formGroup]="dataformValue">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label>Id</label></div>
+                    <div class="ui-grid-col-8">{{selectedValue.tagValueId}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="id">{{ 'Tag' | translate }}</label></div>
+                    <div class="ui-grid-col-8">{{selected.tagGroupName}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="code">{{ 'Code' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="code" [(ngModel)]="selectedValue.tagValueCode"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataformValue.controls['code'].valid&&dataformValue.controls['code'].dirty">
+                            <i class="fa fa-close"></i>
+                            <span *ngIf="dataformValue.controls['code'].errors['required']">{{ 'Code' | translate }} {{ 'is required' | translate }}</span>
+                            <span *ngIf="dataformValue.controls['code'].errors['maxlength']">Must be shorter than 6 characters{{ 'Save' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="name">{{ 'Name' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="name" [(ngModel)]="selectedValue.tagValueName"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataformValue.controls['name'].valid&&dataformValue.controls['name'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Name' | translate }} {{ 'is required' | translate }}
+                        </div>
+                </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <button *ngIf="selectedValue.tagValueId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteValueClick()" label="{{ 'Delete' | translate }}"></button>
+                    </div>
+                    <div class="ui-grid-col-4"></div>
+                    <div class="ui-grid-col-4">
+                        <button type="button" pButton icon="pi pi-save" (click)="saveValueClick()" class="ui-button-primary" label="{{ 'Save' | translate }}" [disabled]="!dataformValue.valid"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+
+</div>

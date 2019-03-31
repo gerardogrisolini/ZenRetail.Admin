@@ -1,0 +1,8 @@
+.scanner {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+  transform:scale(0.12);
+  transform-origin:top right;
+}

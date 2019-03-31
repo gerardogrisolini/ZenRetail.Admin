@@ -1,0 +1,109 @@
+﻿<p-progressSpinner *ngIf="!items" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" title="{{ 'Add' | translate }}" label="{{totalRecords}}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+            <button pButton type="button" title="{{ 'Edit' | translate }}" (click)="editClick()" [disabled]="!selected" class="ui-button-primary" icon="pi pi-pencil"></button>
+        </div>
+        <div class="ui-toolbar-group-right">
+            <p-splitButton title="{{ 'Details' | translate }}" icon="pi pi-bars" (onClick)="openClick()" [model]="buttons" [disabled]="!selected"></p-splitButton>
+       </div>
+    </p-toolbar>
+
+    <p-dataTable *ngIf="!displayPanel" [responsive]="true" [value]="items | dateFilter:dateStartValue:dateFinishValue | priceFilter:amountValue:'invoices'"
+        selectionMode="single" [(selection)]="selected" [contextMenu]="bts"
+        [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5" #dt>
+        <p-column field="invoiceNumber" header="{{ 'Number' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
+        <p-column field="invoiceDate" header="{{ 'Date' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}">
+            <ng-template pTemplate="filter" let-col>
+                <i class="fa fa-close" (click)="dateStartValue=null;dateFinishValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
+                <p-calendar [locale]="helpers.locale" [(ngModel)]="dateStartValue" [inputStyle]="{'width':'50%','float':'left'}" dateFormat="yy-mm-dd" placeholder="{{ 'Start' | translate }}" styleClass="ui-column-filter"></p-calendar>
+                <p-calendar [locale]="helpers.locale" [(ngModel)]="dateFinishValue" [inputStyle]="{'width':'50%','float':'right'}" dateFormat="yy-mm-dd" placeholder="{{ 'Finish' | translate }}" styleClass="ui-column-filter"></p-calendar>
+            </ng-template>
+            <ng-template let-col let-data="rowData" pTemplate="body">
+                {{data.invoiceDate | date:'yyyy-MM-dd'}}
+            </ng-template>            
+        </p-column>
+        <p-column field="invoiceRegistry.registryName" header="{{ 'Registry' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" filterMatchMode="equals">
+            <ng-template pTemplate="filter" let-col>
+                <p-dropdown [options]="registriesFiltered" [style]="{'width':'100%'}" [filter]="true" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+            </ng-template>
+        </p-column>
+        <p-column header="{{ 'Amount' | translate }} ({{amountValue||'No Filter'}})" [editable]="false" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}">
+            <ng-template pTemplate="filter" let-col>
+                <i class="fa fa-close" (click)="amountValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
+                <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="amountValue" [min]="5" [max]="1000"></p-slider>
+            </ng-template>
+            <ng-template let-col let-data="rowData" pTemplate="body">
+                {{data.invoiceAmount | currencyFormat}}
+            </ng-template>
+        </p-column>
+     </p-dataTable>
+    
+     <p-contextMenu #bts [model]="buttons"></p-contextMenu>
+
+     <p-panel *ngIf="displayPanel">
+        <p-header>
+            <div class="ui-helper-clearfix">
+                <span class="ui-panel-title" style="font-size:20px;display:inline-block;margin-top:4px"><b>{{ 'Invoice' | translate }}</b></span>
+                <button pButton type="button" label="{{ 'Close' | translate }}" (click)="closeClick()" style="float: right" class="ui-button-secondary" icon="pi pi-times"></button>
+            </div>
+        </p-header>
+        <form [formGroup]="dataform">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px" *ngIf="selected">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label>Id</label></div>
+                    <div class="ui-grid-col-8">{{selected.invoiceId}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="number">{{ 'Number' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText type="number" formControlName="number" [(ngModel)]="selected.invoiceNumber" style="width: 50%"/>
+                        0 = {{ 'auto increment' | translate }}
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['number'].valid&&dataform.controls['number'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Number' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="date">{{ 'Date' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <p-calendar [locale]="helpers.locale" formControlName="date" [(ngModel)]="selected.invoiceDate" dateFormat="yy-mm-dd" [showIcon]="true"></p-calendar>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['date'].valid&&dataform.controls['date'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Date' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="registry">{{ 'Registry' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <p-dropdown [options]="registries" formControlName="registry" [(ngModel)]="selected.invoiceRegistry" [filter]="true" [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="payment">{{ 'Payment' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <p-dropdown [options]="payments" formControlName="payment" [(ngModel)]="selected.invoicePayment" [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="note">{{ 'Note' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <textarea pInputTextarea formControlName="note" [(ngModel)]="selected.invoiceNote" style="width: 100%"></textarea>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <button *ngIf="selected.invoiceId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>
+                    </div>
+                    <div class="ui-grid-col-4"></div>
+                    <div class="ui-grid-col-4">
+                        <button type="button" pButton icon="pi pi-save" class="ui-button-primary" (click)="saveClick()" label="{{ 'Save' | translate }}" [disabled]="!dataform.valid"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+</div>

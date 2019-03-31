@@ -1,0 +1,177 @@
+﻿<p-progressSpinner *ngIf="!company" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<form *ngIf="company" [formGroup]="dataform">
+<p-tabView>
+    <p-tabPanel header="{{ 'Information' | translate }}">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="name">{{ 'Name' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="name" [(ngModel)]="company.companyName"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="site">{{ 'Website' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="site" [(ngModel)]="company.companyWebsite"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="address">{{ 'Address' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="address" [(ngModel)]="company.companyAddress"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="city">{{ 'City' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="city" [(ngModel)]="company.companyCity"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="zip">{{ 'Zip' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="zip" [(ngModel)]="company.companyZip"/>
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['zip'].valid&&dataform.controls['zip'].dirty">
+                        <span *ngIf="dataform.controls['zip'].errors['minlength']||dataform.controls['zip'].errors['maxlength']">{{ 'Must be equals than 5 characters' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="province">{{ 'Province' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="province" [(ngModel)]="company.companyProvince"/>
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['province'].valid&&dataform.controls['province'].dirty">
+                        <i class="fa fa-close"></i>
+                        <span *ngIf="dataform.controls['province'].errors['minlength']||dataform.controls['province'].errors['maxlength']">{{ 'Must be equals than 2 characters' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="country">{{ 'Country' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <p-dropdown [options]="countries" formControlName="country" [(ngModel)]="company.companyCountry" [filter]="true" [style]="{'width':'100%'}"></p-dropdown>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="vatNumber">{{ 'VAT number' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="vatNumber" [(ngModel)]="company.companyVatNumber"/>
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['vatNumber'].valid&&dataform.controls['vatNumber'].dirty">
+                        <span *ngIf="dataform.controls['vatNumber'].errors['minlength']||dataform.controls['vatNumber'].errors['maxlength']">{{ 'Must be equals than 11 characters' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p-accordion>
+            <p-accordionTab header="{{ 'Description' | translate }}" [selected]="true">
+                <app-translation *ngIf="countries" [(translations)]="company.companyDescription"></app-translation>
+            </p-accordionTab>
+        </p-accordion>
+    </p-tabPanel>
+    <p-tabPanel header="{{ 'Contacts' | translate }}">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="phone">{{ 'Phone' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="phone" [(ngModel)]="company.companyPhone"/>
+                </div>
+            </div>
+             <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="emailInfo">{{ 'Email' | translate }} {{ 'Information' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="emailInfo" [(ngModel)]="company.companyEmailInfo" type="email"/>
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['emailInfo'].valid&&dataform.controls['emailInfo'].dirty">
+                        <span *ngIf="dataform.controls['emailInfo'].errors['email']">{{ 'Must be a valid email address' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="emailSales">{{ 'Email' | translate }} {{ 'Sales' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="emailSales" [(ngModel)]="company.companyEmailSales" type="email"/>
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['emailSales'].valid&&dataform.controls['emailSales'].dirty">
+                        <span *ngIf="dataform.controls['emailSales'].errors['email']">{{ 'Must be a valid email address' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="emailSupport">{{ 'Email' | translate }} {{ 'Support' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="emailSupport" [(ngModel)]="company.companyEmailSupport" type="email"/>
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['emailSupport'].valid&&dataform.controls['emailSupport'].dirty">
+                        <span *ngIf="dataform.controls['emailSupport'].errors['email']">{{ 'Must be a valid email address' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </p-tabPanel>
+    <p-tabPanel header="{{ 'Barcode' | translate }}">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="barcodePublic">{{ 'Public counter' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="barcodePublic" [(ngModel)]="company.barcodeCounterPublic"/>
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['barcodePublic'].valid&&dataform.controls['barcodePublic'].dirty">
+                        <i class="fa fa-close"></i> {{ 'Public counter' | translate }} {{ 'is required' | translate }}
+                        <span *ngIf="dataform.controls['barcodePublic'].errors['minlength']||dataform.controls['barcodePublic'].errors['maxlength']"><i class="fa fa-close"></i> Must be equals than 12 characters</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="barcodePrivate">{{ 'Private counter' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="barcodePrivate" [(ngModel)]="company.barcodeCounterPrivate"/>
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['barcodePrivate'].valid&&dataform.controls['barcodePrivate'].dirty">
+                        <i class="fa fa-close"></i> {{ 'Private counter' | translate }} {{ 'is required' | translate }}
+                        <span *ngIf="dataform.controls['barcodePrivate'].errors['minlength']||dataform.controls['barcodePrivate'].errors['maxlength']"><i class="fa fa-close"></i> Must be equals than 12 characters</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                <br/>* {{ 'The public barcode consists of 9 fixed numbers plus 3 variables, for a total of 1000 barcodes that can be used' | translate }}
+                </div>
+            </div>
+        </div>
+    </p-tabPanel>
+    <p-tabPanel header="Logo">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                    <p-fileUpload #form1 mode="advanced" name="logo" accept="image/png" maxFileSize="1000000" customUpload="true" (uploadHandler)="myUploader($event, form1)"
+                    chooseLabel="{{ 'Browse' | translate }}" uploadLabel="{{ 'Upload' | translate }}" cancelLabel="{{ 'Cancel' | translate }}"></p-fileUpload>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                    <img title="Logo" alt="{{ 'Logo not found. Upload new image size 256x256 px named logo.png' | translate }}" src="{{sessionService.logo}}" height="256" width="256"/>
+                </div>
+            </div>
+        </div>
+    </p-tabPanel>
+    <p-tabPanel header="{{ 'Header' | translate }}">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                    <p-fileUpload #form2 mode="advanced" name="header" accept="image/png" maxFileSize="5000000" customUpload="true" (uploadHandler)="myUploader($event, form2)"
+                    chooseLabel="{{ 'Browse' | translate }}" uploadLabel="{{ 'Upload' | translate }}" cancelLabel="{{ 'Cancel' | translate }}"></p-fileUpload>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                    <img title="Header" alt="{{ 'Header not found. Upload new image size 2000×260 px named header.png' | translate }}" src="{{header}}" width="100%"/>
+                </div>
+            </div>
+        </div>
+    </p-tabPanel>
+    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-12">
+                <button type="button" pButton icon="pi pi-save" (click)="saveClick()" class="ui-button-primary" label="{{ 'Save' | translate }} {{ 'All' | translate }}" [disabled]="!dataform.valid"></button>
+            </div>
+        </div>
+    </div>
+</p-tabView>
+
+</form>

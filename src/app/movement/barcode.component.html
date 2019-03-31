@@ -1,0 +1,28 @@
+﻿<p-progressSpinner *ngIf="isBusy" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <div class="noprint">
+        <button pButton type="button" title="{{ 'Back' | translate }}" (click)="cancelClick()" class="ui-button-secondary" style="width:50px" icon="pi pi-upload"></button>
+        <button pButton type="button" label="{{ 'PDF' | translate }}" [disabled]="isBusy" (click)="pdfClick()" class="ui-button-secondary" icon="pi pi-file"></button>
+    </div>
+    <br/><br/>
+    <div #doc>
+        <div *ngFor="let item of items" class="pdfBarcode">
+            <hr style="background-color: transparent; height: 1px; border: 0;">
+            <span style="font-size: 16px; float: right;">
+                <strong>{{item.movementArticlePrice | currencyFormat}}</strong>
+            </span>
+            <span style="font-size: 16px; margin-left: 10px;">
+                {{item.movementArticleProduct.productName}}
+            </span>
+            <br/>
+            <span style="font-size: 14px; margin-left: 10px;">
+                {{item.movementArticleProduct | articleInfo:item.movementArticleBarcode:true}}
+            </span>
+            <br/>
+            <ngx-barcode [bc-width]="1.8" [bc-height]="110" [bc-font-size]="16" [bc-value]="item.movementArticleBarcode" [bc-display-value]="true"></ngx-barcode>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,230 @@
+﻿<p-progressSpinner *ngIf="!selected||isBusy" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<p-sidebar [visible]="sessionService.visibleSidebar" (onHide)="closeSidebarClick($event)" styleClass="ui-sidebar-lg" position="right" [baseZIndex]="99999">
+    <h1>{{sessionService.titleSidebar | translate }}</h1>
+    <div id="right-sidebar" #dynamicComponentContainer></div>
+</p-sidebar>
+
+<div *ngIf="selected">
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" label="{{ 'Back' | translate }}" (click)="closeClick()" class="ui-button-secondary" icon="pi pi-arrow-left"></button>
+        </div>
+        <div class="ui-toolbar-group-right">
+            <button *ngIf="selected.productId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>
+            <button type="button" pButton icon="pi pi-save" class="ui-button-primary" (click)="saveClick()" label="{{ 'Save' | translate }}" [disabled]="!dataform.valid"></button>
+        </div>
+    </p-toolbar>
+
+    <p-tabView>
+        <p-tabPanel header="{{ 'Information' | translate }}">
+        <form [formGroup]="dataform">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label>{{ 'Enabled' | translate }}</label></div>
+                    <div class="ui-grid-col-2">
+                        <p-inputSwitch formControlName="isActive" [(ngModel)]="selected.productIsActive"></p-inputSwitch>
+                    </div>
+                    <div class="ui-grid-col-6" style="text-align: right; margin-top: -5px;">
+                        <label>{{ 'UpdatedAt' | translate }}</label><br/><span>{{selected.updatedAt | dateFormat}}</span>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-12"><hr></div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="name">{{ 'Name' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="name" [(ngModel)]="selected.productName"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['name'].valid&&dataform.controls['name'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Name' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="brand">{{ 'Brand' | translate }}</label></div>
+                    <div class="ui-grid-col-7">
+                        <p-autoComplete [(ngModel)]="selected.brand" field="brandName" formControlName="brand" [suggestions]="brandsFiltered" (completeMethod)="filterBrands($event)" [size]="30"
+                            [minLength]="1" placeholder="Hint: type for filter">
+                            <ng-template let-brand pTemplate="item">
+                                <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                                    <div style="font-size:16px;margin:10px 10px 0 0">{{brand.brandName}}</div>
+                                    <!-- <img src="/media/{{brand.brandName}}.png" style="width:32px;display:inline-block;margin:5px 0 2px 5px"/> -->
+                                </div>
+                            </ng-template>
+                        </p-autoComplete>    
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['brand'].valid&&dataform.controls['brand'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Brand' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                    <div class="ui-grid-col-1">
+                        <button type="button" pButton icon="pi pi-folder-open" style="height: 30px" class="ui-button-secondary" (click)="openSidebarClick('Brands')"></button>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="categories">{{ 'Categories' | translate }}</label></div>
+                    <div class="ui-grid-col-7">
+                        <p-autoComplete [(ngModel)]="categoriesSelected" field="categoryName" formControlName="categories" [suggestions]="categoriesFiltered" (completeMethod)="filterCategories($event)" 
+                            placeholder="Hint: type for filter" [multiple]="true">
+                            <ng-template let-category pTemplate="item">
+                                <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                                    <div style="font-size:16px;margin:10px 10px 0 0">{{category.categoryName}}</div>
+                                </div>
+                            </ng-template>
+                        </p-autoComplete>
+                    </div>
+                    <div class="ui-grid-col-1">
+                        <button type="button" pButton icon="pi pi-folder-open" style="height: 30px" class="ui-button-secondary" (click)="openSidebarClick('Categories')"></button>
+                    </div>
+                </div> 
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-12"><hr></div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="code">SKU</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="code" [(ngModel)]="selected.productCode"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['code'].valid&&dataform.controls['code'].dirty">
+                            <i class="fa fa-close"></i> SKU {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-12"><hr></div>
+                </div>
+                <p-accordion>
+                    <p-accordionTab header="{{ 'Description' | translate }}" [selected]="true">
+                        <app-translation [(translations)]="selected.translations"></app-translation>
+                    </p-accordionTab>
+                    <p-accordionTab header="{{ 'Price' | translate }}">
+                    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4"><label for="selling">{{ 'Selling' | translate }}</label></div>
+                            <div class="ui-grid-col-8">
+                                <input pInputText type="number" min="0" formControlName="selling" [(ngModel)]="selected.price.selling"/>
+                                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['selling'].valid&&dataform.controls['selling'].dirty">
+                                    <i class="fa fa-close"></i> {{ 'Selling' | translate }} {{ 'Price' | translate }} {{ 'is required' | translate }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4"><label for="purchase">{{ 'Purchase' | translate }}</label></div>
+                            <div class="ui-grid-col-8">
+                                <input pInputText type="number" min="0" formControlName="purchase" [(ngModel)]="selected.price.purchase"/>
+                                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['purchase'].valid&&dataform.controls['purchase'].dirty">
+                                    <i class="fa fa-close"></i> {{ 'Purchase' | translate }} {{ 'Price' | translate }} {{ 'is required' | translate }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4"><label for="tax">{{ 'Tax' | translate }}</label></div>
+                            <div class="ui-grid-col-8">
+                                <p-dropdown [options]="taxes" formControlName="tax" [(ngModel)]="selected.productTax" [style]="{'width':'100%'}"></p-dropdown>
+                                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['tax'].valid&&dataform.controls['tax'].dirty">
+                                    <i class="fa fa-close"></i> {{ 'Tax' | translate }} {{ 'is required' | translate }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </p-accordionTab>
+                    <p-accordionTab header="{{ 'Discount' | translate }}">
+                        <app-discount [discount]="selected.discount"></app-discount>
+                    </p-accordionTab>
+                    <p-accordionTab header="{{ 'Packaging' | translate }}">
+                    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4"><label for="weight">{{ 'Weight' | translate }}</label></div>
+                            <div class="ui-grid-col-8">
+                                <input pInputText type="number" min="0" formControlName="weight" [(ngModel)]="selected.packaging.weight"/>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4"><label for="length">{{ 'Length' | translate }}</label></div>
+                            <div class="ui-grid-col-8">
+                                <input pInputText type="number" min="0" formControlName="length" [(ngModel)]="selected.packaging.length"/>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4"><label for="width">{{ 'Width' | translate }}</label></div>
+                            <div class="ui-grid-col-8">
+                                <input pInputText type="number" min="0" formControlName="width" [(ngModel)]="selected.packaging.width"/>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4"><label for="height">{{ 'Height' | translate }}</label></div>
+                            <div class="ui-grid-col-8">
+                                <input pInputText type="number" min="0" formControlName="height" [(ngModel)]="selected.packaging.height"/>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-4"><label for="um">{{ 'Unit of Measure' | translate }}</label></div>
+                            <div class="ui-grid-col-8">
+                                <p-dropdown [options]="ums" formControlName="um" [(ngModel)]="selected.productUm" [style]="{'width':'100%'}"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                    </p-accordionTab>
+                    <p-accordionTab header="{{ 'Attributes' | translate }}">
+                    <!-- <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12">
+                                <p-selectButton [options]="types" formControlName="type" [(ngModel)]="selected.productType" (click)="onOptionClick()" [style]="{'width':'100%'}"></p-selectButton>
+                                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['type'].valid&&dataform.controls['type'].dirty">
+                                    <i class="fa fa-close"></i> Type is required
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="selected.productType!=='Simple'" class="ui-grid-row">
+                            <div class="ui-grid-col-12">
+                                <app-grouped *ngIf="selected.productType==='Grouped'"></app-grouped>
+                                <app-variant *ngIf="selected.productType==='Variant'" (onMenuClick)="openSidebarClick($event)"></app-variant>
+                            </div>
+                        </div>
+                    </div> -->
+                    <app-variant *ngIf="!isBusy" (onMenuClick)="openSidebarClick($event)"></app-variant>
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
+        </form>
+        </p-tabPanel>
+        <p-tabPanel header="{{ 'Media' | translate }}">
+            <app-media [medias]="selected.medias"></app-media>
+        </p-tabPanel>
+        <p-tabPanel header="{{ 'SEO' | translate }}">
+            <app-seo [(seo)]="selected.seo" [path]="'product'"></app-seo>
+        </p-tabPanel>
+        <p-tabPanel header="{{ 'Publication' | translate }}">
+            <div *ngIf="publication">
+                <table style="width: 100%;">
+                    <tr>
+                        <td>
+                            <p>
+                                <strong>{{ 'Featured' | translate }}</strong>
+                                <br/>
+                                <p-inputSwitch [(ngModel)]="publication.publicationFeatured"></p-inputSwitch>
+                            </p>
+                            <p>
+                                <strong>{{ 'New' | translate }}</strong>
+                                <br/>
+                                <p-inputSwitch [(ngModel)]="publication.publicationNew"></p-inputSwitch>
+                            </p>
+                            <button type="button" pButton icon="pi pi-refresh" class="ui-button-warning" (click)="resetClick()" label="{{ 'Reset data on Amazon' | translate }}"></button>
+                        </td>
+                        <td>
+                            <p>
+                                <strong>{{ 'Start' | translate }}</strong>
+                                <br/>
+                                <p-calendar [locale]="helpers.locale" [(ngModel)]="publication.publicationStartAt" dateFormat="yy-mm-dd" [showIcon]="true"></p-calendar>
+                            </p>
+                            <p>
+                                <strong>{{ 'Finish' | translate }}</strong>
+                                <br/>
+                                <p-calendar [locale]="helpers.locale" [(ngModel)]="publication.publicationFinishAt" dateFormat="yy-mm-dd" [showIcon]="true"></p-calendar>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>

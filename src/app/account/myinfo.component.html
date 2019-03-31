@@ -1,0 +1,75 @@
+﻿<div class="container-fluid">
+
+    <form [formGroup]="dataform">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px" *ngIf="myinfo">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label>{{myinfo.isAdmin ? 'Administrator' : 'Account' | translate}}</label></div>
+                <div class="ui-grid-col-8">{{myinfo.uniqueID}}</div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="firstname">{{ 'Name' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="firstname" [(ngModel)]="myinfo.firstname"/>
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['firstname'].valid&&dataform.controls['firstname'].dirty">
+                        <i class="fa fa-close"></i> {{ 'Name' | translate }} {{ 'is required' | translate }}
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="lastname">{{ 'Lastname' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="lastname" [(ngModel)]="myinfo.lastname"/>
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['lastname'].valid&&dataform.controls['lastname'].dirty">
+                        <i class="fa fa-close"></i> {{ 'Lastname' | translate }} {{ 'is required' | translate }}
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="email">{{ 'Email' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="email" [(ngModel)]="myinfo.email" type="email"/>
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['email'].valid&&dataform.controls['email'].dirty">
+                        <i class="fa fa-close"></i> {{ 'Email' | translate }} {{ 'is required' | translate }}
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-12"><h3>{{ 'Authentication' | translate }}</h3></div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="username">{{ 'Username' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="username" [(ngModel)]="myinfo.username"/>
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['username'].valid&&dataform.controls['username'].dirty">
+                        <i class="fa fa-close"></i> {{ 'Username' | translate }} {{ 'is required' | translate }}
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="password">{{ 'Password' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText formControlName="password" [(ngModel)]="myinfo.password" type="password"/>
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['password'].valid&&dataform.controls['password'].dirty">
+                        <i class="fa fa-close"></i>
+                        <span *ngIf="dataform.controls['password'].errors['required']">{{ 'Password' | translate }} {{ 'is required' | translate }}</span>
+                        <span *ngIf="dataform.controls['password'].errors['minlength']">{{ 'Must be longer than 6 characters' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label>Facebook</label></div>
+                <div class="ui-grid-col-8">{{myinfo.facebookID}}</div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label>Google</label></div>
+                <div class="ui-grid-col-8">{{myinfo.googleID}}</div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-8"></div>
+                <div class="ui-grid-col-4">
+                    <button type="button" pButton icon="pi pi-save" (click)="saveClick()" label="{{ 'Save' | translate }}" [disabled]="!dataform.valid"></button>
+                </div>
+            </div>
+        </div>
+    </form>
+ </div>

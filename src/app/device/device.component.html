@@ -1,0 +1,79 @@
+﻿<p-progressSpinner *ngIf="!items" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" title="{{ 'Add' | translate }}" label="{{totalRecords}}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+        </div>
+        <div class="ui-toolbar-group-right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input #gb type="text" pInputText placeholder="{{ 'Search' | translate }}">
+        </div>
+    </p-toolbar>
+
+    <p-dataTable *ngIf="!displayPanel" [responsive]="true" [value]="items"
+        selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)"
+        [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5"
+        [globalFilter]="gb" #dt>
+        <p-column field="deviceId" header="Id" [style]="{'width':'100px'}" [sortable]="true"></p-column>
+        <p-column field="deviceName" header="{{ 'Name' | translate }}" [sortable]="true"></p-column>
+        <p-column field="store.storeName" header="{{ 'Store' | translate }}" [sortable]="true"></p-column>     
+    </p-dataTable>
+
+    <p-panel *ngIf="displayPanel">
+        <p-header>
+            <div class="ui-helper-clearfix">
+                <span class="ui-panel-title" style="font-size:20px;display:inline-block;margin-top:6px"><b>{{ 'Device' | translate }}</b></span>
+                <button pButton type="button" label="{{ 'Close' | translate }}" (click)="closeClick()" style="float: right" icon="pi pi-times"></button>
+            </div>
+        </p-header>
+        <form [formGroup]="dataform">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label>Id</label></div>
+                    <div class="ui-grid-col-8">{{selected.deviceId}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="name">{{ 'Name' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="name" [(ngModel)]="selected.deviceName"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['name'].valid&&dataform.controls['name'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Name' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="store">{{ 'Store' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <p-dropdown [options]="stores" formControlName="store" [(ngModel)]="selected.store" [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['store'].valid&&dataform.controls['store'].dirty">
+                            <i class="fa fa-close"></i>
+                            <span *ngIf="dataform.controls['store'].errors['required']">{{ 'Store' | translate }} {{ 'is required' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="token">{{ 'Token' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="token" [(ngModel)]="selected.deviceToken"/>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="join">{{ 'Use this device as a cash register' | translate }}</label></div>
+                    <div class="ui-grid-col-8"><p-inputSwitch formControlName="join"></p-inputSwitch></div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <button *ngIf="selected.deviceId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>
+                    </div>
+                    <div class="ui-grid-col-4"></div>
+                    <div class="ui-grid-col-4">
+                        <button type="button" pButton icon="pi pi-save" class="ui-button-primary" (click)="saveClick()" label="{{ 'Save' | translate }}" [disabled]="!dataform.valid"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+
+</div>

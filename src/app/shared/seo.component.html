@@ -1,0 +1,35 @@
+<div *ngIf="seo" class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
+    <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label>{{ 'Permalink' | translate }}</label></div>
+        <div class="ui-grid-col-8">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">/{{ path }}/&nbsp;</span>
+                <input pInputText type="text" [(ngModel)]="seo.permalink"/>
+            </div>
+        </div>
+    </div>
+    <div class="ui-grid-row">
+        <div class="ui-grid-col-12"><hr></div>
+    </div>
+    <div class="ui-grid-row">
+        <div class="ui-grid-col-4">
+            <label>{{ 'Translation' | translate }}</label>
+        </div>
+        <div class="ui-grid-col-8">
+            <p-dropdown [options]="countries" (onChange)="onCountryChanged($event)" [(ngModel)]="country" [style]="{'width':'100%'}"></p-dropdown>
+        </div>
+    </div>
+    <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label>{{ 'Title' | translate }}</label></div>
+        <div class="ui-grid-col-8">
+            <textarea pInputTextarea placeholder="{{ '0 of 70 characters used' | translate }}" [(ngModel)]="title.value"></textarea>
+        </div>
+    </div>
+    <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label>{{ 'Meta Description' | translate }}</label></div>
+        <div class="ui-grid-col-8">
+            <textarea pInputTextarea [rows]="4" placeholder="{{ '0 of 160 characters used' | translate }}" [(ngModel)]="description.value"></textarea>
+        </div>
+    </div>
+</div>
+

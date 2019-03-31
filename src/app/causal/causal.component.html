@@ -1,0 +1,83 @@
+﻿<p-progressSpinner *ngIf="!causals" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+    
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" title="{{ 'Add' | translate }}" label="{{totalRecords}}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+        </div>
+        <div class="ui-toolbar-group-right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input #gb type="text" pInputText placeholder="{{ 'Search' | translate }}">
+        </div>
+    </p-toolbar>
+
+    <p-dataTable *ngIf="!displayPanel" [value]="causals" [responsive]="true"
+        selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)"
+        [paginator]="true" [rows]="20" [totalRecords]="totalRecords" [pageLinks]="5"
+        [globalFilter]="gb" #dt>
+        <p-column field="causalId" header="Id" [sortable]="true"></p-column>
+        <p-column field="causalName" header="{{ 'Name' | translate }}" [sortable]="true"></p-column>
+        <p-column field="causalQuantity" header="{{ 'Stock' | translate }}" [sortable]="true"></p-column>
+        <p-column field="causalBooked" header="{{ 'Booked' | translate }}" [sortable]="true"></p-column>
+        <p-column field="causalIsPos" header="{{ 'Cash register' | translate }}" [sortable]="true"></p-column>
+    </p-dataTable>
+
+    <p-panel *ngIf="displayPanel">
+        <p-header>
+            <div class="ui-helper-clearfix">
+                <span class="ui-panel-title" style="font-size:20px;display:inline-block;margin-top:6px"><b>{{ 'Causal' | translate }}</b></span>
+                <button pButton type="button" label="{{ 'Close' | translate }}" (click)="closeClick()" style="float: right" icon="pi pi-times"></button>
+            </div>
+        </p-header>
+        <form [formGroup]="dataform">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label>Id</label></div>
+                    <div class="ui-grid-col-8">{{selected.causalId}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="name">{{ 'Name' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="name" [(ngModel)]="selected.causalName"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['name'].valid&&dataform.controls['name'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Name' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="quantity">{{ 'Stock' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <p-selectButton formControlName="quantity" [options]="operators" [(ngModel)]="selected.causalQuantity"></p-selectButton>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['quantity'].valid&&dataform.controls['quantity'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Stock' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="booked">{{ 'Booked' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <p-selectButton formControlName="booked" [options]="operators" [(ngModel)]="selected.causalBooked"></p-selectButton>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['booked'].valid&&dataform.controls['booked'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Booked' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="pos">{{ 'Cash register' | translate }}</label></div>
+                    <div class="ui-grid-col-8"><p-inputSwitch formControlName="pos" [(ngModel)]="selected.causalIsPos"></p-inputSwitch></div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <button *ngIf="selected.causalId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>
+                    </div>
+                    <div class="ui-grid-col-8"></div>
+                    <div class="ui-grid-col-4">
+                        <button type="button" pButton icon="pi pi-save" class="ui-button-primary" (click)="saveClick()" label="{{ 'Save' | translate }}" [disabled]="!dataform.valid"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+
+</div>

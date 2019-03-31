@@ -1,0 +1,30 @@
+<p-progressSpinner *ngIf="!articleForm" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<table *ngIf="articleForm" class="ui-datatable container-fluid" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr style="background-color: whitesmoke"> 
+            <td style="width: 160px"><strong>Sku</strong></td> 
+            <td><strong>Description</strong></td> 
+            <td style="width: 60px">&nbsp;</td>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="2"><strong>{{totalRecords}}</strong> items</td>
+            <td>
+                <button pButton type="button" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>                    
+            </td>
+        </tr>
+    </tfoot>
+    <tbody> 
+        <tr *ngFor="let data of articleForm"> 
+            <td><span>{{data.barcode}}</span></td> 
+            <td><span>
+                {{ data.product | articleInfo:data.barcode}}
+            </span></td> 
+            <td align="center">
+                <button pButton type="button" (click)="removeClick(data.barcode)" class="ui-button-secondary" icon="pi pi-times"></button>
+            </td> 
+        </tr> 
+    </tbody>
+</table>   

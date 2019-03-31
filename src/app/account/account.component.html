@@ -1,0 +1,102 @@
+﻿<p-progressSpinner *ngIf="!accounts" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" title="{{ 'Add' | translate }}" label="{{totalRecords}}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+        </div>
+        <div class="ui-toolbar-group-right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input #gb type="text" pInputText placeholder="{{ 'Search' | translate }}'">
+        </div>
+    </p-toolbar>
+
+    <p-dataTable *ngIf="!displayPanel" [responsive]="true" [value]="accounts"
+        selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)"
+        [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5"
+        [globalFilter]="gb" #dt>
+        <p-column field="uniqueID" header="Id" [sortable]="true"></p-column>
+        <p-column field="username" header="{{ 'Username' | translate }}" [sortable]="true"></p-column>
+        <p-column field="firstname" header="{{ 'Name' | translate }}" [sortable]="true"></p-column>
+        <p-column field="lastname" header="{{ 'Lastname' | translate }}" [sortable]="true"></p-column>
+        <p-column field="email" header="{{ 'Email' | translate }}" [sortable]="true"></p-column>
+    </p-dataTable>
+
+    <p-panel *ngIf="displayPanel">
+        <p-header>
+            <div class="ui-helper-clearfix">
+                <span class="ui-panel-title" style="font-size:20px;display:inline-block;margin-top:6px"><b>{{ 'Account' | translate }}</b></span>
+                <button pButton type="button" label="{{ 'Close' | translate }}" (click)="closeClick()" style="float: right" icon="pi pi-times"></button>
+            </div>
+        </p-header>
+        <form [formGroup]="dataform">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px" *ngIf="selected">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label>Id</label></div>
+                    <div class="ui-grid-col-8">{{selected.uniqueID}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="firstname">{{ 'Name' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="firstname" [(ngModel)]="selected.firstname"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['firstname'].valid&&dataform.controls['firstname'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Name' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="lastname">{{ 'Lastname' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="lastname" [(ngModel)]="selected.lastname"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['lastname'].valid&&dataform.controls['lastname'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Lastname' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="email">{{ 'Email' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="email" [(ngModel)]="selected.email" type="email"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['email'].valid&&dataform.controls['email'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Email' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="username">{{ 'Username' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="username" [(ngModel)]="selected.username"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['username'].valid&&dataform.controls['username'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Username' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="password">{{ 'Password' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="password" [(ngModel)]="selected.password" type="password"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['password'].valid&&dataform.controls['password'].dirty">
+                            <i class="fa fa-close"></i>
+                            <span *ngIf="dataform.controls['password'].errors['required']"> {{ 'Password' | translate }} {{ 'is required' | translate }}</span>
+                            <span *ngIf="dataform.controls['password'].errors['minlength']"> {{ 'Must be longer than 6 characters' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="isAdmin">{{ 'Administrator' | translate }}</label></div>
+                    <div class="ui-grid-col-8"><p-inputSwitch formControlName="isAdmin" [(ngModel)]="selected.isAdmin"></p-inputSwitch></div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <button *ngIf="selected.uniqueID!=''" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>
+                    </div>
+                    <div class="ui-grid-col-4"></div>
+                    <div class="ui-grid-col-4">
+                        <button type="button" pButton icon="pi pi-save" class="ui-button-primary" (click)="saveClick()" label="{{ 'Save' | translate }}" [disabled]="!dataform.valid"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+ </div>

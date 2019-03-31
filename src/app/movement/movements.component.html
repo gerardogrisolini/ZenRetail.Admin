@@ -1,0 +1,205 @@
+﻿<p-progressSpinner *ngIf="!items" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" title="{{ 'Add' | translate }}" label="{{totalRecords}}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+            <button pButton type="button" title="{{ 'Refresh' | translate }}" (click)="refreshClick()" class="ui-button-primary" icon="pi pi-refresh"></button>
+            <button pButton type="button" title="{{ 'Edit' | translate }}" (click)="editClick()" [disabled]="!selected" class="ui-button-primary" icon="pi pi-pencil"></button>
+        </div>
+        <div class="ui-toolbar-group-right">
+            <p-splitButton title="{{ 'Details' | translate }}" icon="pi pi-bars" (onClick)="openClick()" [model]="buttons" [disabled]="!selected"></p-splitButton>
+        </div>
+    </p-toolbar>
+
+    <p-dataTable *ngIf="!displayPanel" [responsive]="true" [value]="items | dateFilter:dateStartValue:dateFinishValue | priceFilter:amountValue:'movements'"
+        selectionMode="single" [(selection)]="selected" [contextMenu]="bts"
+        [paginator]="true" [rows]="20" [totalRecords]="totalRecords" [pageLinks]="5" #dt>
+        <p-column field="movementNumber" header="{{ 'Number' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
+        <p-column field="movementDate" header="{{ 'Date' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}">
+            <ng-template pTemplate="filter" let-col>
+                <i class="fa fa-close" (click)="dateStartValue=null;dateFinishValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
+                <p-calendar [locale]="helpers.locale" [(ngModel)]="dateStartValue" [inputStyle]="{'width':'50%','float':'left'}" dateFormat="yy-mm-dd" placeholder="{{ 'Start' | translate }}" styleClass="ui-column-filter"></p-calendar>
+                <p-calendar [locale]="helpers.locale" [(ngModel)]="dateFinishValue" [inputStyle]="{'width':'50%','float':'right'}" dateFormat="yy-mm-dd" placeholder="{{ 'Finish' | translate }}" styleClass="ui-column-filter"></p-calendar>
+            </ng-template>
+            <ng-template let-col let-data="rowData" pTemplate="body">
+                {{data.movementDate | date:'yyyy-MM-dd'}}
+            </ng-template>            
+        </p-column>
+        <p-column field="movementCausal.causalName" header="{{ 'Causal' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" filterMatchMode="equals">
+            <ng-template pTemplate="filter" let-col>
+                <p-dropdown [options]="causalsFiltered" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+            </ng-template>
+        </p-column>
+        <p-column field="movementStore.storeName" header="{{ 'Store' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" filterMatchMode="equals">
+            <ng-template pTemplate="filter" let-col>
+                <p-dropdown [options]="storesFiltered" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+            </ng-template>
+        </p-column>
+        <p-column field="movementRegistry.registryName" header="{{ 'Registry' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" filterMatchMode="equals">
+            <ng-template pTemplate="filter" let-col>
+                <p-dropdown [options]="registriesFiltered" [style]="{'width':'100%'}" [filter]="true" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+            </ng-template>
+        </p-column>
+        <p-column field="movementStatus" header="{{ 'Status' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" filterMatchMode="equals">
+            <ng-template pTemplate="filter" let-col>
+                <p-dropdown [options]="statusFiltered" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+            </ng-template>
+        </p-column>
+        <p-column header="{{ 'Amount' | translate }} ({{amountValue||''}})" [editable]="false" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}">
+            <ng-template pTemplate="filter" let-col>
+                <i class="fa fa-close" (click)="amountValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
+                <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="amountValue" [min]="5" [max]="1000"></p-slider>
+            </ng-template>
+            <ng-template let-col let-data="rowData" pTemplate="body">
+                {{data.movementAmount | currencyFormat}}
+            </ng-template>
+        </p-column>
+    </p-dataTable>
+    
+    <p-contextMenu #bts [model]="buttons"></p-contextMenu>
+
+    <p-panel *ngIf="displayPanel">
+        <p-header>
+            <div class="ui-helper-clearfix">
+                <span class="ui-panel-title" style="font-size:20px;display:inline-block;margin-top:6px"><b>{{ 'Movement' | translate }}</b></span>
+                <button pButton type="button" label="{{ 'Close' | translate }}" (click)="closeClick()" style="float: right" icon="pi pi-times"></button>
+            </div>
+        </p-header>
+        <form [formGroup]="dataform">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px" *ngIf="selected">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label>Id</label></div>
+                    <div class="ui-grid-col-8">{{selected.movementId}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="number">{{ 'Number' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <div *ngIf="selected.movementStatus==='New';then new_number else current_number"></div>
+                        <ng-template #new_number>
+                           <input pInputText type="number" formControlName="number" [(ngModel)]="selected.movementNumber" style="width: 50%"/>
+                            0 = {{ 'auto increment' | translate }}
+                        </ng-template>
+                        <ng-template #current_number>
+                            <input pInputText disabled="true" formControlName="number" [(ngModel)]="selected.movementNumber" style="width: 50%"/>
+                        </ng-template>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['number'].valid&&dataform.controls['number'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Number' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="date">{{ 'Date' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <p-calendar [locale]="helpers.locale" formControlName="date" [(ngModel)]="selected.movementDate" [disabled]="selected.movementStatus!=='New'" dateFormat="yy-mm-dd" [showIcon]="true"></p-calendar>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['date'].valid&&dataform.controls['date'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Date' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="causal">{{ 'Causal' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <p-dropdown [options]="causals" formControlName="causal" [(ngModel)]="selected.movementCausal" [disabled]="selected.movementStatus!=='New'" (onChange)="onCausalChange($event)" [style]="{'width':'100%'}"></p-dropdown>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['causal'].valid&&dataform.controls['causal'].dirty">
+                            <i class="fa fa-close"></i>
+                            <span *ngIf="dataform.controls['causal'].errors['required']">{{ 'Causal' | translate }} {{ 'is required' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="selected.movementCausal.causalIsPos" class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="device">{{ 'Device' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText disabled="true" formControlName="device" [(ngModel)]="selected.movementDevice"/>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="store">{{ 'Store' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <p-dropdown [options]="stores" formControlName="store" [(ngModel)]="selected.movementStore" [disabled]="selected.movementStatus!=='New'||selected.movementCausal.causalIsPos" [style]="{'width':'100%'}"></p-dropdown>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['store'].valid&&dataform.controls['store'].dirty">
+                            <i class="fa fa-close"></i>
+                            <span *ngIf="dataform.controls['store'].errors['required']">{{ 'Store' | translate }} {{ 'is required' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="registry">{{ 'Registry' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <p-dropdown [options]="registries" formControlName="registry" [(ngModel)]="selected.movementRegistry" [disabled]="selected.movementStatus!=='New'" [filter]="true" [style]="{'width':'100%'}"></p-dropdown>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="description">{{ 'Description' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <div *ngIf="selected.movementStatus==='New';then new_content else content"></div>
+                        <ng-template #new_content>
+                            <input pInputText type="text" formControlName="description" [(ngModel)]="selected.movementDesc"/>
+                        </ng-template>
+                        <ng-template #content>
+                            <input pInputText disabled="true" formControlName="description" [(ngModel)]="selected.movementDesc"/>
+                        </ng-template>
+                    </div>
+                </div>
+                <div *ngIf="!selected.movementCausal.causalIsPos" class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="tags" title="{{ 'Tags for managing barcodes, traceability and statistics' | translate }}">{{ 'Tags' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <p-autoComplete [(ngModel)]="tagsSelected" field="valueName" formControlName="tags" [suggestions]="tagsFiltered" (completeMethod)="filterTags($event)" [multiple]="true" [disabled]="selected.movementStatus!=='New'">
+                            <ng-template let-tag pTemplate="item">
+                                <div class="ui-helper-clearfix">
+                                    <div style="font-size:16px;margin:10px 10px 0 0">{{tag.groupName}} - {{tag.valueName}}</div>
+                                </div>
+                            </ng-template>
+                        </p-autoComplete>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="payment">{{ 'Payment' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <p-dropdown [options]="payments" formControlName="payment" [disabled]="selected.movementStatus==='Completed'" [(ngModel)]="selected.movementPayment" [style]="{'width':'100%'}"></p-dropdown>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="payment">{{ 'Shipping' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <p-selectButton formControlName="shipping" [options]="shippings" [disabled]="selected.movementStatus==='Completed'" [(ngModel)]="selected.movementShipping" (onChange)="onShippingChange($event)"></p-selectButton>                        
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="payment">{{ 'Shipping cost' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText disabled="true" formControlName="shippingCost" [(ngModel)]="selected.movementShippingCost" [style]="{'width':'100%'}"/>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-12"><hr></div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="status">{{ 'Status' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <p-dropdown [options]="getStatus" formControlName="status" [(ngModel)]="selected.movementStatus" [style]="{'width':'100%'}" styleClass="ui-column-filter"></p-dropdown>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['status'].valid&&dataform.controls['status'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Status' | translate }} is required
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="note">{{ 'Note' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <textarea pInputTextarea formControlName="note" [(ngModel)]="selected.movementNote" style="width: 100%"></textarea>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <button *ngIf="selected.movementId>0&&selected.movementStatus==='New'" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>
+                    </div>
+                    <div class="ui-grid-col-4"></div>
+                    <div class="ui-grid-col-4">
+                        <button type="button" pButton icon="pi pi-save" class="ui-button-primary" (click)="saveClick()" label="{{ 'Save' | translate }}" [disabled]="!dataform.valid"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+</div>

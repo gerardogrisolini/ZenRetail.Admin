@@ -1,0 +1,54 @@
+﻿<p-progressSpinner *ngIf="!brands" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button *ngIf="!selected" pButton type="button" title="{{ 'Add' | translate }}" label="{{totalRecords}}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+            <button *ngIf="selected" pButton type="button" label="{{ 'Close' | translate }}" (click)="closeClick()" class="ui-button-secondary" icon="pi pi-times"></button>
+        </div>
+        <div *ngIf="!selected" class="ui-toolbar-group-right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input #gb type="text" pInputText placeholder="{{ 'Search' | translate }}">
+        </div>
+        <div *ngIf="selected" class="ui-toolbar-group-right">
+            <button *ngIf="selected.brandId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>
+            <button type="button" pButton icon="pi pi-save" class="ui-button-primary" (click)="saveClick()" label="{{ 'Save' | translate }}" [disabled]="!dataform.valid"></button>
+        </div>
+    </p-toolbar>
+
+    <p-dataTable *ngIf="!selected" [responsive]="true" [value]="brands"
+        selectionMode="single" [(selection)]="selected"
+        [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5"
+        [globalFilter]="gb" #dt>
+        <p-column field="brandId" header="Id" [style]="{'width':'100px'}" [sortable]="true"></p-column>
+        <p-column field="brandName" header="{{ 'Name' | translate }}" [sortable]="true"></p-column>
+        <p-column field="media.name" header="{{ 'Media' | translate }}" [sortable]="true"></p-column>
+    </p-dataTable>
+
+    <p-tabView *ngIf="selected">
+        <p-tabPanel header="{{ 'Brand' | translate }}">
+        <form [formGroup]="dataform">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="name">{{ 'Name' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="name" [(ngModel)]="selected.brandName"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['name'].valid&&dataform.controls['name'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Name' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <app-translation [(translations)]="selected.translations"></app-translation>
+            </div>
+        </form>
+        </p-tabPanel>
+        <p-tabPanel header="{{ 'Media' | translate }}">
+            <app-media [(media)]="selected.media"></app-media>
+        </p-tabPanel>
+        <p-tabPanel header="{{ 'SEO' | translate }}">
+            <app-seo [(seo)]="selected.seo" [path]="'brand'"></app-seo>
+        </p-tabPanel>
+    </p-tabView>
+
+</div>

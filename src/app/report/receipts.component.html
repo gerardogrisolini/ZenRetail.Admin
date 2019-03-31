@@ -1,0 +1,35 @@
+﻿<p-progressSpinner *ngIf="!items" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <p-calendar [locale]="helpers.locale" [(ngModel)]="dateStartValue" [inputStyle]="{'width':'120px'}" dateFormat="yy-mm-dd" placeholder="{{ 'Start' | translate }}" [showIcon]="true"></p-calendar>
+            <p-calendar [locale]="helpers.locale" [(ngModel)]="dateFinishValue" [inputStyle]="{'width':'120px','margin-left':'30px'}" dateFormat="yy-mm-dd" placeholder="{{ 'Finish' | translate }}" [showIcon]="true"></p-calendar>
+            <button pButton type="button" label="{{ 'Refresh' | translate }}" (click)="getData()" style="margin-left: 50px" class="ui-button-primary" icon="pi pi-refresh"></button>
+        </div>
+    </p-toolbar>
+
+    <p-dataTable [value]="items" sortField="movementDevice" 
+        rowGroupMode="subheader" groupField="movementDevice" expandableRowGroups="true" [sortableRowGroup]="false"
+        [responsive]="true">
+        <p-footer>
+            <span style="float: left"><b>{{totalItems}}</b> {{ 'receipts' | translate }}</span>
+            <span style="float: right">{{ 'Total' | translate }} <b>{{totalAmount | currencyFormat}}</b></span>
+            <p>&nbsp;</p>
+        </p-footer>
+        <ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['movementDevice']}}</ng-template>
+        <p-column field="movementNumber" header="{{ 'Number' | translate }}" [sortable]="true"></p-column>
+        <p-column field="movementDate" header="{{ 'Date' | translate }}" [sortable]="true"></p-column>
+        <p-column field="movementAmount" header="{{ 'Amount' | translate }}" [sortable]="true">
+            <ng-template let-col let-data="rowData" pTemplate="body">
+                <span>{{data[col.field] | currencyFormat}}</span>
+            </ng-template>
+        </p-column>
+        <ng-template pTemplate="rowgroupfooter" let-data>
+            <td colspan="2" style="text-align:right">{{ 'Subtotal' | translate }}</td>
+            <td><b>{{calculateGroupTotal(data['movementDevice']) | currencyFormat }}</b></td>
+        </ng-template>
+    </p-dataTable>
+
+</div>

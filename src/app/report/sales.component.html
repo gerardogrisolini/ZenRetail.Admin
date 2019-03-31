@@ -1,0 +1,57 @@
+﻿<p-progressSpinner *ngIf="!items" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <p-calendar [locale]="helpers.locale" [(ngModel)]="dateStartValue" [inputStyle]="{'width':'120px'}" dateFormat="yy-mm-dd" placeholder="{{ 'Start' | translate }}" [showIcon]="true"></p-calendar>
+            <p-calendar [locale]="helpers.locale" [(ngModel)]="dateFinishValue" [inputStyle]="{'width':'120px','margin-left':'30px'}" dateFormat="yy-mm-dd" placeholder="{{ 'Finish' | translate }}" [showIcon]="true"></p-calendar>
+            <button pButton type="button" label="{{ 'Refresh' | translate }}" (click)="getData()" style="margin-left: 50px" class="ui-button-primary" icon="pi pi-refresh"></button>
+        </div>
+    </p-toolbar>
+
+    <p-dataTable [value]="items | priceFilter:priceValue:'movement':amountValue | articleFilter:articleValue | categoryFilter:categoryValue:'sales'" [totalRecords]="totalItems" [responsive]="true" #dt>
+        <p-footer>
+            <span style="float: left"><b>{{totalItems}}</b> {{ 'sales' | translate }}</span>
+            <span style="float: right">{{ 'Total' | translate }} <b>{{totalAmount | currencyFormat}}</b></span>
+            <p>&nbsp;</p>
+        </p-footer>
+        <p-column field="movementArticleProduct.brand.brandName" header="{{ 'Brand' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}" filterMatchMode="contains"></p-column>     
+        <p-column header="{{ 'Categories' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" >
+            <ng-template pTemplate="filter" let-col>
+               <input pInputText [(ngModel)]="categoryValue" placeholder="{{ 'Search' | translate }}" style="width: 100%;margin-top: 4px;" styleClass="ui-column-filter"/>
+            </ng-template>
+            <ng-template let-col let-data="rowData" pTemplate="body">
+                <li *ngFor="let item of data.movementArticleProduct.categories"> {{item.category.categoryName}} </li>
+            </ng-template>
+        </p-column>
+        <p-column header="{{ 'Product' | translate }}" [sortable]="true" [filter]="true">
+            <ng-template pTemplate="filter" let-col>
+                <input pInputText [(ngModel)]="articleValue" placeholder="{{ 'Search' | translate }}" style="width: 100%;margin-top: 4px;" styleClass="ui-column-filter"/>
+            </ng-template>
+            <ng-template let-col let-data="rowData" pTemplate="body">
+                {{data.movementArticleProduct | articleInfo:data.movementArticleBarcode}}
+            </ng-template>
+        </p-column>
+        <p-column field="movementArticleQuantity" header="{{ 'Quantity' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
+        <p-column field="movementArticlePrice" header="{{ 'Price' | translate }} ({{priceValue||''}})" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}">
+            <ng-template pTemplate="filter" let-col>
+                <i class="fa fa-close" (click)="priceValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
+                <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="priceValue" [min]="1" [max]="1000"></p-slider>
+            </ng-template>
+            <ng-template let-col let-data="rowData" pTemplate="body">
+                {{data.movementArticlePrice | currencyFormat}}
+            </ng-template>
+        </p-column>
+        <p-column field="movementArticleAmount" header="{{ 'Amount' | translate }} ({{amountValue||''}})" [editable]="false" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}">
+            <ng-template pTemplate="filter" let-col>
+                <i class="fa fa-close" (click)="amountValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
+                <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="amountValue" [min]="1" [max]="10000"></p-slider>
+            </ng-template>
+            <ng-template let-col let-data="rowData" pTemplate="body">
+                {{data.movementArticleAmount | currencyFormat}}
+            </ng-template>
+        </p-column>
+    </p-dataTable>
+
+</div>

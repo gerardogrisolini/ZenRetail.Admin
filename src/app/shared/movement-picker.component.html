@@ -1,0 +1,35 @@
+﻿<p-dataTable *ngIf="isOpen" [responsive]="true" [value]="movements | dateFilter:dateStartValue:dateFinishValue" 
+    selectionMode="multiple" [(selection)]="selected"
+    [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [pageLinks]="5" #dt>
+    <p-header>
+        <div class="ui-helper-clearfix" style="text-align: left">
+            <span style="font-size:20px;display:inline-block;margin-top:3px"><b>{{ 'Movement picker' | translate }}</b></span>
+            <button pButton type="button" label="{{ 'Close' | translate }}" (click)="hidePickerClick()" style="float: right" class="ui-button-secondary" icon="pi pi-times"></button>
+        </div>
+    </p-header>
+    <p-footer>
+        <button pButton type="button" label="{{ 'Pickup' | translate }}" (click)="pickerClick()" class="ui-button-success" icon="pi pi-download"></button>
+    </p-footer>
+    <p-column [style]="{'width':'50px'}" selectionMode="multiple"></p-column>
+    <p-column field="movementNumber" header="{{ 'Number' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
+    <p-column header="{{ 'Date' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}">
+        <ng-template let-col let-data="rowData" pTemplate="body">
+            {{data.movementDate | date:'yyyy-MM-dd'}}
+        </ng-template>            
+        <ng-template pTemplate="filter" let-col>
+            <i class="fa fa-close" (click)="dateStartValue=null;dateFinishValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
+            <p-calendar [locale]="helpers.locale" [(ngModel)]="dateStartValue" [inputStyle]="{'width':'50%','float':'left'}" dateFormat="yy-mm-dd" placeholder="{{ 'Start' | translate }}" styleClass="ui-column-filter"></p-calendar>
+            <p-calendar [locale]="helpers.locale" [(ngModel)]="dateFinishValue" [inputStyle]="{'width':'50%','float':'right'}" dateFormat="yy-mm-dd" placeholder="{{ 'Finish' | translate }}" styleClass="ui-column-filter"></p-calendar>
+        </ng-template>
+    </p-column>
+    <p-column field="movementCausal.causalName" header="{{ 'Causal' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" filterMatchMode="equals">
+        <ng-template pTemplate="filter" let-col>
+            <p-dropdown [options]="causalsFiltered" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+        </ng-template>
+    </p-column>
+    <p-column field="movementStore.storeName" header="{{ 'Store' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" filterMatchMode="equals">
+        <ng-template pTemplate="filter" let-col>
+            <p-dropdown [options]="storesFiltered" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+        </ng-template>
+    </p-column>
+</p-dataTable>

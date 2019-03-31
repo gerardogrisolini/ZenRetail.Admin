@@ -1,0 +1,90 @@
+﻿<p-progressSpinner *ngIf="isBusy" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <div class="noprint">
+        <button pButton type="button" title="{{ 'Back' | translate }}" (click)="cancelClick()" class="ui-button-secondary" style="width:50px" icon="pi pi-upload"></button>
+        <button pButton type="button" label="{{ 'Print' | translate }}" title="Print document" (click)="printClick()" class="ui-button-secondary" icon="pi pi-print"></button>
+        <button pButton type="button" label="{{ 'PDF' | translate }}" (click)="pdfClick()" [disabled]="isBusy" class="ui-button-secondary" icon="pi pi-file"></button>
+        <button pButton type="button" label="{{ 'Send mail' | translate }}" (click)="sendMailClick()" [disabled]="isBusy" class="ui-button-secondary" icon="pi pi-comment"></button>
+    </div>
+    
+    <div *ngIf="movement" #doc>
+        <div *ngFor="let items of groups" class="pdfDocument">          
+            <table class="table" style="width: 100%">    
+                <thead>
+                    <tr> 
+                        <td colspan="5"><img height="100" width="100%" src="/media/header.png" style="margin: 10px 0"></td> 
+                    </tr> 
+                    <tr> 
+                        <td><strong>{{ 'Number' | translate }}</strong></td> 
+                        <td align="right">{{movement.movementNumber}}</td>
+                        <td style="width: 20%">&nbsp;</td>
+                        <td><strong>{{ 'Store' | translate }}</strong></td> 
+                        <td align="right">{{movement.movementStore.storeName}}</td> 
+                    </tr> 
+                    <tr> 
+                        <td><strong>{{ 'Date' | translate }}</strong></td> 
+                        <td align="right">{{movement.movementDate | date: 'yyyy-MM-dd'}}</td>
+                        <td style="width: 20%">&nbsp;</td>
+                        <td><strong>{{ 'Causal' | translate }}</strong></td> 
+                        <td align="right">{{movement.movementCausal.causalName}}</td> 
+                    </tr> 
+                    <tr> 
+                        <td><strong>{{ 'Status' | translate }}</strong></td> 
+                        <td align="right">{{ movement.movementStatus | translate }}</td>
+                        <td style="width: 20%">&nbsp;</td>
+                        <td><strong>{{ 'Registry' | translate }}</strong></td> 
+                        <td rowspan="3" align="right">
+                            {{movement.movementRegistry.registryName}}
+                            <br/>{{movement.movementRegistry.registryAddress}}
+                            <br/>{{movement.movementRegistry.registryCity}}
+                        </td> 
+                    </tr> 
+                    <tr> 
+                        <td colspan="4"><strong>{{ 'Note' | translate }}</strong></td> 
+                    </tr> 
+                    <tr> 
+                        <td colspan="4">{{movement.movementNote}}</td>
+                    </tr>
+                </thead>
+            </table>
+
+            <table class="table" cellpadding="2" cellspacing="2" style="width: 100%">    
+                <thead>
+                    <tr style="background-color: whitesmoke"> 
+                        <td><strong>{{ 'Barcode' | translate }}</strong></td> 
+                        <td><strong>{{ 'Product' | translate }}</strong></td> 
+                        <td align="center"><strong>{{ 'Quantity' | translate }}</strong></td> 
+                        <td align="right"><strong>{{ 'Price' | translate }}</strong></td> 
+                        <td align="right"><strong>{{ 'Amount' | translate }}</strong></td> 
+                    </tr> 
+                </thead>
+                <tfoot style="background-color: whitesmoke">
+                    <tr>
+                        <td colspan="2">{{ 'Amount' | translate }}</td>
+                        <td colspan="3" align="right">{{amount | currencyFormat}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">{{ 'Tax' | translate }} 22%</td>
+                        <td colspan="3" align="right">{{total - amount | currencyFormat}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><strong>{{ 'Total' | translate }}</strong></td>
+                        <td align="center"><strong>{{totalItems}}</strong></td>
+                        <td colspan="2" align="right"><strong>{{total | currencyFormat}}</strong></td>
+                    </tr>
+                </tfoot>
+                <tbody> 
+                    <tr *ngFor="let item of items" style="height: 39px"> 
+                        <td><span>{{item.movementArticleBarcode}}</span></td> 
+                        <td><span>{{item.movementArticleProduct | articleInfo:item.movementArticleBarcode}}</span></td> 
+                        <td align="center"><span>{{item.movementArticleBarcode ? item.movementArticleQuantity : ''}}</span></td> 
+                        <td align="right"><span>{{!item.movementArticleBarcode ? '' : item.movementArticlePrice | currencyFormat}}</span></td> 
+                        <td align="right"><span>{{!item.movementArticleBarcode ? '' : item.movementArticleAmount | currencyFormat}}</span></td> 
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

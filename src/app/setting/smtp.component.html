@@ -1,0 +1,46 @@
+﻿<p-progressSpinner *ngIf="!company" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<form *ngIf="company" [formGroup]="dataform">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid ui-widget-content" style="margin: 10px 0px">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="host">{{ 'Secure connection' | translate }}</label></div>
+            <div class="ui-grid-col-8">
+                <p-inputSwitch formControlName="ssl" [(ngModel)]="company.smtpSsl"></p-inputSwitch>
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="host">{{ 'SMTP Host' | translate }}</label></div>
+            <div class="ui-grid-col-8">
+                <input pInputText formControlName="host" [(ngModel)]="company.smtpHost"/>
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="username">{{ 'Username' | translate }}</label></div>
+            <div class="ui-grid-col-8">
+                <input pInputText formControlName="username" [(ngModel)]="company.smtpUsername"/>
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="password">{{ 'Password' | translate }}</label></div>
+            <div class="ui-grid-col-8">
+                <input pInputText type="password" formControlName="password" [(ngModel)]="company.smtpPassword"/>
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-12"><hr></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="emailTest">{{ 'Test mail' | translate }}</label></div>
+            <div class="ui-grid-col-8">
+                <input pInputText formControlName="emailTest" placeholder="{{ 'Email' | translate }}" [(ngModel)]="emailTest"/>
+                <button type="button" pButton icon="pi pi-comment" label="{{ 'Send mail' | translate }}" (click)="sendMailClick()" class="ui-button-secondary"></button>
+            </div>
+        </div>                
+        <br/>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-12">
+                <button type="button" pButton icon="pi pi-save" (click)="saveClick()" class="ui-button-primary" label="{{ 'Save' | translate }}" [disabled]="!dataform.valid"></button>
+            </div>
+        </div>
+    </div>
+</form>

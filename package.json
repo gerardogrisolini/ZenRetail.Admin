@@ -1,0 +1,53 @@
+{
+  "name": "zenretail-admin",
+  "version": "1.0.0",
+  "license": "MIT",
+  "angular-cli": {},
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve --aot --base-href '/admin/'",
+    "build": "ng build --aot --prod --deploy-url /admin/ --base-href '/admin/'",
+    "deploy": "rm -rf ../ZenRetail/webroot/admin/*; mv ./dist/* ../ZenRetail/webroot/admin/; rm -rf ./dist;"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "*",
+    "@angular/cdk": "*",
+    "@angular/common": "*",
+    "@angular/compiler": "*",
+    "@angular/core": "*",
+    "@angular/forms": "*",
+    "@angular/http": "*",
+    "@angular/platform-browser": "*",
+    "@angular/platform-browser-dynamic": "*",
+    "@angular/router": "*",
+    "@ngx-translate/core": "*",
+    "@ngx-translate/http-loader": "*",
+    "chart.js": "*",
+    "core-js": "*",
+    "file-saver": "*",
+    "font-awesome": "*",
+    "ngx-barcode": "*",
+    "npm": "*",
+    "primeicons": "*",
+    "primeng": "*",
+    "quagga": "*",
+    "rxjs": "*",
+    "rxjs-compat": "*",
+    "systemjs": "*",
+    "ts-helpers": "*",
+    "uglifyjs-webpack-plugin": "*",
+    "webpack-dev-middleware": "*",
+    "zone.js": "*"
+  },
+  "devDependencies": {
+    "@angular/cli": "*",
+    "@angular/compiler-cli": "*",
+    "@angular-devkit/build-angular": "*",
+    "awesome-typescript-loader": "*",
+    "codelyzer": "*",
+    "ts-node": "*",
+    "tslint": "*",
+    "typescript": "3.2.4"
+  }
+}

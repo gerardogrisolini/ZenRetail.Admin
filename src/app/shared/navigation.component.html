@@ -1,0 +1,85 @@
+<!-- <img id="background" src="/admin/assets/background.png"/> -->
+<div id="layout-topbar">
+    <a href="#" class="menu-button" (click)="onMenuButtonClick($event)">
+        <i class="fa fa-bars"></i>
+    </a>
+    <a href="#" class="logo" [routerLink]="['/']">
+        <img alt="logo" src="{{sessionService.logo}}" />
+    </a>
+    <span class="titlepage"><span class="appname">ZenRetail</span><br/>{{sessionService.title}}</span>
+</div>
+
+<div id="layout-sidebar" [ngClass]="{'active': menuActive}">
+    <div *ngIf="isAuthenticated" class="layout-menu">
+        <a id="productmenu" #productmenu [class.active-menuitem]="productmenu.id == activeMenuId" (click)="activeMenuId = (activeMenuId === productmenu.id ? null : productmenu.id)">
+            <span><i class="fa fa-database"></i>&nbsp;&nbsp;{{ 'Product' | translate }}</span>
+        </a>
+        <div [ngClass]="{'submenushow': (productmenu.id == activeMenuId), 'submenuhide': (productmenu.id != activeMenuId)}">
+            <a [routerLink]="['/product']" (click)="onMenuItemClick()"><i class="fa fa-database"></i>&nbsp;&nbsp;{{ 'Products' | translate }}</a>
+            <a [routerLink]="['/brand']" (click)="onMenuItemClick()"><i class="fa fa-registered"></i>&nbsp;&nbsp;{{ 'Brands' | translate }}</a>
+            <a [routerLink]="['/category']" (click)="onMenuItemClick()"><i class="fa fa-object-group"></i>&nbsp;&nbsp;{{ 'Categories' | translate }}</a>
+            <a [routerLink]="['/attribute']" (click)="onMenuItemClick()"><i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Attributes' | translate }}</a>
+            <!-- <a [routerLink]="['/import']" (click)="onMenuItemClick()"><i class="fa fa-cloud-download"></i>&nbsp;&nbsp;Import</a> -->
+        </div>
+
+        <a id="movementmenu" #movementmenu [class.active-menuitem]="movementmenu.id == activeMenuId" (click)="activeMenuId = (activeMenuId === movementmenu.id ? null : movementmenu.id)">
+            <span><i class="fa fa-gamepad"></i>&nbsp;&nbsp;{{ 'Movement' | translate }}</span>
+        </a>
+        <div [ngClass]="{'submenushow': (movementmenu.id == activeMenuId), 'submenuhide': (movementmenu.id != activeMenuId)}">
+            <a [routerLink]="['/movement']" (click)="onMenuItemClick()"><i class="fa fa-gamepad"></i>&nbsp;&nbsp;{{ 'Movements' | translate }}</a>
+            <a [routerLink]="['/causal']" (click)="onMenuItemClick()"><i class="fa fa-sliders"></i>&nbsp;&nbsp;{{ 'Causals' | translate }}</a>
+            <a [routerLink]="['/tag']" (click)="onMenuItemClick()"><i class="fa fa-tags"></i>&nbsp;&nbsp;{{ 'Tags' | translate }}</a>
+            <a [routerLink]="['/registry']" (click)="onMenuItemClick()"><i class="fa fa-address-book"></i>&nbsp;&nbsp;{{ 'Registries' | translate }}</a>
+            <a [routerLink]="['/invoice']" (click)="onMenuItemClick()"><i class="fa fa-file-text"></i>&nbsp;&nbsp;{{ 'Invoices' | translate }}</a>
+        </div>
+
+        <a id="retailmenu" #retailmenu [class.active-menuitem]="retailmenu.id == activeMenuId" (click)="activeMenuId = (activeMenuId === retailmenu.id ? null : retailmenu.id)">
+            <span><i class="fa fa-shopping-basket"></i>&nbsp;&nbsp;{{ 'Retail' | translate }}</span>
+        </a>
+        <div [ngClass]="{'submenushow': (retailmenu.id == activeMenuId), 'submenuhide': (retailmenu.id != activeMenuId)}">
+            <a [routerLink]="['/device']" (click)="onMenuItemClick()"><i class="fa fa-mobile"></i>&nbsp;&nbsp;{{ 'Devices' | translate }}</a>
+            <a [routerLink]="['/cart']" (click)="onMenuItemClick()"><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;{{ 'Carts' | translate }}</a>
+            <a [routerLink]="['/request']" (click)="onMenuItemClick()"><i class="fa fa-amazon"></i>&nbsp;&nbsp;Amazon</a>
+        </div>
+
+        <a id="reportmenu" #reportmenu [class.active-menuitem]="reportmenu.id == activeMenuId" (click)="activeMenuId = (activeMenuId === reportmenu.id ? null : reportmenu.id)">
+            <span><i class="fa fa-line-chart"></i>&nbsp;&nbsp;{{ 'Report' | translate }}</span>
+        </a>
+        <div [ngClass]="{'submenushow': (reportmenu.id == activeMenuId), 'submenuhide': (reportmenu.id != activeMenuId)}">
+            <a [routerLink]="['/report/statistics']" (click)="onMenuItemClick()"><i class="fa fa-line-chart"></i>&nbsp;&nbsp;{{ 'Statistics' | translate }}</a>
+            <a [routerLink]="['/report/receipts']" (click)="onMenuItemClick()"><i class="fa fa-bar-chart"></i>&nbsp;&nbsp;{{ 'Receipts' | translate }}</a>
+            <a [routerLink]="['/report/sales']" (click)="onMenuItemClick()"><i class="fa fa-tachometer"></i>&nbsp;&nbsp;{{ 'Sales' | translate }}</a>
+            <a [routerLink]="['/report/whouse']" (click)="onMenuItemClick()"><i class="fa fa-pie-chart"></i>&nbsp;&nbsp;{{ 'Warehouse' | translate }}</a>
+        </div>
+
+        <a id="settingmenu" #settingmenu [class.active-menuitem]="settingmenu.id == activeMenuId" (click)="activeMenuId = (activeMenuId === settingmenu.id ? null : settingmenu.id)">
+            <span><i class="fa fa-cog"></i>&nbsp;&nbsp;{{ 'Setting' | translate }}</span>
+        </a>
+        <div *ngIf="!isAdmin" [ngClass]="{'submenushow': (settingmenu.id == activeMenuId), 'submenuhide': (settingmenu.id != activeMenuId)}">
+            <a *ngIf="!isAdmin" [routerLink]="['/account/myinfo']" (click)="onMenuItemClick()"><i class="fa fa-user"></i>&nbsp;&nbsp;{{ 'Account' | translate }}</a>
+            <a [routerLink]="['/store']" (click)="onMenuItemClick()"><i class="fa fa-cube"></i>&nbsp;&nbsp;{{ 'Stores' | translate }}</a>
+        </div>
+        <a *ngIf="!isAdmin" [routerLink]="['/account/myinfo']"><i class="fa fa-user"></i>&nbsp;&nbsp;{{ 'Account' | translate }}</a>
+        <div *ngIf="isAdmin" [ngClass]="{'submenushow': (settingmenu.id == activeMenuId), 'submenuhide': (settingmenu.id != activeMenuId)}">
+            <a [routerLink]="['/account']" (click)="onMenuItemClick()"><i class="fa fa-user"></i>&nbsp;&nbsp;{{ 'Accounts' | translate }}</a>
+            <a [routerLink]="['/company']" (click)="onMenuItemClick()"><i class="fa fa-home"></i>&nbsp;&nbsp;{{ 'Company' | translate }}</a>
+            <a [routerLink]="['/store']" (click)="onMenuItemClick()"><i class="fa fa-cube"></i>&nbsp;&nbsp;{{ 'Stores' | translate }}</a>
+            <a [routerLink]="['/localization']" (click)="onMenuItemClick()"><i class="fa fa-globe"></i>&nbsp;&nbsp;{{ 'Localization' | translate }}</a>
+            <a [routerLink]="['/smtp']" (click)="onMenuItemClick()"><i class="fa fa-envelope"></i>&nbsp;&nbsp;{{ 'SMTP' | translate }}</a>
+            <a [routerLink]="['/payment']" (click)="onMenuItemClick()"><i class="fa fa-money"></i>&nbsp;&nbsp;{{ 'Payment' | translate }}</a>
+            <a [routerLink]="['/shipping']" (click)="onMenuItemClick()"><i class="fa fa-truck"></i>&nbsp;&nbsp;{{ 'Shipping' | translate }}</a>
+            <a [routerLink]="['/amazon']" (click)="onMenuItemClick()"><i class="fa fa-amazon"></i>&nbsp;&nbsp;Amazon</a>
+         </div>
+         <a (click)="logoutClick()">
+            <span><i class="fa fa-sign-in"></i>&nbsp;&nbsp;{{ 'Logout' | translate }}</span>
+        </a>
+    </div>
+    <div *ngIf="!isAuthenticated" class="layout-menu">
+        <a [routerLink]="['/login']" (click)="onMenuItemClick()">
+            <span><i class="fa fa-sign-in"></i>&nbsp;&nbsp;{{ 'Login' | translate }}</span>
+        </a>
+    </div>
+</div>
+
+<div class="layout-mask" *ngIf="menuActive">
+</div>

@@ -1,0 +1,21 @@
+﻿<p-progressSpinner *ngIf="isBusy" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <p-dropdown [(ngModel)]="selectedYear" [editable]="true" [options]="years" [style]="{'width':'100px'}"></p-dropdown>
+        </div>
+        <div class="ui-toolbar-group-right">
+            <button type="button" pButton (click)="showCategory()" [disabled]="isBusy" label="{{ 'Category' | translate }}" icon="pi pi-refresh"></button>
+            <button type="button" pButton (click)="showProduct()" [disabled]="isBusy" label="{{ 'Product' | translate }}" icon="pi pi-refresh"></button>
+        </div>
+    </p-toolbar>
+
+    <div>
+        <p-chart #saleChart type="line" [data]="sales" [options]="saleOptions"></p-chart>
+        <br/>
+        <p-chart #deviceChart type="doughnut" [data]="devices" [options]="deviceOptions" style="float: left; width: 48%;"></p-chart>
+        <p-chart #totalChart type="polarArea" [data]="totals" [options]="totalOptions" style="float: right; width: 48%;"></p-chart>
+    </div>
+</div>

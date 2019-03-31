@@ -1,0 +1,68 @@
+﻿<p-progressSpinner *ngIf="selected&&!values" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+    
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" label="{{totalValues}}" title="{{ 'Add' | translate }}" (click)="addValueClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+        </div>
+        <div class="ui-toolbar-group-right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input #gbv type="text" pInputText placeholder="{{ 'Search' | translate }}" style="width: 180px">
+        </div>
+    </p-toolbar>
+
+    <p-dataTable *ngIf="!selectedValue" [responsive]="true" [value]="values"
+        selectionMode="single" [(selection)]="selectedValue" [globalFilter]="gbv" #dt>
+        <p-column field="attributeValueId" header="Id" [style]="{'width':'100px'}" [sortable]="true"></p-column>
+        <p-column field="attributeValueCode" header="{{ 'Code' | translate }}" [sortable]="true"></p-column>
+        <p-column field="attributeValueName" header="{{ 'Name' | translate }}" [sortable]="true"></p-column>
+    </p-dataTable>
+
+    <p-panel *ngIf="selected&&selectedValue">
+        <p-header>
+            <div class="ui-helper-clearfix">
+                <span class="ui-panel-title" style="font-size:20px;display:inline-block;margin-top:6px"><b>{{ 'Attribute Value' | translate }}</b></span>
+                <button pButton type="button" label="{{ 'Close' | translate }}" (click)="closeValueClick()" style="float: right" class="ui-button-secondary" icon="pi pi-times"></button>
+            </div>
+        </p-header>
+        <form [formGroup]="dataformValue">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="id">{{ 'Attribute' | translate }}</label></div>
+                    <div class="ui-grid-col-8">{{selected.attributeName}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="code">{{ 'Code' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="code" [(ngModel)]="selectedValue.attributeValueCode"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataformValue.controls['code'].valid&&dataformValue.controls['code'].dirty">
+                            <i class="fa fa-close"></i>
+                            <span *ngIf="dataformValue.controls['code'].errors['required']">{{ 'Code' | translate }} {{ 'is required' | translate }}</span>
+                            <span *ngIf="dataformValue.controls['code'].errors['maxlength']">{{ 'Must be shorter than 6 characters' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="name">{{ 'Name' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="name" [(ngModel)]="selectedValue.attributeValueName"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataformValue.controls['name'].valid&&dataformValue.controls['name'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Name' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <app-translation [(translations)]="selectedValue.translations"></app-translation>                            
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-6">
+                        <button *ngIf="selectedValue.attributeValueId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteValueClick()" label="{{ 'Delete' | translate }}"></button>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <button type="button" pButton icon="pi pi-save" (click)="saveValueClick()"  class="ui-button-primary" label="{{ 'Save' | translate }}" [disabled]="!dataformValue.valid"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+
+</div>

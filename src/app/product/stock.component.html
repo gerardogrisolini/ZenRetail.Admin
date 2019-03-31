@@ -1,0 +1,41 @@
+<p-progressSpinner *ngIf="isBusy" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" label="{{ 'Back' | translate }}" (click)="cancelClick()" class="ui-button-secondary" icon="pi pi-arrow-left"></button>
+        </div>
+        <div class="ui-toolbar-group-right">
+            <p-multiSelect [options]="stores" defaultLabel="{{ 'All' | translate }} {{ 'Stores' | translate }}" (onChange)="onStoreChanged($event)"></p-multiSelect>
+        </div>
+    </p-toolbar>
+
+    <ul *ngIf="product">
+        <h3>{{product.productName}}</h3>
+        <li><strong>{{ 'Inventory' | translate }}</strong>
+            <ul>
+                <li>{{ 'Products' | translate }}: <strong>{{totalRecords}}</strong></li>
+                <li>{{ 'Stock' | translate }}: <strong>{{totalStocks}}</strong></li>
+                <li>{{ 'Booked' | translate }}: <strong>{{totalBookeds}}</strong></li>
+            </ul>
+        </li>
+    </ul>
+    
+    <table *ngIf="articleForm" class="ui-datatable container-fluid" cellpadding="2" cellspacing="2">    
+        <thead>
+            <tr> 
+                <td *ngFor="let h of articleForm.header" align="center" style="background-color: whitesmoke"><strong>{{h}}</strong></td> 
+            </tr>
+        </thead>
+        <tbody> 
+            <tr *ngFor="let item of articleForm.body"> 
+                <td *ngFor="let col of item" align="center">
+                    <span *ngIf="col.id===0" title="{{col.value}}">{{col.value}}</span> 
+                    <span *ngIf="col.id>0" title="{{col.value}}">{{col.stock}} - {{col.booked}}</span> 
+                </td> 
+            </tr> 
+        </tbody>
+    </table>
+
+</div>

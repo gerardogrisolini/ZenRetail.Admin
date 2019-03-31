@@ -1,0 +1,151 @@
+﻿<p-progressSpinner *ngIf="!registries" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" title="{{ 'Add' | translate }}" label="{{totalRecords}}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+        </div>
+        <div class="ui-toolbar-group-right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input #gb type="text" pInputText placeholder="{{ 'Search' | translate }}">
+        </div>
+    </p-toolbar>
+
+    <p-dataTable *ngIf="!displayPanel" [responsive]="true" [value]="registries"
+        selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)"
+        [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5"
+        [globalFilter]="gb" #dt>
+        <p-column field="registryId" header="Id" [style]="{'width':'10%'}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
+        <p-column field="registryName" header="{{ 'Name' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
+        <p-column field="registryEmail" header="{{ 'Email' | translate }}" [style]="{'width':'30%'}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
+        <p-column field="registryCity" header="{{ 'City' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
+    </p-dataTable>
+
+    <p-panel *ngIf="displayPanel">
+        <p-header>
+            <div class="ui-helper-clearfix">
+                <span class="ui-panel-title" style="font-size:20px;display:inline-block;margin-top:6px"><b>{{ 'Registry' | translate }}</b></span>
+                <button pButton type="button" label="{{ 'Close' | translate }}" (click)="closeClick()" style="float: right" icon="pi pi-times"></button>
+            </div>
+        </p-header>
+        <form [formGroup]="dataform">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label>Id</label></div>
+                    <div class="ui-grid-col-8">{{selected.registryId}}</div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="name">{{ 'Full Name' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="name" [(ngModel)]="selected.registryName"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['name'].valid&&dataform.controls['name'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Full Name' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="email">{{ 'Email' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="email" [(ngModel)]="selected.registryEmail" type="email"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['email'].valid&&dataform.controls['email'].dirty">
+                            <i class="fa fa-close"></i>
+                            <span *ngIf="dataform.controls['email'].errors['required']">{{ 'Email' | translate }} {{ 'is required' | translate }}</span>
+                            <span *ngIf="dataform.controls['email'].errors['email']">{{ 'Must be a valid email address' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="phone">{{ 'Phone' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="phone" [(ngModel)]="selected.registryPhone"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['phone'].valid&&dataform.controls['phone'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Phone' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="address">{{ 'Address' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="address" [(ngModel)]="selected.registryAddress"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['address'].valid&&dataform.controls['address'].dirty">
+                            <i class="fa fa-close"></i> {{ 'Address' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="city">{{ 'City' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="city" [(ngModel)]="selected.registryCity"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['city'].valid&&dataform.controls['city'].dirty">
+                            <i class="fa fa-close"></i> {{ 'City' | translate }} {{ 'is required' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="zip">{{ 'Zip' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="zip" [(ngModel)]="selected.registryZip"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['zip'].valid&&dataform.controls['zip'].dirty">
+                            <i class="fa fa-close"></i>
+                            <span *ngIf="dataform.controls['zip'].errors['required']">{{ 'Zip' | translate }} {{ 'is required' | translate }}</span>
+                            <span *ngIf="dataform.controls['zip'].errors['minlength']||dataform.controls['zip'].errors['maxlength']">{{ 'Must be equals than 5 characters' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="province">{{ 'Province' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="province" [(ngModel)]="selected.registryProvince"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['province'].valid&&dataform.controls['province'].dirty">
+                            <i class="fa fa-close"></i>
+                            <span *ngIf="dataform.controls['province'].errors['required']">{{ 'Province' | translate }} {{ 'is required' | translate }}</span>
+                            <span *ngIf="dataform.controls['province'].errors['minlength']||dataform.controls['province'].errors['maxlength']">{{ 'Must be equals than 2 characters' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="country">{{ 'Country' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="country" [(ngModel)]="selected.registryCountry"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['country'].valid&&dataform.controls['country'].dirty">
+                            <i class="fa fa-close"></i>
+                            <span *ngIf="dataform.controls['country'].errors['required']">{{ 'Country' | translate }} {{ 'is required' | translate }}</span>
+                            <span *ngIf="dataform.controls['country'].errors['minlength']||dataform.controls['country'].errors['maxlength']">{{ 'Must be equals than 3 characters' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="fiscalCode">{{ 'Fiscal Code' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="fiscalCode" [(ngModel)]="selected.registryFiscalCode"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['fiscalCode'].valid&&dataform.controls['fiscalCode'].dirty">
+                            <i class="fa fa-close"></i>
+                            <span *ngIf="dataform.controls['fiscalCode'].errors['required']">{{ 'Fiscal Code' | translate }} {{ 'is required' | translate }}</span>
+                            <span *ngIf="dataform.controls['fiscalCode'].errors['minlength']||dataform.controls['fiscalCode'].errors['maxlength']">{{ 'Must be equals than 16 characters' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4"><label for="vatNumber">{{ 'VAT Number' | translate }}</label></div>
+                    <div class="ui-grid-col-8">
+                        <input pInputText formControlName="vatNumber" [(ngModel)]="selected.registryVatNumber"/>
+                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['vatNumber'].valid&&dataform.controls['vatNumber'].dirty">
+                            <i class="fa fa-close"></i>
+                            <span *ngIf="dataform.controls['vatNumber'].errors['minlength']||dataform.controls['vatNumber'].errors['maxlength']">{{ 'Must be equals than 11 characters' | translate }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-4">
+                        <button *ngIf="selected.registryId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>
+                    </div>
+                    <div class="ui-grid-col-4"></div>
+                    <div class="ui-grid-col-4">
+                        <button type="button" pButton icon="pi pi-save" (click)="saveClick()" class="ui-button-primary" label="{{ 'Save' | translate }}" [disabled]="!dataform.valid"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </p-panel>
+ </div>

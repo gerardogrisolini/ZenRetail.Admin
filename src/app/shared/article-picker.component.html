@@ -1,0 +1,54 @@
+﻿<p-dataTable [responsive]="true" [value]="products | priceFilter:sliderValue | categoryFilter:categoryValue" 
+    selectionMode="single" (onRowSelect)="onRowSelect($event)"
+    rowExpandMode="single" expandableRows="true" (onRowExpand)="onRowExpand($event)"
+    [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [pageLinks]="5" #dt>
+    <p-column field="productName" header="{{ 'Name' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
+    <p-column field="brand.brandName" header="{{ 'Brand' | translate }}" [sortable]="true" [filter]="true" filterMatchMode="equals" [style]="{'overflow':'visible'}" >
+        <ng-template pTemplate="filter" let-col>
+            <p-dropdown [options]="brands" [filter]="true" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+        </ng-template>
+    </p-column>     
+    <p-column header="{{ 'Categories' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" >
+        <ng-template pTemplate="filter" let-col>
+            <p-dropdown [options]="categories" [filter]="true" [style]="{'width':'100%'}" [(ngModel)]="categoryValue" styleClass="ui-column-filter"></p-dropdown>
+        </ng-template>
+        <ng-template let-col let-data="rowData" pTemplate="body">
+            <li *ngFor="let item of data.categories"> {{ item.category.categoryName }} </li>
+        </ng-template>
+    </p-column>
+    <p-column header="{{ 'Price' | translate }} ({{sliderValue||''}})" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" >
+        <ng-template pTemplate="filter" let-col>
+            <i class="fa fa-close" (click)="sliderValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
+            <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="sliderValue" [min]="5" [max]="1000"></p-slider>
+        </ng-template>
+        <ng-template let-col let-data="rowData" pTemplate="body">
+            <div *ngIf="data.discount.isValid;then discount_content else price_content"></div>
+            <ng-template #discount_content>
+                <span class="percentage">-{{data.discount.discountPercentage}}%</span>
+                <del>{{data.price.selling | currencyFormat}}</del><br><strong>{{data.discount.discountPrice | currencyFormat}}</strong>
+            </ng-template>
+            <ng-template #price_content>
+                {{data.price.selling | currencyFormat}}
+            </ng-template>
+        </ng-template>
+    </p-column>
+    <ng-template pTemplate="rowexpansion">
+        <div style="text-align: center">
+            <p-progressSpinner *ngIf="!articleForm" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+            <table *ngIf="articleForm" class="table" cellpadding="2" cellspacing="2">    
+                <tr> 
+                    <td *ngFor="let h of articleForm.header" align="center" style="background-color: whitesmoke"><strong>{{h}}</strong></td> 
+                </tr> 
+                <tbody> 
+                    <tr *ngFor="let item of articleForm.body"> 
+                        <td *ngFor="let col of item" align="center"> 
+                            <span *ngIf="col.id===0">{{col.value}}</span>
+                            <input *ngIf="col.id>0" pInputText type="number" min="0" [(ngModel)]="col.data" style="width: 100%" tooltipPosition="left" pTooltip="{{col.value}} : {{col.stock}} - {{col.booked}}"/>
+                        </td> 
+                    </tr> 
+                </tbody>
+            </table>
+            <button pButton label="{{ 'Pickup' | translate }}" type="button" (click)="pickerClick()" class="inputtext ui-button-info" icon="pi pi-download"></button>
+        </div>
+    </ng-template>
+</p-dataTable>

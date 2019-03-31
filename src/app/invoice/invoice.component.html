@@ -1,0 +1,63 @@
+﻿<p-progressSpinner *ngIf="!items" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+
+    <p-toolbar *ngIf="item">
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" title="{{ 'Back' | translate }}" (click)="cancelClick()" class="ui-button-secondary" icon="pi pi-arrow-left"></button>
+            <br/><span><b>{{ 'Number' | translate }}</b>: {{item.invoiceNumber}}</span>
+            <br/><span><b>{{ 'Date' | translate }}</b>: {{item.invoiceDate | date: 'yyyy-MM-dd'}}</span>
+        </div>
+        <div class="ui-toolbar-group-right" style="text-align: right">
+            <br><span><b>{{ 'Registry' | translate }}</b>
+            <br/>{{item.invoiceRegistry.registryName}}</span>
+        </div>
+    </p-toolbar>
+
+    <p-dataTable *ngIf="!inputComponent.isOpen" [value]="items | dateFilter:dateStartValue:dateFinishValue | priceFilter:amountValue:'movements'" 
+        selectionMode="multiple" [(selection)]="itemsSelected" [responsive]="true" #dt>
+        <p-header>
+            <button pButton type="button" label="{{ 'Delete' | translate }}" (click)="removeClick()" [disabled]="itemsSelected.length===0" style="float: left" class="ui-button-secondary" icon="pi pi-trash"></button>
+            <button pButton label="{{ 'Movement picker' | translate }}" style="float: right" type="button" (click)="showPickerClick()" class="ui-button-primary" icon="pi pi-search"></button>
+            <p>&nbsp;</p>
+        </p-header>
+        <p-footer>
+            <span style="float: left"><b>{{totalRecords}}</b> rows</span>
+            <span style="float: right">{{ 'Amount' | translate }} <b>{{totalAmount | currencyFormat}}</b></span>
+            <p>&nbsp;</p>
+        </p-footer>
+        <p-column [style]="{'width':'50px'}" selectionMode="multiple"></p-column>
+        <p-column field="movementNumber" header="Number" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
+        <p-column header="Date" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}">
+            <ng-template let-col let-data="rowData" pTemplate="body">
+                {{data.movementDate | date:'yyyy-MM-dd'}}
+            </ng-template>            
+            <ng-template pTemplate="filter" let-col>
+                <i class="fa fa-close" (click)="dateStartValue=null;dateFinishValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
+                <p-calendar [locale]="helpers.locale" [(ngModel)]="dateStartValue" [inputStyle]="{'width':'50%','float':'left'}" dateFormat="yy-mm-dd" placeholder="{{ 'Start' | translate }}" styleClass="ui-column-filter"></p-calendar>
+                <p-calendar [locale]="helpers.locale" [(ngModel)]="dateFinishValue" [inputStyle]="{'width':'50%','float':'right'}" dateFormat="yy-mm-dd" placeholder="{{ 'Finish' | translate }}" styleClass="ui-column-filter"></p-calendar>
+            </ng-template>
+        </p-column>
+        <p-column field="movementCausal.causalName" header="{{ 'Causal' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" filterMatchMode="equals">
+            <ng-template pTemplate="filter" let-col>
+                <p-dropdown [options]="causalsFiltered" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+            </ng-template>
+        </p-column>
+        <p-column field="movementStore.storeName" header="{{ 'Store' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" filterMatchMode="equals">
+            <ng-template pTemplate="filter" let-col>
+                <p-dropdown [options]="storesFiltered" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+            </ng-template>
+        </p-column>
+        <p-column header="{{ 'Amount' | translate }} ({{amountValue||''}})" [editable]="false" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}">
+            <ng-template pTemplate="filter" let-col>
+                <i class="fa fa-close" (click)="amountValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
+                <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="amountValue" [min]="5" [max]="1000"></p-slider>
+            </ng-template>
+            <ng-template let-col let-data="rowData" pTemplate="body">
+                {{data.movementAmount | currencyFormat}}
+            </ng-template>
+        </p-column>
+    </p-dataTable>
+
+    <movement-picker (onPicked)="pickerClick($event)"></movement-picker>
+</div>

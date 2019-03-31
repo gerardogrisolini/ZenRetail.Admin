@@ -1,0 +1,23 @@
+﻿<p-progressSpinner *ngIf="isBusy" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<div class="container-fluid">
+    
+    <p-panel>
+        <p-header>
+            <div class="ui-helper-clearfix">
+                <span class="ui-panel-title" style="font-size:20px;display:inline-block;margin-top:6px"><b>Import</b></span>
+            </div>
+        </p-header>
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-8">
+                    <p-dropdown [options]="products" [(ngModel)]="productCode" [style]="{'width':'100%'}" [filter]="true" styleClass="ui-column-filter"></p-dropdown>                     
+                </div>
+                <div class="ui-grid-col-4">
+                    <button type="button" pButton icon="pi pi-save" class="ui-button-success" (click)="importClick()" label="Import" [disabled]="isBusy"></button>
+                </div>
+            </div>
+        </div>  
+    </p-panel>   
+
+</div>

@@ -1,0 +1,47 @@
+<div class="container-fluid">
+
+    <h1>{{ 'Login' | translate }}</h1>
+    <hr />
+
+    <form [formGroup]="userform">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-2">
+                <label for="username">{{ 'Username' | translate }}</label>
+            </div>
+            <div class="ui-grid-col-6">
+                <input pInputText [(ngModel)]="user.username" type="email" formControlName="username"/>
+            </div>
+            <div class="ui-grid-col-4">
+                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['username'].valid&&userform.controls['username'].dirty">
+                    <i class="fa fa-close"></i>
+                    {{ 'Username' | translate }} {{ 'is required' | translate }}
+                </div>
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-2">
+                <label for="password">{{ 'Password' | translate }}</label>
+            </div>
+            <div class="ui-grid-col-6">
+                <input pInputText [(ngModel)]="user.password" type="password" formControlName="password"/>
+            </div>
+            <div class="ui-grid-col-4">
+                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['password'].valid&&userform.controls['password'].dirty">
+                    <i class="fa fa-close"></i>
+                    <span *ngIf="userform.controls['password'].errors['required']">{{ 'Password' | translate }} {{ 'is required' | translate }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-2">
+            </div>
+            <div class="ui-grid-col-4">
+                <button type="button" pButton label="{{ 'Login' | translate }}" (click)="login()" icon="pi pi-sign-in" [disabled]="!userform.valid"></button>
+            </div>
+            <div class="ui-grid-col-6"></div>
+        </div>
+    </div>
+    </form>
+
+</div>

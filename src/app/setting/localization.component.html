@@ -1,0 +1,50 @@
+﻿<p-progressSpinner *ngIf="!company" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
+
+<form *ngIf="company" [formGroup]="dataform">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid ui-widget-content" style="margin: 10px 0px">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="currency">{{ 'Currency' | translate }}</label></div>
+            <div class="ui-grid-col-8">
+                <p-dropdown [options]="currencies" formControlName="currency" [(ngModel)]="company.companyCurrency" [filter]="true" [style]="{'width':'100%'}"></p-dropdown>
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="timezones">{{ 'Time Zone' | translate }}</label></div>
+            <div class="ui-grid-col-8">
+                <p-dropdown [options]="timezones" formControlName="utc" [(ngModel)]="company.companyUtc" [filter]="true" [style]="{'width':'100%'}"></p-dropdown>
+            </div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-12"><hr></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="locales">{{ 'Languages' | translate }}</label></div>
+            <div class="ui-grid-col-2">
+                <input pInputText formControlName="localeCode" [(ngModel)]="translation.country" placeholder="{{ 'Code' | translate }}"/>
+                <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['localeCode'].valid&&dataform.controls['localeCode'].dirty">
+                    <span *ngIf="dataform.controls['localeCode'].errors['minlength']||dataform.controls['localeCode'].errors['maxlength']">{{ 'Must be equals than 2 characters' | translate }}</span>
+                </div>
+            </div>
+            <div class="ui-grid-col-4">
+                <input pInputText formControlName="localeName" [(ngModel)]="translation.value" placeholder="{{ 'Name' | translate }}"/>
+            </div>
+            <div class="ui-grid-col-2">
+                <button type="button" pButton icon="pi pi-plus" (click)="addClick()" class="ui-button-secondary"></button>
+            </div>
+        </div>
+        <div *ngFor="let locale of company.companyLocales" class="ui-grid-row ui-panel">
+            <div class="ui-grid-col-4">/{{ locale.country.toLowerCase() }}</div>
+            <div class="ui-grid-col-2">{{ locale.country }}</div>
+            <div class="ui-grid-col-4">{{ locale.value }}</div>
+            <div class="ui-grid-col-2">
+                <button type="button" pButton icon="pi pi-minus" title="{{ 'Delete' | translate }}" (click)="removeClick()" class="ui-button-secondary"></button>
+            </div>
+        </div>
+        <br/>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-12">
+                <button type="button" pButton icon="pi pi-save" (click)="saveClick()" class="ui-button-primary" label="{{ 'Save' | translate }}" [disabled]="!dataform.valid"></button>
+            </div>
+        </div>
+    </div>
+</form>
