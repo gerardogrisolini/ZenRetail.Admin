@@ -3,6 +3,7 @@ import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms'
 import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { Login } from './../shared/models';
+import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'app-login-component',
@@ -11,7 +12,7 @@ import { Login } from './../shared/models';
 
 export class LoginComponent implements OnInit {
     userform: FormGroup;
-    public user = new Login('', '');
+    public user = environment.production ? new Login('', '') : new Login('admin', 'admin');
 
     constructor(
         private messageService: MessageService,

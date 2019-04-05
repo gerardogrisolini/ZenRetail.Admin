@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 import { Company, PdfDocument, Media, Basket } from '../shared/models';
 
@@ -179,7 +179,9 @@ export class CompanyService {
 
     htmlToPdf(model: PdfDocument): Observable<Blob> {
         model.content = this.getHtml(model);
-        return this.http.post<Blob>('/api/pdf',model);
+        let headers = new HttpHeaders();
+        headers = headers.set('Content-Type', 'application/json');
+        return this.http.post('/api/pdf', model, {headers: headers, responseType: 'blob'});
     }
 
     sendMail(model: PdfDocument): Observable<PdfDocument> {
@@ -193,7 +195,9 @@ export class CompanyService {
     }
 
     downloadCsv(fileName: String): Observable<Blob> {
-      return this.http.get<Blob>('/csv/' + fileName);
+      let headers = new HttpHeaders();
+      headers = headers.set('Content-Type', 'application/json');
+      return this.http.get('/csv/' + fileName, {headers: headers, responseType: 'blob'});
     }
 
     getBaskets(): Observable<Basket[]> {

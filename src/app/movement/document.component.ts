@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { MovementService } from './../services/movement.service';
 import { CompanyService } from './../services/company.service';
-import { Movement, MovementArticle, Company, PdfDocument } from './../shared/models';
+import { Movement, MovementArticle, PdfDocument } from './../shared/models';
 import * as FileSaver from 'file-saver';
 
 @Component({
@@ -25,8 +25,7 @@ export class DocumentComponent implements OnInit, OnDestroy {
     groups: any[];
     isBusy: boolean;
 
-    constructor(@Inject(DOCUMENT) private document: any,
-                private location: Location,
+    constructor(private location: Location,
                 private activatedRoute: ActivatedRoute,
                 private messageService: MessageService,
                 private sessionService: SessionService,
@@ -109,16 +108,10 @@ export class DocumentComponent implements OnInit, OnDestroy {
                 data => {
                     const blob = new Blob([data], {type: 'application/pdf'});
                     FileSaver.saveAs(blob, model.subject);
-                    // const url = window.URL.createObjectURL(blob);
-                    // window.location.href = url;
                 },
                 err => {
-                    const reader = new FileReader();
-                    reader.addEventListener('loadend', (e) => {
-                        console.log(reader.result);
-                        this.messageService.add({severity: 'error', summary: '', detail: reader.result.toString()});
-                    });
-                    reader.readAsText(err._body);
+                    console.error(err);
+                    this.messageService.add({severity: 'error', summary: '', detail: err.error.toString()});
                 },
                 () => this.isBusy = false
             );
