@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 import { Company, PdfDocument, Media, Basket } from '../shared/models';
-import { Helpers } from '../shared/helpers';
-import { ResponseContentType } from '@angular/http';
 
 @Injectable()
 export class CompanyService {
@@ -181,10 +179,7 @@ export class CompanyService {
 
     htmlToPdf(model: PdfDocument): Observable<Blob> {
         model.content = this.getHtml(model);
-        return this.http.post<Blob>(
-          '/api/pdf',
-          model
-        );
+        return this.http.post<Blob>('/api/pdf',model);
     }
 
     sendMail(model: PdfDocument): Observable<PdfDocument> {

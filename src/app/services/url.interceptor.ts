@@ -13,9 +13,9 @@ export class UrlInterceptor implements HttpInterceptor {
         console.log(req.url);
       }
       req = req.clone({ headers: req.headers.set('Authorization', `Bearer ${localStorage.getItem('token')}`) });
-      if (req.url.indexOf('/media') < 0) {
-        req = req.clone({ headers: req.headers.set('Content-Type', 'application/json') });
-      }
+      // if (req.url.indexOf('/media') < 0 && req.url.indexOf('/pdf') < 0 && req.url.indexOf('/csv') < 0) {
+      //   req = req.clone({ headers: req.headers.set('Content-Type', 'application/json') });
+      // }
     }
 
     return next.handle(req);
