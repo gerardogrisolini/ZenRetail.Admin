@@ -2,9 +2,12 @@
     <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label>{{ 'Permalink' | translate }}</label></div>
         <div class="ui-grid-col-8">
-            <div class="ui-inputgroup">
+            <div *ngIf="path !== 'info'" class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">/{{ path }}/&nbsp;</span>
                 <input pInputText type="text" [(ngModel)]="seo.permalink"/>
+            </div>
+            <div *ngIf="path === 'info'" class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">/{{ path }}</span>
             </div>
         </div>
     </div>

@@ -5,7 +5,7 @@
   "angular-cli": {},
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --aot --base-href '/admin/'",
+    "start": "ng serve --aot --base-href '/admin/' --proxy-config proxy.config.json",
     "build": "ng build --aot --prod --deploy-url /admin/ --base-href '/admin/'",
     "deploy": "rm -rf ../ZenRetail/webroot/admin/*; mv ./dist/* ../ZenRetail/webroot/admin/; rm -rf ./dist;"
   },
