@@ -23,9 +23,9 @@ export class SeoComponent implements OnInit {
     }
 
     onCountryChanged(event) {
-        if (!this.seo.permalink) {
-            this.seo = new Seo();
-        }
+        // if (!this.seo.permalink) {
+        //     this.seo = new Seo();
+        // }
 
         const title = this.seo.title.find(p => p.country === this.country);
         if (title) {
