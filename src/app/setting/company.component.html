@@ -102,12 +102,19 @@
         </div>
     </p-tabPanel>
     <p-tabPanel header="{{ 'SEO' | translate }}">
-        <app-seo [(seo)]="company.companySeo" [path]="'info'"></app-seo>
         <p-accordion>
-            <p-accordionTab header="{{ 'Description' | translate }}" [selected]="true">
+            <p-accordionTab header="{{ 'Homepage' | translate }}" [selected]="true">
+                <app-seo [(seo)]="company.companyHomeSeo" [path]="''"></app-seo>
+            </p-accordionTab>        
+            <p-accordionTab header="{{ 'Infopage' | translate }}">
+                <app-seo [(seo)]="company.companyInfoSeo" [path]="'info'"></app-seo>
+                <hr>
+                <h3 style="margin-left: 8px">{{ 'Description' | translate }}</h3>
+                <hr>
                 <app-translation *ngIf="countries" [(translations)]="company.companyDescription" [rows]="30"></app-translation>
             </p-accordionTab>
         </p-accordion>
+
     </p-tabPanel>
     <p-tabPanel header="{{ 'Barcode' | translate }}">
         <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">

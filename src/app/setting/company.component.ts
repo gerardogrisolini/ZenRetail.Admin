@@ -75,9 +75,8 @@ export class CompanyComponent implements OnInit {
             .subscribe(result => {
                 this.company = result;
                 Helpers.setInfos(result);
-                if (this.company.companySeo.permalink == '') {
-                    this.company.companySeo.permalink = 'info';
-                }
+                this.company.companyHomeSeo.permalink = '';
+                this.company.companyInfoSeo.permalink = 'info';
             }, onerror => this.messageService.add({severity: 'error', summary: '', detail: onerror._body})
         );
     }

@@ -13,7 +13,8 @@ export class Company {
   public companyVatNumber: string;
 
   public companyDescription: Translation[];
-  public companySeo: Seo;
+  public companyHomeSeo: Seo;
+  public companyInfoSeo: Seo;
 
   public companyPhone: string;
   public companyEmailInfo: string;
@@ -55,7 +56,8 @@ export class Company {
     this.companyVatNumber = '';
 
     this.companyDescription = [];
-    this.companySeo = new Seo();
+    this.companyHomeSeo = new Seo();
+    this.companyInfoSeo = new Seo();
 
     this.companyPhone = '';
     this.companyEmailInfo = '';
