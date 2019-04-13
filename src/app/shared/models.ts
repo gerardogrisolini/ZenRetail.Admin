@@ -170,8 +170,8 @@ export class Category {
 
 export class Media {
   constructor(
-    public name: string,
-    public contentType: string) { }
+    public name: string = '',
+    public contentType: string = '') { }
 }
 
 export class Translation {
@@ -255,22 +255,30 @@ export class Article {
 
 export class Attribute {
   constructor(
-    public attributeId: number,
-    public attributeName: string,
-    public translations: Translation[]
+    public attributeId: number = 0,
+    public attributeName: string = '',
+    public translations: Translation[] = []
   ) {
-    this.translations = [];
+    this.attributeId = attributeId;
+    this.attributeName = attributeName;
+    this.translations = translations;
   }
 }
 
 export class AttributeValue {
   constructor(
     public attributeId: number,
-    public attributeValueId: number,
-    public attributeValueCode: string,
-    public attributeValueName: string,
-    public translations: Translation[]
+    public attributeValueId: number = 0,
+    public attributeValueCode: string = '',
+    public attributeValueName: string = '',
+    public media: Media = new Media(),
+    public translations: Translation[] = []
     ) {
+      this.attributeId = attributeId;
+      this.attributeValueId = attributeValueId;
+      this.attributeValueCode = attributeValueCode;
+      this.attributeValueName = attributeValueName;
+      this.media = media;
       this.translations = [];
     }
   }

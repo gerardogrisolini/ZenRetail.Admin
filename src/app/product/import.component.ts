@@ -2,7 +2,7 @@ import { Component, OnInit  } from '@angular/core';
 import { SessionService } from './../services/session.service';
 import { SelectItem } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { ImportService, CodartInfo, Translate, Image } from './../services/import.service';
+import { ImportService, CodartInfo, Translate } from './../services/import.service';
 import {
     Product, Brand, Category, ProductCategory, Price, Tax,
     Attribute, AttributeValue, ProductAttribute, ProductAttributeValue,
@@ -83,7 +83,7 @@ export class ImportComponent implements OnInit  {
         const textureAttribute = <ProductAttribute>{
             attribute: new Attribute(0, 'Material', [new Translation('IT', 'Tessuto')]),
             attributeValues: [
-                <ProductAttributeValue>{ attributeValue: new AttributeValue(0, 0, product.producer.id.trim(), texture, []) }
+                <ProductAttributeValue>{ attributeValue: new AttributeValue(0, 0, product.producer.id.trim(), texture) }
             ]
         };
 
@@ -92,7 +92,12 @@ export class ImportComponent implements OnInit  {
         const colorAttribute = <ProductAttribute>{
             attribute: new Attribute(0, 'Color', [new Translation('IT', 'Colore')]),
             attributeValues: colors.map(p => <ProductAttributeValue>{
-                attributeValue: new AttributeValue(0, 0, p.value, p.label,
+                attributeValue: new AttributeValue(
+                    0, 
+                    0, 
+                    p.value, 
+                    p.label,
+                    new Media(p.value + '.png', 'image/png'),
                     product.translates.filter(t => t.key === p.label).map(t => new Translation(t.code, t.value))
                 )
             })
@@ -102,7 +107,12 @@ export class ImportComponent implements OnInit  {
         const sizes = product.codarts.map(p => p.size).filter((x, i, a) => x && a.indexOf(x) === i);
         const sizeAttribute = <ProductAttribute>{
             attribute: new Attribute(0, 'Size', [new Translation('IT', 'Misura')]),
-            attributeValues: sizes.map(p => <ProductAttributeValue>{ attributeValue: new AttributeValue(0, 0, p, p,
+            attributeValues: sizes.map(p => <ProductAttributeValue>{ attributeValue: new AttributeValue(
+                0, 
+                0, 
+                p, 
+                p,
+                new Media(),
                 product.translates.filter(t => t.key === p).map(t => new Translation(t.code, t.value))
             ) })
         };
@@ -119,9 +129,9 @@ export class ImportComponent implements OnInit  {
             article.barcodes = [<Barcode>{ barcode: p.barcode, tags: [], price: new Price(), discount: new Discount() }];
             article.packaging = new Packaging();
             article.attributeValues = [
-                <ArticleAttributeValue>{ attributeValue: new AttributeValue(0, 0, product.producer.id.trim(), texture, []) },
-                <ArticleAttributeValue>{ attributeValue: new AttributeValue(0, 0, p.colorId.trim(), p.color, []) },
-                <ArticleAttributeValue>{ attributeValue: new AttributeValue(0, 0, p.size, p.size, []) }
+                <ArticleAttributeValue>{ attributeValue: new AttributeValue(0, 0, product.producer.id.trim(), texture) },
+                <ArticleAttributeValue>{ attributeValue: new AttributeValue(0, 0, p.colorId.trim(), p.color) },
+                <ArticleAttributeValue>{ attributeValue: new AttributeValue(0, 0, p.size, p.size) }
             ];
             articles.push(article);
         });

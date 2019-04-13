@@ -58,7 +58,7 @@ export class AttributeValueComponent implements OnInit {
 
     addValueClick() {
         if (this.selected && this.selected.attributeId > 0) {
-            this.selectedValue = new AttributeValue(this.selected.attributeId, 0, '', '', []);
+            this.selectedValue = new AttributeValue(this.selected.attributeId);
         } else {
             this.translate.get('Select a attribute before add value!')
                 .subscribe((res: string) => this.messageService.add({severity: 'warning', summary: '', detail: res }));

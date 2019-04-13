@@ -1,17 +1,17 @@
 {
     "/api/**": {
-        "target": "http://localhost:8080",
+        "target": "http://zenretail-api.westeurope.cloudapp.azure.com",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
     },
     "/media/**": {
-        "target": "http://localhost:8080",
+        "target": "http://zenretail-api.westeurope.cloudapp.azure.com",
         "secure": false,
         "logLevel": "debug"
     },
     "/thumb/**": {
-        "target": "http://localhost:8080",
+        "target": "http://zenretail-api.westeurope.cloudapp.azure.com",
         "secure": false,
         "logLevel": "debug"
     }

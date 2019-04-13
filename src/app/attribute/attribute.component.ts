@@ -6,7 +6,6 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { AttributeService } from './../services/attribute.service';
 import { Attribute, AttributeValue } from './../shared/models';
-import { Helpers } from './../shared/helpers';
 
 @Component({
     selector: 'app-attribute',
@@ -59,7 +58,7 @@ export class AttributeComponent implements OnInit {
     }
 
     addClick() {
-        this.selected = new Attribute(0, '', []);
+        this.selected = new Attribute();
         this.display = true;
     }
 
