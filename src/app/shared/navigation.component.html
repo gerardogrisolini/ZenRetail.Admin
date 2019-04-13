@@ -19,7 +19,7 @@
             <a [routerLink]="['/brand']" (click)="onMenuItemClick()"><i class="fa fa-registered"></i>&nbsp;&nbsp;{{ 'Brands' | translate }}</a>
             <a [routerLink]="['/category']" (click)="onMenuItemClick()"><i class="fa fa-object-group"></i>&nbsp;&nbsp;{{ 'Categories' | translate }}</a>
             <a [routerLink]="['/attribute']" (click)="onMenuItemClick()"><i class="fa fa-tag"></i>&nbsp;&nbsp;{{ 'Attributes' | translate }}</a>
-            <!-- <a [routerLink]="['/import']" (click)="onMenuItemClick()"><i class="fa fa-cloud-download"></i>&nbsp;&nbsp;Import</a> -->
+            <a [routerLink]="['/import']" (click)="onMenuItemClick()"><i class="fa fa-cloud-download"></i>&nbsp;&nbsp;Import</a>
         </div>
 
         <a id="movementmenu" #movementmenu [class.active-menuitem]="movementmenu.id == activeMenuId" (click)="activeMenuId = (activeMenuId === movementmenu.id ? null : movementmenu.id)">

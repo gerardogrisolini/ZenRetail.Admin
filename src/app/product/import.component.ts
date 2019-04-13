@@ -81,7 +81,7 @@ export class ImportComponent implements OnInit  {
         // Texture
         const texture = product.producer.desc.replace('Tessilnova ', '');
         const textureAttribute = <ProductAttribute>{
-            attribute: new Attribute(0, 'Texture', [new Translation('IT', 'Tessuto')]),
+            attribute: new Attribute(0, 'Material', [new Translation('IT', 'Tessuto')]),
             attributeValues: [
                 <ProductAttributeValue>{ attributeValue: new AttributeValue(0, 0, product.producer.id.trim(), texture, []) }
             ]
