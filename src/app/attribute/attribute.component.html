@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                <app-translation [(translations)]="selected.translations"></app-translation>                            
+                <app-translation [(translations)]="selected.translations" [style]="{'height':'100px'}"></app-translation>                            
                 <div class="ui-grid-row">
                     <div class="ui-grid-col-6">
                         <button *ngIf="selected.attributeId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>

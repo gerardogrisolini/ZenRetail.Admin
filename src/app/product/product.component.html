@@ -94,7 +94,7 @@
                 </div>
                 <p-accordion>
                     <p-accordionTab header="{{ 'Description' | translate }}" [selected]="true">
-                        <app-translation [(translations)]="selected.translations"></app-translation>
+                        <app-translation [(translations)]="selected.translations" [style]="{'height':'320px'}"></app-translation>
                     </p-accordionTab>
                     <p-accordionTab header="{{ 'Price' | translate }}">
                     <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">

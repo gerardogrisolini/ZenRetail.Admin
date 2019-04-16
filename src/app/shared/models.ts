@@ -12,10 +12,11 @@ export class Company {
   public companyFiscalCode: string;
   public companyVatNumber: string;
 
-  public companyDescription: Translation[];
   public companyHomeSeo: Seo;
+  public companyHomeContent: Translation[];
   public companyInfoSeo: Seo;
-
+  public companyInfoContent: Translation[];
+  
   public companyPhone: string;
   public companyEmailInfo: string;
   public companyEmailSales: string;
@@ -55,10 +56,11 @@ export class Company {
     this.companyFiscalCode = '';
     this.companyVatNumber = '';
 
-    this.companyDescription = [];
     this.companyHomeSeo = new Seo();
+    this.companyHomeContent = [];
     this.companyInfoSeo = new Seo();
-
+    this.companyInfoContent = [];
+  
     this.companyPhone = '';
     this.companyEmailInfo = '';
     this.companyEmailSales = '';

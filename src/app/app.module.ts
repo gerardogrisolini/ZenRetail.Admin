@@ -15,7 +15,8 @@ import {
     ContextMenuModule, TooltipModule, CalendarModule,
     FileUploadModule, ChartModule, CarouselModule, SidebarModule,
     SpinnerModule, StepsModule, AutoCompleteModule, TabViewModule,
-    AccordionModule, ProgressSpinnerModule, OrderListModule, OverlayPanelModule
+    AccordionModule, ProgressSpinnerModule, OrderListModule, OverlayPanelModule,
+    EditorModule
 } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { NgxBarcodeModule } from 'ngx-barcode';
@@ -123,7 +124,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         PanelModule, SplitButtonModule, PickListModule, GrowlModule,
         ConfirmDialogModule, ToolbarModule, SelectButtonModule, OrderListModule,
         ChipsModule, InputTextareaModule, FileUploadModule, AutoCompleteModule,
-        ContextMenuModule, TooltipModule, CalendarModule, ChartModule,
+        ContextMenuModule, TooltipModule, CalendarModule, ChartModule, EditorModule,
         CarouselModule, SpinnerModule, StepsModule, TabViewModule, AccordionModule,
         AppRoutes,
         TranslateModule.forRoot({

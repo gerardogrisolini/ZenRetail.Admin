@@ -11,7 +11,7 @@ import { Helpers } from './helpers';
 
 export class TranslationComponent implements OnInit {
     @Output() @Input() translations: Translation[];
-    @Input() rows: number;
+    @Input() style: string;
     countries: SelectItem[];
     country: string;
     translation: Translation;

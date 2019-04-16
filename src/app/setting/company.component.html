@@ -101,17 +101,21 @@
             </div>
         </div>
     </p-tabPanel>
-    <p-tabPanel header="{{ 'SEO' | translate }}">
+    <p-tabPanel header="{{ 'Pages' | translate }}">
         <p-accordion>
             <p-accordionTab header="{{ 'Homepage' | translate }}" [selected]="true">
+                <h3 style="margin-left: 8px">{{ 'SEO' | translate }}</h3>
                 <app-seo [(seo)]="company.companyHomeSeo" [path]="''"></app-seo>
+                <hr>
+                <h3 style="margin-left: 8px">{{ 'Content' | translate }}</h3>
+                <app-translation [(translations)]="company.companyHomeContent" [style]="{'height':'320px'}"></app-translation>
             </p-accordionTab>        
             <p-accordionTab header="{{ 'Infopage' | translate }}">
                 <app-seo [(seo)]="company.companyInfoSeo" [path]="'info'"></app-seo>
                 <hr>
-                <h3 style="margin-left: 8px">{{ 'Description' | translate }}</h3>
+                <h3 style="margin-left: 8px">{{ 'Content' | translate }}</h3>
                 <hr>
-                <app-translation *ngIf="countries" [(translations)]="company.companyDescription" [rows]="30"></app-translation>
+                <app-translation [(translations)]="company.companyInfoContent" [style]="{'height':'320px'}"></app-translation>
             </p-accordionTab>
         </p-accordion>
 

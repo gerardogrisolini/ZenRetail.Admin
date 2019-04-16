@@ -9,7 +9,8 @@
     </div>
     <div class="ui-grid-row">
         <div class="ui-grid-col-12">
-            <textarea pInputTextarea [rows]="rows" [(ngModel)]="translation.value"></textarea>
+            <!-- <textarea pInputTextarea [rows]="rows" [(ngModel)]="translation.value"></textarea> -->
+            <p-editor [(ngModel)]="translation.value" [style]="style"></p-editor>
         </div>
     </div>
 </div>
