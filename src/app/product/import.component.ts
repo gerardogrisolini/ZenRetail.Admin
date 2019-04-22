@@ -2,7 +2,7 @@ import { Component, OnInit  } from '@angular/core';
 import { SessionService } from './../services/session.service';
 import { SelectItem } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { ImportService, CodartInfo, Translate } from './../services/import.service';
+import { ImportService, CodartInfo } from './../services/import.service';
 import {
     Product, Brand, Category, ProductCategory, Price, Tax,
     Attribute, AttributeValue, ProductAttribute, ProductAttributeValue,
@@ -97,7 +97,7 @@ export class ImportComponent implements OnInit  {
                     0, 
                     p.value, 
                     p.label,
-                    new Media(p.value + '.png', 'image/png'),
+                    new Media(),
                     product.translates.filter(t => t.key === p.label).map(t => new Translation(t.code, t.value))
                 )
             })

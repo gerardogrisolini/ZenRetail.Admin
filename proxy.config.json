@@ -1,17 +1,17 @@
 {
     "/api/**": {
-        "target": "https://zenretail-api.westeurope.cloudapp.azure.com",
+        "target": "https://zenretail.westeurope.cloudapp.azure.com",
         "secure": true,
         "logLevel": "debug",
         "changeOrigin": true
     },
     "/media/**": {
-        "target": "https://zenretail-api.westeurope.cloudapp.azure.com",
+        "target": "https://zenretail.westeurope.cloudapp.azure.com",
         "secure": true,
         "logLevel": "debug"
     },
     "/thumb/**": {
-        "target": "https://zenretail-api.westeurope.cloudapp.azure.com",
+        "target": "https://zenretail.westeurope.cloudapp.azure.com",
         "secure": true,
         "logLevel": "debug"
     }
