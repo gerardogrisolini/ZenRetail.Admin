@@ -56,9 +56,9 @@ export class Company {
     this.companyFiscalCode = '';
     this.companyVatNumber = '';
 
-    this.companyHomeSeo = new Seo();
+    this.companyHomeSeo = new Seo('');
     this.companyHomeContent = [];
-    this.companyInfoSeo = new Seo();
+    this.companyInfoSeo = new Seo('');
     this.companyInfoContent = [];
   
     this.companyPhone = '';
@@ -148,7 +148,7 @@ export class Brand {
     this.brandName = '';
     this.translations = [];
     this.media = new Media('', '');
-    this.seo = new Seo();
+    this.seo = new Seo('');
   }
 }
 
@@ -166,7 +166,7 @@ export class Category {
     this.categoryName = categoryName;
     this.translations = [];
     this.media = new Media('', '');
-    this.seo = new Seo();
+    this.seo = new Seo('');
   }
 }
 
@@ -187,8 +187,8 @@ export class Seo {
   public title: Translation[];
   public description: Translation[];
 
-  constructor() {
-    this.permalink = '';
+  constructor(permalink: String) {
+    this.permalink = permalink;
     this.title = [];
     this.description = [];
   }
@@ -223,7 +223,7 @@ export class Product {
     this.price = new Price();
     this.discount = new Discount();
     this.packaging = new Packaging();
-    this.seo = new Seo();
+    this.seo = new Seo('');
     this.translations = [];
     this.medias = [];
     this.categories = [];

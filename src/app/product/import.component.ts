@@ -68,16 +68,19 @@ export class ImportComponent implements OnInit  {
         // Brand
         const brand = new Brand();
         brand.brandName = 'Tessilnova';
+        brand.seo = new Seo('tessilnova');
 
         // Categories
         const category = new Category(0, product.category.desc);
         category.categoryIsPrimary = true;
         category.translations = product.category.translates.map(p => new Translation(p.code, p.value));
-
+        category.seo = new Seo((product.category.translates.length > 1 ? product.category.translates[1].value : product.category.desc).toLowerCase().replace(' ','-'));
+        
         const subcategory = new Category(0, product.subcategory.desc);
         subcategory.categoryIsPrimary = false;
         subcategory.translations = product.subcategory.translates.map(p => new Translation(p.code, p.value));
-
+        subcategory.seo = new Seo((product.subcategory.translates.length > 1 ? product.subcategory.translates[1].value : product.subcategory.desc).toLowerCase().replace(' ','-'));
+ 
         // Texture
         const texture = product.producer.desc.replace('Tessilnova ', '');
         const textureAttribute = <ProductAttribute>{
@@ -95,7 +98,7 @@ export class ImportComponent implements OnInit  {
                 attributeValue: new AttributeValue(
                     0, 
                     0, 
-                    p.value, 
+                    p.value.substring(2), 
                     p.label,
                     new Media(),
                     product.translates.filter(t => t.key === p.label).map(t => new Translation(t.code, t.value))
@@ -147,6 +150,7 @@ export class ImportComponent implements OnInit  {
 
         // Product
         const item = new Product();
+        item.productIsActive = true;
         item.productCode = product.id;
         item.productName = product.name;
         item.productUm = 'QT';
@@ -156,7 +160,7 @@ export class ImportComponent implements OnInit  {
         item.price = price;
         item.discount = new Discount();
         item.packaging = new Packaging();
-        item.seo = new Seo();
+        item.seo = new Seo(product.name.toLowerCase().replace(' ','-'));
         item.brand = brand;
         item.categories = [
             <ProductCategory>{ productId: 0, category: category },
@@ -165,7 +169,8 @@ export class ImportComponent implements OnInit  {
         item.attributes = [ textureAttribute, colorAttribute, sizeAttribute ];
         item.articles = articles;
         item.medias = medias;
-        item.translations = product.translates.filter(p => p.key === product.id).map(p => new Translation(p.code, p.value));
+        item.translations = translations;
+        console.log(JSON.stringify(item));
 
         return item;
     }
