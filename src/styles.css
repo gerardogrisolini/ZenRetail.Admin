@@ -144,9 +144,13 @@ hr {
   overflow-x: hidden;
   overflow-y: auto;
   width: 300px;
--moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
--webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+#layout-sidebar .layout-menu {
+  margin-top: 50px;
 }
 
 #layout-sidebar .layout-menu > a {
@@ -155,7 +159,7 @@ box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
   display: block;
   padding: 15px 0px 0px 25px;
   cursor: pointer;
-  border-top: solid 1px #e3e9ea;
+  /* border-top: solid 1px #e3e9ea; */
   box-sizing: border-box;
 }
 
