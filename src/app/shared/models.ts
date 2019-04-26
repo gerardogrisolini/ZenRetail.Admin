@@ -11,20 +11,24 @@ export class Company {
   public companyCountry: string;
   public companyFiscalCode: string;
   public companyVatNumber: string;
-
-  public companyHomeSeo: Seo;
-  public companyHomeContent: Translation[];
-  public companyInfoSeo: Seo;
-  public companyInfoContent: Translation[];
-  
   public companyPhone: string;
   public companyEmailInfo: string;
   public companyEmailSales: string;
   public companyEmailSupport: string;
-
   public companyCurrency: string;
   public companyUtc: string;
   public companyLocales: Translation[];
+
+  public homeFeatured: Boolean;
+  public homeNews: Boolean;
+  public homeDiscount: Boolean;
+  public homeBrand: Boolean;
+  public homeCategory: Boolean;
+
+  public homeSeo: Seo;
+  public homeContent: Translation[];
+  public infoSeo: Seo;
+  public infoContent: Translation[];
 
   public smtpHost: string;
   public smtpSsl: boolean;
@@ -55,17 +59,22 @@ export class Company {
     this.companyCountry = '';
     this.companyFiscalCode = '';
     this.companyVatNumber = '';
-
-    this.companyHomeSeo = new Seo('');
-    this.companyHomeContent = [];
-    this.companyInfoSeo = new Seo('');
-    this.companyInfoContent = [];
-  
     this.companyPhone = '';
     this.companyEmailInfo = '';
     this.companyEmailSales = '';
     this.companyEmailSupport = '';
 
+    this.homeFeatured = true;
+    this.homeNews = true;
+    this.homeDiscount = true;
+    this.homeCategory = true;
+    this.homeBrand = true;
+
+    this.homeSeo = new Seo('');
+    this.homeContent = [];
+    this.infoSeo = new Seo('');
+    this.infoContent = [];
+  
     this.barcodeCounterPublic = 0;
     this.barcodeCounterPrivate = 0;
 

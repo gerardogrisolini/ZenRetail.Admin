@@ -105,17 +105,36 @@
         <p-accordion>
             <p-accordionTab header="{{ 'Homepage' | translate }}" [selected]="true">
                 <h3 style="margin-left: 8px">{{ 'SEO' | translate }}</h3>
-                <app-seo [(seo)]="company.companyHomeSeo" [path]="''"></app-seo>
+                <app-seo [(seo)]="company.homeSeo" [path]="''"></app-seo>
+                <hr>
+                <div class="ui-grid-row" style="margin-left: 10px;">
+                    <div class="ui-grid-col-2"><label>{{ 'Show' | translate }}</label></div>
+                    <div class="ui-grid-col-2">
+                        <p-inputSwitch [(ngModel)]="company.homeFeatured" [ngModelOptions]="{standalone: true}"></p-inputSwitch> <span> {{ 'Featured' | translate }}</span>
+                    </div>
+                    <div class="ui-grid-col-2">
+                        <p-inputSwitch [(ngModel)]="company.homeNews" [ngModelOptions]="{standalone: true}"></p-inputSwitch> <span> {{ 'News' | translate }}</span>
+                    </div>
+                    <div class="ui-grid-col-2">
+                        <p-inputSwitch [(ngModel)]="company.homeDiscount" [ngModelOptions]="{standalone: true}"></p-inputSwitch> <span> {{ 'Discount' | translate }}</span>
+                    </div>
+                    <div class="ui-grid-col-2">
+                        <p-inputSwitch [(ngModel)]="company.homeCategory" [ngModelOptions]="{standalone: true}"></p-inputSwitch> <span> {{ 'Categories' | translate }}</span>
+                    </div>
+                    <div class="ui-grid-col-2">
+                        <p-inputSwitch [(ngModel)]="company.homeBrand" [ngModelOptions]="{standalone: true}"></p-inputSwitch> <span> {{ 'Brands' | translate }}</span>
+                    </div>
+                </div>
                 <hr>
                 <h3 style="margin-left: 8px">{{ 'Content' | translate }}</h3>
-                <app-translation [(translations)]="company.companyHomeContent" [style]="{'height':'320px'}"></app-translation>
+                <app-translation [(translations)]="company.homeContent" [style]="{'height':'320px'}"></app-translation>
             </p-accordionTab>        
             <p-accordionTab header="{{ 'Infopage' | translate }}">
-                <app-seo [(seo)]="company.companyInfoSeo" [path]="'info'"></app-seo>
+                <app-seo [(seo)]="company.infoSeo" [path]="'info'"></app-seo>
                 <hr>
                 <h3 style="margin-left: 8px">{{ 'Content' | translate }}</h3>
                 <hr>
-                <app-translation [(translations)]="company.companyInfoContent" [style]="{'height':'320px'}"></app-translation>
+                <app-translation [(translations)]="company.infoContent" [style]="{'height':'320px'}"></app-translation>
             </p-accordionTab>
         </p-accordion>
 
