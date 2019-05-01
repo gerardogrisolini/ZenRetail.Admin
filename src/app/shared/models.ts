@@ -166,16 +166,16 @@ export class Category {
   public categoryIsPrimary: boolean;
   public categoryName: string;
   public translations: Translation[];
-  public media: Media;
-  public seo: Seo;
+  public media?: Media;
+  public seo?: Seo;
 
   constructor(categoryId: number, categoryName: string) {
     this.categoryId = categoryId;
     this.categoryIsPrimary = false;
     this.categoryName = categoryName;
     this.translations = [];
-    this.media = new Media('', '');
-    this.seo = new Seo('');
+    this.media = null;
+    this.seo = null;
   }
 }
 
@@ -210,11 +210,11 @@ export class Product {
   public productUm: string;
   public productTax: Tax;
   public price: Price;
-  public discount: Discount;
-  public packaging: Packaging;
+  public discount?: Discount;
+  public packaging?: Packaging;
   public translations: Translation[];
   public medias: Media[];
-  public seo: Seo;
+  public seo?: Seo;
   public brand: Brand;
   public categories: ProductCategory[];
   public attributes: ProductAttribute[];
@@ -230,9 +230,9 @@ export class Product {
     this.productUm = '';
     this.productTax = new Tax('', 0);
     this.price = new Price();
-    this.discount = new Discount();
-    this.packaging = new Packaging();
-    this.seo = new Seo('');
+    this.discount = null;
+    this.packaging = null;
+    this.seo = null;
     this.translations = [];
     this.medias = [];
     this.categories = [];
@@ -248,7 +248,7 @@ export class Article {
   public articleId: number;
   public number: number;
   public barcodes: Barcode[];
-  public packaging: Packaging;
+  public packaging?: Packaging;
   public quantity: number;
   public booked: number;
   public attributeValues: ArticleAttributeValue[];
@@ -257,7 +257,7 @@ export class Article {
     this.articleId = 0;
     this.number = 0;
     this.barcodes = [];
-    this.packaging = new Packaging();
+    this.packaging = null;
     this.quantity = 0;
     this.booked = 0;
     this.attributeValues = [];
@@ -282,7 +282,7 @@ export class AttributeValue {
     public attributeValueId: number = 0,
     public attributeValueCode: string = '',
     public attributeValueName: string = '',
-    public media: Media = new Media(),
+    public media?: Media,
     public translations: Translation[] = []
     ) {
       this.attributeId = attributeId;
@@ -637,8 +637,8 @@ export interface ArticleAttributeValue {
 export interface Barcode {
   barcode: string;
   tags: Tag[];
-  price: Price;
-  discount: Discount;
+  price?: Price;
+  discount?: Discount;
 }
 
 export interface Cost {

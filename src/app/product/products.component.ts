@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { SelectItem, MenuItem } from 'primeng/primeng';
+import { SelectItem, MenuItem, LazyLoadEvent } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Product } from './../shared/models';
 import { Helpers } from './../shared/helpers';
@@ -24,6 +24,7 @@ export class ProductsComponent implements OnInit {
     buttons: MenuItem[];
     categories: SelectItem[];
     categoryValue: string;
+    loading: boolean;
 
     constructor(private router: Router,
         private translate: TranslateService,
@@ -103,5 +104,21 @@ export class ProductsComponent implements OnInit {
 
     stockClick() {
         this.router.navigateByUrl('product/' + this.selected.productId + '/stock');
+    }
+
+    loadCarsLazy(event: LazyLoadEvent) {
+        this.loading = true;
+
+        //in a real application, make a remote request to load data using state metadata from event
+        //event.first = First row offset
+        //event.rows = Number of rows per page
+        //event.sortField = Field name to sort with
+        //event.sortOrder = Sort order as number, 1 for asc and -1 for dec
+        //filters: FilterMetadata object having field as key and filter value, filter matchMode as value
+
+        //imitate db connection over a network
+        setTimeout(() => {
+            this.loading = false;
+        }, 1000);
     }
 }

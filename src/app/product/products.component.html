@@ -10,8 +10,9 @@
             <p-splitButton title="{{ 'Edit' | translate }}" icon="pi pi-pencil" (onClick)="openClick()" [model]="buttons" [disabled]="!selected"></p-splitButton>
         </div>
     </p-toolbar>
+    <!-- [loading]="loading" [lazy]="true" (onLazyLoad)="loadCarsLazy($event)" -->
     <p-dataTable [responsive]="true" [value]="products | priceFilter:sliderValue:'price' | categoryFilter:categoryValue" 
-        selectionMode="single" [(selection)]="selected" [contextMenu]="bts"
+        selectionMode="single" [(selection)]="selected" [contextMenu]="bts" 
         [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [pageLinks]="5" #dt>
         <p-column field="productCode" header="SKU" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
         <p-column field="productName" header="{{ 'Name' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
