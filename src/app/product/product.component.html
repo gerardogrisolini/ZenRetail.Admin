@@ -128,10 +128,12 @@
                     </div>
                     </p-accordionTab>
                     <p-accordionTab header="{{ 'Discount' | translate }}">
+                        <button *ngIf="!selected.discount" type="button" pButton icon="pi pi-plus" (click)="addDiscountClick()" label="{{ 'Add' | translate }}"></button>
                         <app-discount [discount]="selected.discount"></app-discount>
                     </p-accordionTab>
                     <p-accordionTab header="{{ 'Packaging' | translate }}">
-                    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
+                    <button *ngIf="!selected.packaging" type="button" pButton icon="pi pi-plus" (click)="addPackagingClick()" label="{{ 'Add' | translate }}"></button>
+                    <div *ngIf="selected.packaging" class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-4"><label for="weight">{{ 'Weight' | translate }}</label></div>
                             <div class="ui-grid-col-8">

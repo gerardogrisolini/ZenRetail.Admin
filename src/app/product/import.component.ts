@@ -6,7 +6,7 @@ import { ImportService, CodartInfo } from './../services/import.service';
 import {
     Product, Brand, Category, ProductCategory, Price, Tax,
     Attribute, AttributeValue, ProductAttribute, ProductAttributeValue,
-    Article, ArticleAttributeValue, Media, Translation, Barcode, Packaging, Discount, Seo
+    Article, ArticleAttributeValue, Media, Translation, Barcode, Packaging, Seo
 } from './../shared/models';
 import { Helpers } from '../shared/helpers';
 
@@ -100,7 +100,7 @@ export class ImportComponent implements OnInit  {
                     0, 
                     p.value.substring(2), 
                     p.label,
-                    new Media(),
+                    null,
                     product.translates.filter(t => t.key === p.label).map(t => new Translation(t.code, t.value))
                 )
             })
@@ -115,7 +115,7 @@ export class ImportComponent implements OnInit  {
                 0, 
                 p, 
                 p,
-                new Media(),
+                null,
                 product.translates.filter(t => t.key === p).map(t => new Translation(t.code, t.value))
             ) })
         };
@@ -123,14 +123,13 @@ export class ImportComponent implements OnInit  {
         // Articles
         const articles: Article[] = [];
         const defaultArticle = new Article();
-        defaultArticle.barcodes = [<Barcode>{ barcode: product.id, tags: [], price: new Price(), discount: new Discount() }];
-        defaultArticle.packaging = new Packaging();
+        defaultArticle.barcodes = [<Barcode>{ barcode: product.id, tags: [], price: null, discount: null }];
+        defaultArticle.packaging = null;
         defaultArticle.attributeValues = [];
         articles.push(defaultArticle);
         product.codarts.forEach(p => {
             const article = new Article();
-            article.barcodes = [<Barcode>{ barcode: p.barcode, tags: [], price: new Price(), discount: new Discount() }];
-            article.packaging = new Packaging();
+            article.barcodes = [<Barcode>{ barcode: p.barcode, tags: [], price: null, discount: null }];
             article.attributeValues = [
                 <ArticleAttributeValue>{ attributeValue: new AttributeValue(0, 0, product.producer.id.trim(), texture) },
                 <ArticleAttributeValue>{ attributeValue: new AttributeValue(0, 0, p.colorId.trim(), p.color) },
@@ -158,9 +157,9 @@ export class ImportComponent implements OnInit  {
         const price = new Price();
         price.selling = product.price;
         item.price = price;
-        item.discount = new Discount();
-        item.packaging = new Packaging();
-        item.seo = new Seo(product.name.toLowerCase().replace(' ','-'));
+        item.discount = null;
+        item.packaging = null;
+        item.seo = new Seo(product.name.toLowerCase().replace(' ','-').replace('/',''));
         item.brand = brand;
         item.categories = [
             <ProductCategory>{ productId: 0, category: category },
@@ -170,7 +169,7 @@ export class ImportComponent implements OnInit  {
         item.articles = articles;
         item.medias = medias;
         item.translations = translations;
-        console.log(JSON.stringify(item));
+        //console.log(JSON.stringify(item));
 
         return item;
     }

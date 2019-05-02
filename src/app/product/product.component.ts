@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { ConfirmationService, SelectItem } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { Product, Brand, ProductCategory, Category, Barcode, Article, Publication } from './../shared/models';
+import { Product, Brand, ProductCategory, Category, Barcode, Article, Publication, Packaging, Discount } from './../shared/models';
 import { Helpers } from './../shared/helpers';
 import { SessionService } from './../services/session.service';
 import { BrandService } from './../services/brand.service';
@@ -132,6 +132,14 @@ export class ProductComponent implements OnInit, OnDestroy {
     get selectedIndex(): number { return this.productService.products.indexOf(this.selected); }
     set publication(value) { this.publicationService.publication = value; }
     get publication(): Publication { return this.publicationService.publication; }
+
+    addPackagingClick() {
+        this.selected.packaging = new Packaging();
+    }
+
+    addDiscountClick() {
+        this.selected.discount = new Discount();
+    }
 
     getBrands() {
         this.brandService.getAll()

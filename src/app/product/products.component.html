@@ -35,7 +35,7 @@
                 <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="sliderValue" [min]="5" [max]="1000"></p-slider>
             </ng-template>
             <ng-template let-col let-data="rowData" pTemplate="body">
-                <div *ngIf="data.discount.isValid;then discount_content else price_content"></div>
+                <div *ngIf="data.discount && data.discount.isValid;then discount_content else price_content"></div>
                 <ng-template #discount_content>
                     <span class="percentage">-{{data.discount.discountPercentage}}%</span>
                     <del>{{data.price.selling | currencyFormat}}</del><br><strong>{{data.discount.discountPrice | currencyFormat}}</strong>

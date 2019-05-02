@@ -10,7 +10,6 @@ import { ProductService } from './../services/product.service';
 import { AttributeService } from './../services/attribute.service';
 import { ProductComponent } from './product.component';
 import { Helpers } from '../shared/helpers';
-import { TagComponent } from '../tag/tag.component';
 
 @Component({
     selector: 'app-variant',
@@ -201,7 +200,6 @@ export class VariantComponent implements OnInit {
                         }
                         const article = new Article();
                         article.articleId = p.id;
-                        article.packaging = new Packaging();
                         article.barcodes = [<Barcode>{ barcode: p.value, tags: array }];
                         this.productService
                             .updateArticle(p.id, article)

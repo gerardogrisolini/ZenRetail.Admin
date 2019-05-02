@@ -22,10 +22,15 @@ export class SeoComponent implements OnInit {
         this.onCountryChanged(null);
     }
 
+    addClick() {
+        this.seo = new Seo('');
+        this.onCountryChanged(null);
+    }
+
     onCountryChanged(event) {
-        // if (!this.seo.permalink) {
-        //     this.seo = new Seo();
-        // }
+        if (!this.seo) {
+            return;
+        }
 
         const title = this.seo.title.find(p => p.country === this.country);
         if (title) {
