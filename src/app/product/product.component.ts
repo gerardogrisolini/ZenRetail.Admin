@@ -72,10 +72,10 @@ export class ProductComponent implements OnInit, OnDestroy {
             'tax': new FormControl('', Validators.required),
             'selling': new FormControl('', Validators.required),
             'purchase': new FormControl('', Validators.required),
-            'weight': new FormControl('', Validators.required),
-            'length': new FormControl('', Validators.required),
-            'width': new FormControl('', Validators.required),
-            'height': new FormControl('', Validators.required),
+            'weight': new FormControl('', Validators.nullValidator),
+            'length': new FormControl('', Validators.nullValidator),
+            'width': new FormControl('', Validators.nullValidator),
+            'height': new FormControl('', Validators.nullValidator),
             'isActive': new FormControl('', Validators.required)
         });
 
