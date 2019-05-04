@@ -93,7 +93,7 @@ export class VariantComponent implements OnInit {
         this.formsSelected.forEach(p => {
             const values = p.values.map(v =>
                 <ProductAttributeValue> {
-                    attributeValue: new AttributeValue(0, 0, v, v)
+                    attributeValue: new AttributeValue(0, v, v)
                 }
             );
             const attribute = new Attribute(0, p.name);

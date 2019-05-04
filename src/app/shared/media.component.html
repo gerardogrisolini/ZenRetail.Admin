@@ -1,5 +1,5 @@
 <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
-    <div *ngIf="media;then simple_media else default_media"></div>
+    <div *ngIf="media||!medias;then simple_media else default_media"></div>
     <ng-template #simple_media>
         <div class="ui-grid-row">
             <div class="ui-grid-col-12">

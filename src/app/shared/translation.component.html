@@ -1,4 +1,4 @@
-<div *ngIf="translation" class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
+<div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
     <div class="ui-grid-row">
         <div class="ui-grid-col-4">
             <label>{{ 'Translation' | translate }}</label>
@@ -7,7 +7,7 @@
             <p-dropdown [options]="countries" (onChange)="onCountryChanged($event)" [(ngModel)]="country" [style]="{'width':'100%'}"></p-dropdown>
         </div>
     </div>
-    <div class="ui-grid-row">
+    <div *ngIf="translation" class="ui-grid-row">
         <div class="ui-grid-col-12">
             <textarea *ngIf="!style" pInputTextarea rows="5" [(ngModel)]="translation.value"></textarea>
             <p-editor *ngIf="style" [(ngModel)]="translation.value" [style]="style"></p-editor>

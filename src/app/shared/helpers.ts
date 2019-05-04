@@ -1,7 +1,5 @@
-import { Headers } from '@angular/http';
 import { SelectItem, TreeNode } from 'primeng/primeng';
 import { Company, Translation } from './models';
-import { HttpHeaders } from '@angular/common/http';
 
 export class Helpers {
 

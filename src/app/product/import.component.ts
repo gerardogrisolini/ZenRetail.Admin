@@ -86,7 +86,7 @@ export class ImportComponent implements OnInit  {
         const textureAttribute = <ProductAttribute>{
             attribute: new Attribute(0, 'Material', [new Translation('IT', 'Tessuto')]),
             attributeValues: [
-                <ProductAttributeValue>{ attributeValue: new AttributeValue(0, 0, product.producer.id.trim(), texture) }
+                <ProductAttributeValue>{ attributeValue: new AttributeValue(0, product.producer.id.trim(), texture) }
             ]
         };
 
@@ -96,11 +96,9 @@ export class ImportComponent implements OnInit  {
             attribute: new Attribute(0, 'Color', [new Translation('IT', 'Colore')]),
             attributeValues: colors.map(p => <ProductAttributeValue>{
                 attributeValue: new AttributeValue(
-                    0, 
-                    0, 
+                    0,
                     p.value.substring(2), 
                     p.label,
-                    null,
                     product.translates.filter(t => t.key === p.label).map(t => new Translation(t.code, t.value))
                 )
             })
@@ -112,10 +110,8 @@ export class ImportComponent implements OnInit  {
             attribute: new Attribute(0, 'Size', [new Translation('IT', 'Misura')]),
             attributeValues: sizes.map(p => <ProductAttributeValue>{ attributeValue: new AttributeValue(
                 0, 
-                0, 
                 p, 
                 p,
-                null,
                 product.translates.filter(t => t.key === p).map(t => new Translation(t.code, t.value))
             ) })
         };
@@ -131,9 +127,9 @@ export class ImportComponent implements OnInit  {
             const article = new Article();
             article.barcodes = [<Barcode>{ barcode: p.barcode, tags: [], price: null, discount: null }];
             article.attributeValues = [
-                <ArticleAttributeValue>{ attributeValue: new AttributeValue(0, 0, product.producer.id.trim(), texture) },
-                <ArticleAttributeValue>{ attributeValue: new AttributeValue(0, 0, p.colorId.trim(), p.color) },
-                <ArticleAttributeValue>{ attributeValue: new AttributeValue(0, 0, p.size, p.size) }
+                <ArticleAttributeValue>{ attributeValue: new AttributeValue(0, product.producer.id.trim(), texture) },
+                <ArticleAttributeValue>{ attributeValue: new AttributeValue(0, p.colorId.trim(), p.color) },
+                <ArticleAttributeValue>{ attributeValue: new AttributeValue(0, p.size, p.size) }
             ];
             articles.push(article);
         });

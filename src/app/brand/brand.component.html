@@ -18,7 +18,7 @@
     </p-toolbar>
 
     <p-dataTable *ngIf="!selected" [responsive]="true" [value]="brands"
-        selectionMode="single" [(selection)]="selected"
+        selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)"
         [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5"
         [globalFilter]="gb" #dt>
         <p-column field="brandId" header="Id" [style]="{'width':'100px'}" [sortable]="true"></p-column>

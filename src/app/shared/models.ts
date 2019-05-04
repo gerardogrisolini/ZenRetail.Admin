@@ -277,20 +277,25 @@ export class Attribute {
 }
 
 export class AttributeValue {
+  public attributeId: number;
+  public attributeValueId: number;
+  public attributeValueCode: string;
+  public attributeValueName: string;
+  public media?: Media;
+  public translations: Translation[];
+  
   constructor(
-    public attributeId: number,
-    public attributeValueId: number = 0,
-    public attributeValueCode: string = '',
-    public attributeValueName: string = '',
-    public media?: Media,
-    public translations: Translation[] = []
-    ) {
+    attributeId: number = 0, 
+    attributeValueCode: string = '',
+    attributeValueName: string = '',
+    translations: Translation[] = []
+  ) {
       this.attributeId = attributeId;
-      this.attributeValueId = attributeValueId;
+      this.attributeValueId = 0;
       this.attributeValueCode = attributeValueCode;
       this.attributeValueName = attributeValueName;
-      this.media = media;
-      this.translations = [];
+      this.media = null;
+      this.translations = translations;
     }
   }
 

@@ -1,12 +1,11 @@
-﻿import { Component, OnInit, Input } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { AttributeService } from './../services/attribute.service';
-import { Attribute, AttributeValue } from './../shared/models';
-import { Helpers } from './../shared/helpers';
+import { Attribute, AttributeValue, Media } from './../shared/models';
 
 @Component({
     selector: 'app-attributevalue',
@@ -65,11 +64,20 @@ export class AttributeValueComponent implements OnInit {
         }
     }
 
+    onRowSelect(event: any) {
+        if (!this.selectedValue.media) {
+            this.selectedValue.media = new Media();
+        }
+    }
+
     closeValueClick() {
         this.selectedValue = null;
     }
 
     saveValueClick() {
+        if (this.selectedValue.media.name === '') {
+            this.selectedValue.media = null;
+        }
         if (this.isNewValue) {
             this.attributeService
                 .createValue(this.selectedValue)

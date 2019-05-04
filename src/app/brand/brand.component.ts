@@ -5,7 +5,7 @@ import { ConfirmationService } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { BrandService } from './../services/brand.service';
-import { Brand } from './../shared/models';
+import { Brand, Media } from './../shared/models';
 
 @Component({
     selector: 'app-brand',
@@ -55,7 +55,16 @@ export class BrandComponent implements OnInit {
         this.selected = null;
     }
 
+    onRowSelect(event: any) {
+        if (!this.selected.media) {
+            this.selected.media = new Media();
+        }
+    }
+
     saveClick() {
+        if (this.selected.media.name === '') {
+            this.selected.media = null;
+        }
         if (this.isNew) {
             this.brandService
                 .create(this.selected)

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ConfirmationService, Message } from 'primeng/primeng';
+import { ConfirmationService } from 'primeng/primeng';
 import { CompanyService } from '../services/company.service';
 import { Media } from './../shared/models';
 import { SessionService } from './../services/session.service';
@@ -11,8 +11,8 @@ import { SessionService } from './../services/session.service';
 })
 
 export class MediaComponent implements OnInit {
-    @Input() @Output() media: Media;
-    @Input() medias: Media[] = [];
+    @Input() @Output() media?: Media;
+    @Input() medias: Media[];
     selectedMedia: string;
 
     constructor(
@@ -29,7 +29,7 @@ export class MediaComponent implements OnInit {
             this.medias = [];
             this.medias.push(this.media);
         }
-        if (this.medias.length > 0) {
+        if (this.medias && this.medias.length > 0) {
             this.selectMedia(this.medias[0].name);
         }
     }
@@ -46,9 +46,9 @@ export class MediaComponent implements OnInit {
 
         if (this.media) {
             this.companyService.upload(formDate).subscribe(media => {
-                this.media.name = media.name;
                 this.media.contentType = media.contentType;
-                this.selectMedia(media.name);
+                this.media.name = media.name;
+                this.selectMedia(this.media.name);
                 form.clear();
             });
         } else {

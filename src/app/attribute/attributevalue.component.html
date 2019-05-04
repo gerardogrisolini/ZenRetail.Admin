@@ -13,7 +13,7 @@
     </p-toolbar>
 
     <p-dataTable *ngIf="!selectedValue" [responsive]="true" [value]="values"
-        selectionMode="single" [(selection)]="selectedValue" [globalFilter]="gbv" #dt>
+        selectionMode="single" [(selection)]="selectedValue" (onRowSelect)="onRowSelect($event)" [globalFilter]="gbv" #dt>
         <p-column field="attributeValueId" header="Id" [style]="{'width':'100px'}" [sortable]="true"></p-column>
         <p-column field="attributeValueCode" header="{{ 'Code' | translate }}" [sortable]="true"></p-column>
         <p-column field="attributeValueName" header="{{ 'Name' | translate }}" [sortable]="true"></p-column>

@@ -5,7 +5,7 @@ import { ConfirmationService } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { CategoryService } from './../services/category.service';
-import { Category } from './../shared/models';
+import { Category, Media } from './../shared/models';
 
 @Component({
     selector: 'app-category',
@@ -57,7 +57,16 @@ export class CategoryComponent implements OnInit {
         this.selected = null;
     }
 
+    onRowSelect(event: any) {
+        if (!this.selected.media) {
+            this.selected.media = new Media();
+        }
+    }
+
     saveClick() {
+        if (this.selected.media.name === '') {
+            this.selected.media = null;
+        }
         if (this.isNew) {
             this.categoryService
                 .create(this.selected)

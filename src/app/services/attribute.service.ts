@@ -2,7 +2,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 import { Attribute, AttributeValue } from '../shared/models';
-import { Helpers } from '../shared/helpers';
 
 @Injectable()
 export class AttributeService {
@@ -49,6 +48,7 @@ export class AttributeService {
     }
 
     updateValue(id: number, model: AttributeValue): Observable<AttributeValue> {
+        console.log(model);
         return this.http.put<AttributeValue>('/api/attributevalue/' + id, model);
     }
 
