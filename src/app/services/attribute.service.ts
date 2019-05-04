@@ -48,7 +48,6 @@ export class AttributeService {
     }
 
     updateValue(id: number, model: AttributeValue): Observable<AttributeValue> {
-        console.log(model);
         return this.http.put<AttributeValue>('/api/attributevalue/' + id, model);
     }
 
