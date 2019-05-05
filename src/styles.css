@@ -94,12 +94,13 @@ hr {
 }
 
 #layout-topbar .logo {
+  margin-top: 4px;
   margin-left: 45px;
   display: inline-block;
 }
 
 #layout-topbar .logo img {
-  height: 62px;
+  height: 60px;
 }
 
 .topbar-menu {

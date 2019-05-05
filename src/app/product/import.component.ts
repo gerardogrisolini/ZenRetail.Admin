@@ -37,7 +37,7 @@ export class ImportComponent implements OnInit  {
         this.isBusy = true;
         this.importService.getProducts()
         .subscribe(res => {
-            this.products = res.map(p => Helpers.newSelectItem(p.id, `${p.id} : ${p.key}`));
+            this.products = res.map(p => Helpers.newSelectItem(p.key, `${p.key} : ${p.value}`));
             this.isBusy = false;
         }, onerror => this.showError(onerror._body));
      }
@@ -73,13 +73,15 @@ export class ImportComponent implements OnInit  {
         // Categories
         const category = new Category(0, product.category.desc);
         category.categoryIsPrimary = true;
-        category.translations = product.category.translates.map(p => new Translation(p.code, p.value));
-        category.seo = new Seo((product.category.translates.length > 1 ? product.category.translates[1].value : product.category.desc).toLowerCase().replace(' ','-'));
+        //category.translations = product.category.translates.map(p => new Translation(p.code, p.value));
+        //category.seo = new Seo((product.category.translates.length > 1 ? product.category.translates[1].value : product.category.desc).toLowerCase().replace(' ','-'));
+        category.seo = new Seo(product.category.desc.toLowerCase().replace(' ','-'));
         
         const subcategory = new Category(0, product.subcategory.desc);
         subcategory.categoryIsPrimary = false;
-        subcategory.translations = product.subcategory.translates.map(p => new Translation(p.code, p.value));
-        subcategory.seo = new Seo((product.subcategory.translates.length > 1 ? product.subcategory.translates[1].value : product.subcategory.desc).toLowerCase().replace(' ','-'));
+        //subcategory.translations = product.subcategory.translates.map(p => new Translation(p.code, p.value));
+        //subcategory.seo = new Seo((product.subcategory.translates.length > 1 ? product.subcategory.translates[1].value : product.subcategory.desc).toLowerCase().replace(' ','-'));
+        subcategory.seo = new Seo(product.subcategory.desc.toLowerCase().replace(' ','-'));
  
         // Texture
         const texture = product.producer.desc.replace('Tessilnova ', '');
@@ -99,7 +101,7 @@ export class ImportComponent implements OnInit  {
                     0,
                     p.value.substring(2), 
                     p.label,
-                    product.translates.filter(t => t.key === p.label).map(t => new Translation(t.code, t.value))
+                    //product.translates.filter(t => t.key === p.label).map(t => new Translation(t.code, t.value))
                 )
             })
         };
@@ -112,7 +114,7 @@ export class ImportComponent implements OnInit  {
                 0, 
                 p, 
                 p,
-                product.translates.filter(t => t.key === p).map(t => new Translation(t.code, t.value))
+                //product.translates.filter(t => t.key === p).map(t => new Translation(t.code, t.value))
             ) })
         };
 
@@ -136,12 +138,12 @@ export class ImportComponent implements OnInit  {
 
         // Medias
         const base = 'https://www.tessilnova.com:443/Media/';
-        const medias = product.medias.map(p => new Media(base + p.filename, 'image/png'));
+        //const medias = product.medias.map(p => new Media(base + p.filename, 'image/png'));
 
         // Translations
-        const translations = product
-            .translates.filter(p => p.key === product.id)
-            .map(p => new Translation(p.code, p.value));
+        // const translations = product
+        //     .translates.filter(p => p.key === product.id)
+        //     .map(p => new Translation(p.code, p.value));
 
         // Product
         const item = new Product();
@@ -163,8 +165,8 @@ export class ImportComponent implements OnInit  {
         ];
         item.attributes = [ textureAttribute, colorAttribute, sizeAttribute ];
         item.articles = articles;
-        item.medias = medias;
-        item.translations = translations;
+        //item.medias = medias;
+        //item.translations = translations;
         //console.log(JSON.stringify(item));
 
         return item;

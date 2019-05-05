@@ -6,19 +6,28 @@ import { Product } from '../shared/models';
 @Injectable()
 export class ImportService {
 
-    apiRoot: String = 'https://www.tessilnova.com:443';
+    //apiRoot: String = 'https://www.tessilnova.com:443';
+    apiRoot: String = 'http://www.grisolini.com:8080';
 
     constructor(private http: HttpClient) {
     }
 
     getProducts(): Observable<Translate[]> {
-        const apiURL = `${this.apiRoot}/api/codart/products`;
+        //const apiURL = `${this.apiRoot}/api/codart/products`;
+        const apiURL = `${this.apiRoot}/webretail/ecommerce/list`;
         return this.http.get<Translate[]>(apiURL);
     }
 
     getProductById(id: String): Observable<CodartInfo> {
-        const apiURL = `${this.apiRoot}/api/codart/${id}`;
+        //const apiURL = `${this.apiRoot}/api/codart/${id}`;
+        const apiURL = `${this.apiRoot}/webretail/ecommerce/commerce?codart=${id}`;
         return this.http.get<CodartInfo>(apiURL);
+    }
+
+    getQuantity(barcode: String): Observable<Quantity> {
+        //const apiURL = `${this.apiRoot}/api/codart/${id}`;
+        const apiURL = `${this.apiRoot}/webretail/ecommerce/sync?barcode=${barcode}`;
+        return this.http.get<Quantity>(apiURL);
     }
 
     create(model: Product): Observable<any> {
@@ -53,12 +62,20 @@ export interface Producer {
     desc: string;
 }
 
+// export interface Stock {
+//     saleartMag: string;
+//     saleartId: number;
+//     saleartGia: number;
+//     saleartQtimp: number;
+// }
+
 export interface Codart {
     id: number;
     barcode: string;
     colorId: string;
     color: string;
     size: string;
+//    stock: Stock;
 }
 
 export interface Image {
@@ -74,4 +91,9 @@ export interface Translate {
     key: string;
     code: string;
     value: string;
+}
+
+export interface Quantity {
+    stock: number;
+    booked: number;
 }
