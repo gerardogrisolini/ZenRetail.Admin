@@ -27,7 +27,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     public static instance: ProductComponent = null;
     public helpers = Helpers;
 
-    @ViewChild('dynamicComponentContainer', { read: ViewContainerRef }) divContainer;
+    @ViewChild('dynamicComponentContainer', { read: ViewContainerRef, static: false }) divContainer;
     private sub: any;
     isBusy: boolean;
     dataform: FormGroup;

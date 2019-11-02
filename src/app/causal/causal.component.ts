@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, Input } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService, SelectItem } from 'primeng/primeng';
@@ -6,7 +6,6 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { CausalService } from './../services/causal.service';
 import { Causal } from './../shared/models';
-import { Helpers } from './../shared/helpers';
 
 @Component({
     selector: 'app-causal-component',
@@ -20,6 +19,7 @@ export class CausalComponent implements OnInit {
     selected: Causal;
     displayPanel: boolean;
     dataform: FormGroup;
+    cols: any[];
 
     constructor(
         private messageService: MessageService,
@@ -28,6 +28,13 @@ export class CausalComponent implements OnInit {
         private causalService: CausalService,
         private confirmationService: ConfirmationService,
         private fb: FormBuilder) {
+        this.cols = [
+            { field: 'causalId', header: 'Id' },
+            { field: 'causalName', header: 'Name' },
+            { field: 'causalQuantity', header: 'Stock' },
+            { field: 'causalBooked', header: 'Booked' },
+            { field: 'causalIsPos', header: 'Cash register' }
+        ]; 
     }
 
     ngOnInit() {

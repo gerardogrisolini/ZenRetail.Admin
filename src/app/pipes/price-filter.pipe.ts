@@ -40,7 +40,7 @@ export class PriceFilterPipe implements PipeTransform {
       case 'invoices':
         return value.filter((data: Invoice) => data.invoiceAmount <= maxValue);
       default:
-        return value.filter((data: Product) => (data.discount.isValid ? data.discount.price : data.price.selling) <= maxValue);
+        return value.filter((data: Product) => (data.discount != null && data.discount.isValid ? data.discount.price : data.price.selling) <= maxValue);
     }
   }
 }

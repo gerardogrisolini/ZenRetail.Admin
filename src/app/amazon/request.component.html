@@ -17,7 +17,7 @@
         <textarea [rows]="30" [cols]="120" pInputTextarea [(ngModel)]="xml"></textarea>
     </p-overlayPanel>
 
-    <p-dataTable [value]="items" [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5"
+    <p-table [value]="items" [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5"
         [globalFilter]="gb" #dt>
         <p-column header="XML" [sortable]="false" [style]="{'text-align':'center'}">
             <ng-template let-col let-data="rowData" pTemplate="body">
@@ -52,6 +52,6 @@
                 <button type="button" pButton icon="pi pi-question-circle" (click)="selectXml($event,data.errorDescription,xmlContent);"></button>
             </ng-template>
         </p-column>
-    </p-dataTable>
+    </p-table>
 
 </div>

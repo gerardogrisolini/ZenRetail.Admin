@@ -16,6 +16,7 @@ export class AttributeValueComponent implements OnInit {
     totalValues = 0;
     selectedValue: AttributeValue;
     dataformValue: FormGroup;
+    cols: any[];
 
     constructor(private messageService: MessageService,
                 private translate: TranslateService,
@@ -23,6 +24,11 @@ export class AttributeValueComponent implements OnInit {
                 private attributeService: AttributeService,
                 private confirmationService: ConfirmationService,
                 private fb: FormBuilder) {
+        this.cols = [
+            { field: 'attributeValueId', header: 'Id' },
+            { field: 'attributeValueCode', header: 'Code' },
+            { field: 'attributeValueName', header: 'Name' }
+        ];  
     }
 
     get selected(): Attribute { return this.attributeService.selected; }

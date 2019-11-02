@@ -1,4 +1,4 @@
-﻿<p-dataTable [responsive]="true" [value]="products | priceFilter:sliderValue | categoryFilter:categoryValue" 
+﻿<p-table [responsive]="true" [value]="products | priceFilter:sliderValue | categoryFilter:categoryValue" 
     selectionMode="single" (onRowSelect)="onRowSelect($event)"
     rowExpandMode="single" expandableRows="true" (onRowExpand)="onRowExpand($event)"
     [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [pageLinks]="5" #dt>
@@ -51,4 +51,4 @@
             <button pButton label="{{ 'Pickup' | translate }}" type="button" (click)="pickerClick()" class="inputtext ui-button-info" icon="pi pi-download"></button>
         </div>
     </ng-template>
-</p-dataTable>
+</p-table>

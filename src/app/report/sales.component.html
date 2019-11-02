@@ -10,7 +10,7 @@
         </div>
     </p-toolbar>
 
-    <p-dataTable [value]="items | priceFilter:priceValue:'movement':amountValue | articleFilter:articleValue | categoryFilter:categoryValue:'sales'" [totalRecords]="totalItems" [responsive]="true" #dt>
+    <p-table [value]="items | priceFilter:priceValue:'movement':amountValue | articleFilter:articleValue | categoryFilter:categoryValue:'sales'" [totalRecords]="totalItems" [responsive]="true" #dt>
         <p-footer>
             <span style="float: left"><b>{{totalItems}}</b> {{ 'sales' | translate }}</span>
             <span style="float: right">{{ 'Total' | translate }} <b>{{totalAmount | currencyFormat}}</b></span>
@@ -52,6 +52,6 @@
                 {{data.movementArticleAmount | currencyFormat}}
             </ng-template>
         </p-column>
-    </p-dataTable>
+    </p-table>
 
 </div>

@@ -338,7 +338,7 @@ footer {
   z-index: 10000;
 }
 
-.ui-datatable tr:hover {
+.ui-table tr:hover {
   background-color: #f8f7f6;
 }
 
@@ -395,34 +395,39 @@ body .ui-toolbar-group-right i {
   padding-left: 2em;
 }
 
-.ui-datatable {
-  border-color: #eee;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 5px;
+.ui-tabview-panels,
+.ui-toolbar,
+.ui-table .ui-table-caption {
+  border-color: whitesmoke !important;
+  background-color: transparent !important;
 }
 
-.ui-datatable .ui-datatable-thead > tr > th {
-  border-style: none !important;
-  border-top-left-radius: 5px !important;
-  border-top-right-radius: 5px !important;
+.ui-paginator,
+.ui-table .ui-table-thead > tr > th {
+  border-color: whitesmoke !important;
+  background-color: whitesmoke !important;
 }
 
-.ui-datatable .ui-datatable-data > tr > td {
+.ui-toolbar {
+  margin-bottom: 20px;
+}
+
+.ui-table .ui-table-tbody > tr > td {
   padding: 10px !important;
+  border-color: whitesmoke !important;
 }
 
-.ui-datatable .ui-datatable-data > tr {
+.ui-table .ui-table-tbody > tr {
   background: white !important;
 }
 
-.ui-datatable .ui-datatable-data > tr:hover {
+.ui-table .ui-table-tbody > tr:hover {
   background: #f8f7f6 !important;
 }
 
 .ui-state-highlight,
-.ui-datatable .ui-datatable-data:hover .ui-state-highlight,
-.ui-datatable .ui-datatable-data .ui-state-highlight {
+.ui-table .ui-table-data:hover .ui-state-highlight,
+.ui-table .ui-table-data .ui-state-highlight {
   background: lightyellow !important;
   color: #333 !important;
 }

@@ -1,11 +1,11 @@
-﻿import { Component, OnInit, Input } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { AttributeService } from './../services/attribute.service';
-import { Attribute, AttributeValue } from './../shared/models';
+import { Attribute } from './../shared/models';
 
 @Component({
     selector: 'app-attribute',
@@ -17,6 +17,7 @@ export class AttributeComponent implements OnInit {
     attributes: Attribute[];
     dataform: FormGroup;
     display: boolean;
+    cols: any[];
 
     constructor(private messageService: MessageService,
                 private translate: TranslateService,
@@ -24,6 +25,10 @@ export class AttributeComponent implements OnInit {
                 private attributeService: AttributeService,
                 private confirmationService: ConfirmationService,
                 private fb: FormBuilder) {
+        this.cols = [
+            { field: 'attributeId', header: 'Id' },
+            { field: 'attributeName', header: 'Name' }
+        ];  
     }
 
     set selected(value) { this.attributeService.selected = value; }

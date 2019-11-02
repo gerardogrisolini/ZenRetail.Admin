@@ -1,4 +1,4 @@
-﻿<p-dataTable *ngIf="isOpen" [responsive]="true" [value]="movements | dateFilter:dateStartValue:dateFinishValue" 
+﻿<p-table *ngIf="isOpen" [responsive]="true" [value]="movements | dateFilter:dateStartValue:dateFinishValue" 
     selectionMode="multiple" [(selection)]="selected"
     [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [pageLinks]="5" #dt>
     <p-header>
@@ -32,4 +32,4 @@
             <p-dropdown [options]="storesFiltered" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
         </ng-template>
     </p-column>
-</p-dataTable>
+</p-table>

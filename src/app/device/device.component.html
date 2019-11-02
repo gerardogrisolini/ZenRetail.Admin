@@ -12,14 +12,14 @@
         </div>
     </p-toolbar>
 
-    <p-dataTable *ngIf="!displayPanel" [responsive]="true" [value]="items"
+    <p-table *ngIf="!displayPanel" [responsive]="true" [value]="items"
         selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)"
         [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5"
         [globalFilter]="gb" #dt>
         <p-column field="deviceId" header="Id" [style]="{'width':'100px'}" [sortable]="true"></p-column>
         <p-column field="deviceName" header="{{ 'Name' | translate }}" [sortable]="true"></p-column>
         <p-column field="store.storeName" header="{{ 'Store' | translate }}" [sortable]="true"></p-column>     
-    </p-dataTable>
+    </p-table>
 
     <p-panel *ngIf="displayPanel">
         <p-header>

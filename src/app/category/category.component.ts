@@ -17,6 +17,7 @@ export class CategoryComponent implements OnInit {
     categories: Category[];
     selected: Category;
     dataform: FormGroup;
+    cols: any[];
 
     constructor(
         private messageService: MessageService,
@@ -25,7 +26,12 @@ export class CategoryComponent implements OnInit {
         private categoryService: CategoryService,
         private confirmationService: ConfirmationService,
         private fb: FormBuilder) {
-    }
+            this.cols = [
+                { field: 'categoryId', header: 'Id' },
+                { field: 'categoryName', header: 'Name' },
+                { field: 'categoryIsPrimary', header: 'Primary' }
+            ];        
+        }
 
     ngOnInit() {
         this.sessionService.checkCredentials(false);
@@ -57,11 +63,11 @@ export class CategoryComponent implements OnInit {
         this.selected = null;
     }
 
-    onRowSelect(event: any) {
-        if (!this.selected.media) {
-            this.selected.media = new Media();
-        }
-    }
+    // onRowSelect(event: any) {
+    //     if (!this.selected.media) {
+    //         this.selected.media = new Media();
+    //     }
+    // }
 
     saveClick() {
         if (this.selected.media.name === '') {

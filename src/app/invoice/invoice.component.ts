@@ -16,7 +16,7 @@ import { MovementPickerComponent } from './../shared/movement-picker.component';
 })
 
 export class InvoiceComponent implements OnInit, OnDestroy {
-    @ViewChild(MovementPickerComponent) inputComponent: MovementPickerComponent;
+    @ViewChild(MovementPickerComponent, {static: false}) inputComponent: MovementPickerComponent;
     public helpers = Helpers;
     private sub: any;
     invoiceId: number;

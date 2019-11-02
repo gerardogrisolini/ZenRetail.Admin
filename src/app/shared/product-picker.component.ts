@@ -1,6 +1,6 @@
-﻿import { Component, Input, EventEmitter, ViewChild, Output } from '@angular/core';
+﻿import { Component, EventEmitter, ViewChild, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { DataTable, SelectItem, MenuItem } from 'primeng/primeng';
+import { SelectItem } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Product, ProductCategory } from './models';
 import { Helpers } from './helpers';
@@ -13,7 +13,6 @@ import { ProductService } from './../services/product.service';
 
 export class ProductPickerComponent {
     @Output() onPicked = new EventEmitter();
-    @ViewChild('dt') datatable: DataTable;
     totalRecords = 0;
     selected: Product[];
     categories: SelectItem[];

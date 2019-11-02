@@ -106,6 +106,7 @@ export class ProductsComponent implements OnInit {
         this.router.navigateByUrl('product/' + this.selected.productId + '/stock');
     }
 
+    /*
     loadCarsLazy(event: LazyLoadEvent) {
         this.loading = true;
 
@@ -121,4 +122,5 @@ export class ProductsComponent implements OnInit {
             this.loading = false;
         }, 1000);
     }
+    */
 }

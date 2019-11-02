@@ -11,9 +11,9 @@ import { SelectItem, UIChart } from 'primeng/primeng';
 
 export class StatisticsComponent implements OnInit {
 
-    @ViewChild('deviceChart') deviceChart: UIChart;
-    @ViewChild('saleChart') saleChart: UIChart;
-    @ViewChild('totalChart') totalChart: UIChart;
+    @ViewChild('deviceChart',{static: false}) deviceChart: UIChart;
+    @ViewChild('saleChart',{static: false}) saleChart: UIChart;
+    @ViewChild('totalChart',{static: false}) totalChart: UIChart;
     isBusy: boolean;
     years: SelectItem[];
     selectedYear: number;

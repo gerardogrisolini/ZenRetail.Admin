@@ -1,10 +1,11 @@
 ﻿import { Component, OnInit, EventEmitter, ViewChild, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { DataTable, SelectItem, MenuItem } from 'primeng/primeng';
+import { SelectItem } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { Product, ProductCategory, ProductAttributeValue, ArticleForm, ArticleItem } from './models';
+import { Product, ProductCategory, ArticleForm } from './models';
 import { Helpers } from './helpers';
 import { ProductService } from './../services/product.service';
+import { Table } from 'primeng/table';
 
 @Component({
     selector: 'article-picker',
@@ -13,7 +14,7 @@ import { ProductService } from './../services/product.service';
 
 export class ArticlePickerComponent implements OnInit {
     @Output() onPicked = new EventEmitter();
-    @ViewChild('dt') datatable: DataTable;
+    @ViewChild('dt',{static: false}) datatable: Table;
     totalRecords = 0;
     selected: Product;
     categories: SelectItem[];

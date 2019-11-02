@@ -6,7 +6,6 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { TagService } from './../services/tag.service';
 import { TagGroup, TagValue } from './../shared/models';
-import { Helpers } from './../shared/helpers';
 
 @Component({
     selector: 'app-tag-component',
@@ -24,6 +23,8 @@ export class TagComponent implements OnInit {
     displayPanelValue: boolean;
     dataform: FormGroup;
     dataformValue: FormGroup;
+    cols: any[];
+    colsValue: any[];
 
     constructor(
         private messageService: MessageService,
@@ -32,6 +33,15 @@ export class TagComponent implements OnInit {
         private tagService: TagService,
         private confirmationService: ConfirmationService,
         private fb: FormBuilder) {
+        this.cols = [
+            { field: 'tagGroupId', header: 'Id' },
+            { field: 'tagGroupName', header: 'Name' }
+        ]; 
+        this.colsValue = [
+            { field: 'tagValueId', header: 'Id' },
+            { field: 'tagValueCode', header: 'Code' },
+            { field: 'tagValueName', header: 'Name' }
+        ]; 
     }
 
     ngOnInit() {

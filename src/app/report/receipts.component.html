@@ -10,7 +10,7 @@
         </div>
     </p-toolbar>
 
-    <p-dataTable [value]="items" sortField="movementDevice" 
+    <p-table [value]="items" sortField="movementDevice" 
         rowGroupMode="subheader" groupField="movementDevice" expandableRowGroups="true" [sortableRowGroup]="false"
         [responsive]="true">
         <p-footer>
@@ -30,6 +30,6 @@
             <td colspan="2" style="text-align:right">{{ 'Subtotal' | translate }}</td>
             <td><b>{{calculateGroupTotal(data['movementDevice']) | currencyFormat }}</b></td>
         </ng-template>
-    </p-dataTable>
+    </p-table>
 
 </div>

@@ -7,9 +7,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { MovementService } from './../services/movement.service';
 import { Movement, MovementArticle } from './../shared/models';
-import { Helpers } from './../shared/helpers';
 import { ArticlePickerComponent } from './../shared/article-picker.component';
-import { ScannerComponent } from './scanner.component';
 
 @Component({
     selector: 'app-movement-component',
@@ -17,7 +15,7 @@ import { ScannerComponent } from './scanner.component';
 })
 
 export class MovementComponent implements OnInit, OnDestroy {
-    @ViewChild('dynamicComponentContainer', { read: ViewContainerRef }) divContainer;
+    @ViewChild('dynamicComponentContainer', { read: ViewContainerRef, static: false}) divContainer;
     private sub: any;
     movementId: number;
     totalRecords = 0;

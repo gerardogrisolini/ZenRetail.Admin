@@ -1,7 +1,6 @@
 ﻿import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { Location, DOCUMENT } from '@angular/common';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { CompanyService } from './../services/company.service';
@@ -15,7 +14,7 @@ import * as FileSaver from 'file-saver';
 })
 
 export class InvoiceDocumentComponent implements OnInit, OnDestroy {
-    @ViewChild('doc') doc: ElementRef;
+    @ViewChild('doc',{static: false}) doc: ElementRef;
     private sub: any;
     invoiceId: number;
     totalItems = 0;

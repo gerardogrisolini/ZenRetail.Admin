@@ -1,50 +1,83 @@
 ﻿<p-progressSpinner *ngIf="!products" class="loading" strokeWidth="6" [style]="{width: '50px', height: '50px'}"></p-progressSpinner>
 
 <div class="container-fluid">
-    <p-toolbar>
-        <div class="ui-toolbar-group-left">
-            <button pButton type="button" label="{{totalRecords}}" title="{{ 'Add' | translate }}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
-            <button pButton type="button" title="{{ 'Refresh' | translate }}" (click)="refreshClick()" class="ui-button-secondary" icon="pi pi-refresh"></button>
-        </div>
-        <div class="ui-toolbar-group-right">
-            <p-splitButton title="{{ 'Edit' | translate }}" icon="pi pi-pencil" (onClick)="openClick()" [model]="buttons" [disabled]="!selected"></p-splitButton>
-        </div>
-    </p-toolbar>
-    <!-- [loading]="loading" [lazy]="true" (onLazyLoad)="loadCarsLazy($event)" -->
-    <p-dataTable [responsive]="true" [value]="products | priceFilter:sliderValue:'price' | categoryFilter:categoryValue" 
-        selectionMode="single" [(selection)]="selected" [contextMenu]="bts" 
-        [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [pageLinks]="5" #dt>
-        <p-column field="productCode" header="SKU" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
-        <p-column field="productName" header="{{ 'Name' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
-        <p-column field="brand.brandName" header="{{ 'Brand' | translate }}" [sortable]="true" [filter]="true" filterMatchMode="equals" [style]="{'overflow':'visible'}" >
-            <ng-template pTemplate="filter" let-col>
-                <p-dropdown [options]="brands" [filter]="true" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
-            </ng-template>
-        </p-column>     
-        <p-column header="{{ 'Categories' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" >
-            <ng-template pTemplate="filter" let-col>
-                <p-dropdown [options]="categories" [filter]="true" [style]="{'width':'100%'}" [(ngModel)]="categoryValue" styleClass="ui-column-filter"></p-dropdown>
-            </ng-template>
-            <ng-template let-col let-data="rowData" pTemplate="body">
-                <li *ngFor="let item of data.categories"> {{ item.category.categoryName }} </li>
-            </ng-template>
-        </p-column>
-        <p-column header="{{ 'Price' | translate }} ({{sliderValue||''}})" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" >
-            <ng-template pTemplate="filter" let-col>
-                <i class="fa fa-close" (click)="sliderValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
-                <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="sliderValue" [min]="5" [max]="1000"></p-slider>
-            </ng-template>
-            <ng-template let-col let-data="rowData" pTemplate="body">
-                <div *ngIf="data.discount && data.discount.isValid;then discount_content else price_content"></div>
-                <ng-template #discount_content>
-                    <span class="percentage">-{{data.discount.discountPercentage}}%</span>
-                    <del>{{data.price.selling | currencyFormat}}</del><br><strong>{{data.discount.discountPrice | currencyFormat}}</strong>
-                </ng-template>
-                <ng-template #price_content>
-                    {{data.price.selling | currencyFormat}}
-                </ng-template>
-            </ng-template>
-        </p-column>
-    </p-dataTable>
+
+    <p-table #dt [responsive]="true" [value]="products | priceFilter:sliderValue:'price' | categoryFilter:categoryValue"
+        selectionMode="single" [(selection)]="selected" sortMode="single" [contextMenu]="bts"
+        [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [pageLinks]="5">
+
+        <ng-template pTemplate="caption">
+            <div style="text-align: left">
+                <button pButton type="button" label="{{totalRecords}}" title="{{ 'Add' | translate }}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+                <button pButton type="button" title="{{ 'Refresh' | translate }}" (click)="refreshClick()" class="ui-button-secondary" icon="pi pi-refresh"></button>
+                <div style="float: right">
+                    <p-splitButton title="{{ 'Edit' | translate }}" icon="pi pi-pencil" (onClick)="openClick()" [model]="buttons" [disabled]="!selected"></p-splitButton>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th [pSortableColumn]="'productCode'">
+                    SKU
+                    <p-sortIcon [field]="'productCode'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'productName'">
+                    {{ 'Name' | translate }}
+                    <p-sortIcon [field]="'productName'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'brand.brandName'">
+                    {{ 'Brand' | translate }}
+                    <p-sortIcon [field]="'brand.brandName'"></p-sortIcon>
+                </th>
+                <th>
+                    {{ 'Categories' | translate }}
+                </th>
+                <th [pSortableColumn]="'price.selling'">
+                    {{ 'Price' | translate }}
+                    <p-sortIcon [field]="'price.selling'"></p-sortIcon>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <input pInputText type="text" placeholder="Filter" (input)="dt.filter($event.target.value, 'productCode', 'contains')">
+                </th>
+                <th>
+                    <input pInputText type="text" placeholder="Filter" (input)="dt.filter($event.target.value, 'productName', 'contains')">
+                </th>
+                <th>
+                    <p-dropdown [options]="brands" [filter]="true" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,'brand.brandName', 'equals')" styleClass="ui-column-filter"></p-dropdown>
+                </th>
+                <th>
+                    <p-dropdown [options]="categories" [filter]="true" [style]="{'width':'100%'}" [(ngModel)]="categoryValue" styleClass="ui-column-filter"></p-dropdown>
+                </th>
+                <th>
+                    <i class="fa fa-close" (click)="sliderValue=null;dt.filter(null,null,null)"></i>
+                    <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="sliderValue" [min]="5" [max]="1000"></p-slider>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+            <tr [pSelectableRow]="row">
+                <td>{{ row.productCode }}</td>
+                <td>{{ row.productName }}</td>
+                <td>{{ row.brand.brandName }}</td>
+                <td>
+                    <li *ngFor="let item of row.categories"> {{ item.category.categoryName }} </li>
+                </td>
+                <td>
+                    <div *ngIf="row.discount && row.discount.isValid;then discount_content else price_content"></div>
+                    <ng-template #discount_content>
+                        <span class="percentage">-{{row.discount.discountPercentage}}%</span>
+                        <del>{{row.price.selling | currencyFormat}}</del><br><strong>{{row.discount.discountPrice | currencyFormat}}</strong>
+                    </ng-template>
+                    <ng-template #price_content>
+                        {{row.price.selling | currencyFormat}}
+                    </ng-template>    
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+
     <p-contextMenu #bts [model]="buttons"></p-contextMenu>
 </div>

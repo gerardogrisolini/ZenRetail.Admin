@@ -6,7 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-    DataTableModule, SharedModule, PaginatorModule,
+    SharedModule, PaginatorModule,
     MultiSelectModule, DropdownModule, SliderModule,
     ConfirmDialogModule, ConfirmationService, ToolbarModule,
     TreeModule, ButtonModule, InputTextModule, InputSwitchModule,
@@ -18,6 +18,7 @@ import {
     AccordionModule, ProgressSpinnerModule, OrderListModule, OverlayPanelModule,
     EditorModule
 } from 'primeng/primeng';
+import {TableModule} from 'primeng/table';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -118,7 +119,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     imports: [
         CommonModule, RouterModule, HttpClientModule, BrowserModule, BrowserAnimationsModule,
         FormsModule, ReactiveFormsModule, NgxBarcodeModule, OverlayPanelModule,
-        DataTableModule, SharedModule, PaginatorModule, SidebarModule,
+        TableModule, SharedModule, PaginatorModule, SidebarModule,
         MultiSelectModule, DropdownModule, SliderModule, TreeModule,
         ButtonModule, InputTextModule, InputSwitchModule, ProgressSpinnerModule,
         PanelModule, SplitButtonModule, PickListModule, GrowlModule,

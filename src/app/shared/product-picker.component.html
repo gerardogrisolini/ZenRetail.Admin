@@ -1,4 +1,4 @@
-﻿<p-dataTable *ngIf="isOpen" [responsive]="true" [value]="products | priceFilter:sliderValue | categoryFilter:categoryValue" 
+﻿<p-table *ngIf="isOpen" [responsive]="true" [value]="products | priceFilter:sliderValue | categoryFilter:categoryValue" 
     selectionMode="multiple" [(selection)]="selected"
     [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [pageLinks]="5" #dt>
     <p-header>
@@ -42,4 +42,4 @@
             </ng-template>
         </ng-template>
     </p-column>
-</p-dataTable>
+</p-table>

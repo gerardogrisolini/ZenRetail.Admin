@@ -1,5 +1,4 @@
 ﻿import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { MessageService } from 'primeng/components/common/messageservice';
@@ -15,7 +14,7 @@ import * as FileSaver from 'file-saver';
 })
 
 export class DocumentComponent implements OnInit, OnDestroy {
-    @ViewChild('doc') doc: ElementRef;
+    @ViewChild('doc',{static: false}) doc: ElementRef;
     private sub: any;
     movementId: number;
     totalItems = 0;

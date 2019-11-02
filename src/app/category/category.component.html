@@ -2,29 +2,44 @@
 
 <div class="container-fluid">
 
-    <p-toolbar>
+    <p-table #dt *ngIf="!selected" [columns]="cols" [responsive]="true" [value]="categories"
+        selectionMode="single" [(selection)]="selected" sortMode="single"
+        [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5">
+
+        <ng-template pTemplate="caption">
+            <div style="text-align: left">        
+                <button pButton type="button" title="{{ 'Add' | translate }}" label="{{totalRecords}}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+                <input type="text" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto; float: right;">
+                <i class="fa fa-search" style="margin:4px 4px 0 0; float: right;"></i>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header | translate}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row let-columns="columns">
+            <tr [pSelectableRow]="row">
+                <td *ngFor="let col of columns">
+                    {{row[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+
+    <p-toolbar *ngIf="selected">
         <div class="ui-toolbar-group-left">
-            <button *ngIf="!selected" pButton type="button" title="{{ 'Add' | translate }}" label="{{totalRecords}}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
             <button *ngIf="selected" pButton type="button" label="{{ 'Close' | translate }}" (click)="closeClick()" class="ui-button-secondary" icon="pi pi-times"></button>
         </div>
-        <div *ngIf="!selected" class="ui-toolbar-group-right">
-            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-            <input #gb type="text" pInputText placeholder="{{ 'Search' | translate }}">
-        </div>
-        <div *ngIf="selected" class="ui-toolbar-group-right">
+        <div class="ui-toolbar-group-right">
             <button *ngIf="selected.categoryId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>
             <button type="button" pButton icon="pi pi-save" (click)="saveClick()" label="{{ 'Save' | translate }}" class="ui-button-primary" [disabled]="!dataform.valid"></button>
         </div>
     </p-toolbar>
-
-    <p-dataTable *ngIf="!selected" [responsive]="true" [value]="categories"
-        selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)"
-        [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5"
-        [globalFilter]="gb" #dt>
-        <p-column field="categoryId" header="Id" [style]="{'width':'100px'}" [sortable]="true"></p-column>
-        <p-column field="categoryName" header="{{ 'Name' | translate }}" [sortable]="true"></p-column>
-        <p-column field="categoryIsPrimary" header="{{ 'Primary' | translate }}" [sortable]="true"></p-column>
-    </p-dataTable>
 
     <p-tabView *ngIf="selected">
         <p-tabPanel header="{{ 'Category' | translate }}">

@@ -9,7 +9,7 @@
         </div>
     </p-toolbar>
 
-    <p-dataTable [value]="items" [totalRecords]="totalItems" [responsive]="true" #dt>
+    <p-table [value]="items" [totalRecords]="totalItems" [responsive]="true" #dt>
         <p-header>
             <span>{{ 'Loaded' | translate }} <b>{{loaded}}</b></span>
             &nbsp;&nbsp;<span>{{ 'Unloaded' | translate }} <b>{{unloaded}}</b></span>
@@ -20,6 +20,6 @@
         <p-column field="loaded" header="{{ 'Loaded' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
         <p-column field="unloaded" header="{{ 'Unloaded' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
         <p-column field="stock" header="{{ 'Stock' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
-    </p-dataTable>
+    </p-table>
 
 </div>

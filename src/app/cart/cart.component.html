@@ -13,7 +13,7 @@
         </div>
     </p-toolbar>
   
-    <p-dataTable [responsive]="true" [value]="items"
+    <p-table [responsive]="true" [value]="items"
         [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5"
         [globalFilter]="gb" #dt>
         <p-column field="basketId" header="Id" [style]="{'width':'100px'}" [sortable]="true"></p-column>
@@ -35,6 +35,6 @@
                 {{data.basketUpdated | dateFormat}}
             </ng-template>
         </p-column>
-    </p-dataTable>
+    </p-table>
   
 </div>

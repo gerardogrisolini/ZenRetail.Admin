@@ -12,7 +12,7 @@
         </div>
     </p-toolbar>
 
-    <p-dataTable *ngIf="!displayPanel" [responsive]="true" [value]="accounts"
+    <p-table *ngIf="!displayPanel" [responsive]="true" [value]="accounts"
         selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)"
         [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5"
         [globalFilter]="gb" #dt>
@@ -21,7 +21,7 @@
         <p-column field="firstname" header="{{ 'Name' | translate }}" [sortable]="true"></p-column>
         <p-column field="lastname" header="{{ 'Lastname' | translate }}" [sortable]="true"></p-column>
         <p-column field="email" header="{{ 'Email' | translate }}" [sortable]="true"></p-column>
-    </p-dataTable>
+    </p-table>
 
     <p-panel *ngIf="displayPanel">
         <p-header>

@@ -17,6 +17,7 @@ export class BrandComponent implements OnInit {
     brands: Brand[];
     selected: Brand;
     dataform: FormGroup;
+    cols: any[];
 
     constructor(private messageService: MessageService,
         private translate: TranslateService,
@@ -24,6 +25,11 @@ export class BrandComponent implements OnInit {
         private brandService: BrandService,
         private confirmationService: ConfirmationService,
         private fb: FormBuilder) {
+        this.cols = [
+            { field: 'brandId', header: 'Id' },
+            { field: 'brandName', header: 'Name' },
+            { field: 'media.name', header: 'Media' }
+        ]; 
     }
 
     ngOnInit() {
@@ -37,6 +43,7 @@ export class BrandComponent implements OnInit {
         this.brandService
             .getAll()
             .subscribe(result => {
+                console.log(result);
                 this.brands = result;
                 this.totalRecords = this.brands.length;
             }, onerror => this.messageService.add({severity: 'error', summary: '', detail: onerror._body})

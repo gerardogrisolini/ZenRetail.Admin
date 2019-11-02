@@ -1,7 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterContentInit, Output, EventEmitter } from '@angular/core';
 import { BarcodeDecoderService } from '../services/barcode-decoder.service';
-import { Subject } from 'rxjs/Subject';
-
 
 @Component({
   selector: 'app-scanner',
@@ -9,7 +7,7 @@ import { Subject } from 'rxjs/Subject';
   styleUrls: ['./scanner.component.css'],
 })
 export class ScannerComponent implements OnInit, OnDestroy, AfterContentInit {
-  @ViewChild('interactive') interactive;
+  @ViewChild('interactive',{static: false}) interactive;
   @Output() onPicked = new EventEmitter<string>();
 
   constructor(private decoderService: BarcodeDecoderService) {};

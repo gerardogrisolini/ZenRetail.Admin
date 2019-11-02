@@ -24,7 +24,7 @@
     </div>
 </p-toolbar>
 
-<p-dataTable [rows]="15" [responsive]="true" [editable]="true" [totalRecords]="totalRecords" [value]="items | priceFilter:priceValue:'movement':amountValue | articleFilter:articleValue" #dt>
+<p-table [rows]="15" [responsive]="true" [editable]="true" [totalRecords]="totalRecords" [value]="items | priceFilter:priceValue:'movement':amountValue | articleFilter:articleValue" #dt>
     <p-header *ngIf="!committed">
         <button pButton style="position: absolute;left: 10px; top: 4px;" type="button" title="{{ 'Search' | translate }}" (click)="articlePickerClick()" class="ui-button-primary" icon="pi pi-search"></button>
         <p-chips [(ngModel)]="barcodes" placeholder="barcode reading" (onAdd)="addBarcode()"></p-chips>
@@ -75,4 +75,4 @@
             {{data.movementArticleAmount | currencyFormat}}
         </ng-template>
     </p-column>
-</p-dataTable>
+</p-table>

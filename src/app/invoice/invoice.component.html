@@ -14,7 +14,7 @@
         </div>
     </p-toolbar>
 
-    <p-dataTable *ngIf="!inputComponent.isOpen" [value]="items | dateFilter:dateStartValue:dateFinishValue | priceFilter:amountValue:'movements'" 
+    <p-table *ngIf="!inputComponent.isOpen" [value]="items | dateFilter:dateStartValue:dateFinishValue | priceFilter:amountValue:'movements'" 
         selectionMode="multiple" [(selection)]="itemsSelected" [responsive]="true" #dt>
         <p-header>
             <button pButton type="button" label="{{ 'Delete' | translate }}" (click)="removeClick()" [disabled]="itemsSelected.length===0" style="float: left" class="ui-button-secondary" icon="pi pi-trash"></button>
@@ -57,7 +57,7 @@
                 {{data.movementAmount | currencyFormat}}
             </ng-template>
         </p-column>
-    </p-dataTable>
+    </p-table>
 
     <movement-picker (onPicked)="pickerClick($event)"></movement-picker>
 </div>

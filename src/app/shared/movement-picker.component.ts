@@ -1,6 +1,6 @@
 ﻿import { Component, Input, EventEmitter, ViewChild, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { DataTable, SelectItem, MenuItem } from 'primeng/primeng';
+import { SelectItem } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Movement } from './models';
 import { Helpers } from './helpers';
@@ -13,7 +13,6 @@ import { MovementService } from './../services/movement.service';
 
 export class MovementPickerComponent {
     @Output() onPicked = new EventEmitter();
-    @ViewChild('dt') datatable: DataTable;
     public helpers = Helpers;
     totalRecords = 0;
     selected: Movement[];

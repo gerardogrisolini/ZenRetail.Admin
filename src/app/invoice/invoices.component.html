@@ -12,7 +12,7 @@
        </div>
     </p-toolbar>
 
-    <p-dataTable *ngIf="!displayPanel" [responsive]="true" [value]="items | dateFilter:dateStartValue:dateFinishValue | priceFilter:amountValue:'invoices'"
+    <p-table *ngIf="!displayPanel" [responsive]="true" [value]="items | dateFilter:dateStartValue:dateFinishValue | priceFilter:amountValue:'invoices'"
         selectionMode="single" [(selection)]="selected" [contextMenu]="bts"
         [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5" #dt>
         <p-column field="invoiceNumber" header="{{ 'Number' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
@@ -40,7 +40,7 @@
                 {{data.invoiceAmount | currencyFormat}}
             </ng-template>
         </p-column>
-     </p-dataTable>
+     </p-table>
     
      <p-contextMenu #bts [model]="buttons"></p-contextMenu>
 

@@ -1,12 +1,11 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { ConfirmationService, Paginator } from 'primeng/primeng';
+import { ConfirmationService } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { RegistryService } from './../services/registry.service';
 import { Registry } from './../shared/models';
-import { Helpers } from './../shared/helpers';
 
 @Component({
     selector: 'app-registry-component',
@@ -19,6 +18,7 @@ export class RegistryComponent implements OnInit {
     selected: Registry;
     displayPanel: boolean;
     dataform: FormGroup;
+    cols: any[];
 
     constructor(private messageService: MessageService,
         private translate: TranslateService,
@@ -26,6 +26,12 @@ export class RegistryComponent implements OnInit {
         private registryService: RegistryService,
         private confirmationService: ConfirmationService,
         private fb: FormBuilder) {
+        this.cols = [
+            { field: 'registryId', header: 'Id' },
+            { field: 'registryName', header: 'Name' },
+            { field: 'registryEmail', header: 'Email' },
+            { field: 'registryCity', header: 'City' }
+        ];           
     }
 
     ngOnInit() {

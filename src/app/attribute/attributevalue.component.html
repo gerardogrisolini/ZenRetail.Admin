@@ -2,22 +2,34 @@
 
 <div class="container-fluid">
     
-    <p-toolbar>
-        <div class="ui-toolbar-group-left">
-            <button pButton type="button" label="{{totalValues}}" title="{{ 'Add' | translate }}" (click)="addValueClick()" class="ui-button-primary" icon="pi pi-plus"></button>
-        </div>
-        <div class="ui-toolbar-group-right">
-            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-            <input #gbv type="text" pInputText placeholder="{{ 'Search' | translate }}" style="width: 180px">
-        </div>
-    </p-toolbar>
+    <p-table #dt *ngIf="!selectedValue" [columns]="cols" [responsive]="true" [value]="values"
+        selectionMode="single" [(selection)]="selectedValue" sortMode="single" (onRowSelect)="onRowSelect($event)"
+        [paginator]="true" [rows]="15" [totalRecords]="totalValues" [pageLinks]="5">
 
-    <p-dataTable *ngIf="!selectedValue" [responsive]="true" [value]="values"
-        selectionMode="single" [(selection)]="selectedValue" (onRowSelect)="onRowSelect($event)" [globalFilter]="gbv" #dt>
-        <p-column field="attributeValueId" header="Id" [style]="{'width':'100px'}" [sortable]="true"></p-column>
-        <p-column field="attributeValueCode" header="{{ 'Code' | translate }}" [sortable]="true"></p-column>
-        <p-column field="attributeValueName" header="{{ 'Name' | translate }}" [sortable]="true"></p-column>
-    </p-dataTable>
+        <ng-template pTemplate="caption">
+            <div style="text-align: left">        
+                <button pButton type="button" title="{{ 'Add' | translate }}" label="{{totalValues}}" (click)="addValueClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+                <input type="text" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto; float: right;">
+                <i class="fa fa-search" style="margin:4px 4px 0 0; float: right;"></i>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header | translate}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row let-columns="columns">
+            <tr [pSelectableRow]="row">
+                <td *ngFor="let col of columns">
+                    {{row[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
 
     <p-panel *ngIf="selected&&selectedValue">
         <p-header>
