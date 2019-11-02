@@ -132,39 +132,43 @@
                         <app-discount [discount]="selected.discount"></app-discount>
                     </p-accordionTab>
                     <p-accordionTab header="{{ 'Packaging' | translate }}">
-                    <button *ngIf="!selected.packaging" type="button" pButton icon="pi pi-plus" (click)="addPackagingClick()" label="{{ 'Add' | translate }}"></button>
-                    <div *ngIf="selected.packaging" class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4"><label for="weight">{{ 'Weight' | translate }}</label></div>
-                            <div class="ui-grid-col-8">
-                                <input pInputText type="number" min="0" formControlName="weight" [(ngModel)]="selected.packaging.weight"/>
+                        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="um">{{ 'Unit of Measure' | translate }}</label></div>
+                                <div class="ui-grid-col-8">
+                                    <p-dropdown [options]="ums" formControlName="um" [(ngModel)]="selected.productUm" [style]="{'width':'100%'}"></p-dropdown>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row" style="margin-top: 10px">
+                                <button *ngIf="!selected.packaging" type="button" pButton icon="pi pi-plus" (click)="addPackagingClick()" label="{{ 'Add' | translate }}"></button>
                             </div>
                         </div>
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4"><label for="length">{{ 'Length' | translate }}</label></div>
-                            <div class="ui-grid-col-8">
-                                <input pInputText type="number" min="0" formControlName="length" [(ngModel)]="selected.packaging.length"/>
+                        <div *ngIf="selected.packaging" class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="weight">{{ 'Weight' | translate }}</label></div>
+                                <div class="ui-grid-col-8">
+                                    <input pInputText type="number" min="0" formControlName="weight" [(ngModel)]="selected.packaging.weight"/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="length">{{ 'Length' | translate }}</label></div>
+                                <div class="ui-grid-col-8">
+                                    <input pInputText type="number" min="0" formControlName="length" [(ngModel)]="selected.packaging.length"/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="width">{{ 'Width' | translate }}</label></div>
+                                <div class="ui-grid-col-8">
+                                    <input pInputText type="number" min="0" formControlName="width" [(ngModel)]="selected.packaging.width"/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-4"><label for="height">{{ 'Height' | translate }}</label></div>
+                                <div class="ui-grid-col-8">
+                                    <input pInputText type="number" min="0" formControlName="height" [(ngModel)]="selected.packaging.height"/>
+                                </div>
                             </div>
                         </div>
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4"><label for="width">{{ 'Width' | translate }}</label></div>
-                            <div class="ui-grid-col-8">
-                                <input pInputText type="number" min="0" formControlName="width" [(ngModel)]="selected.packaging.width"/>
-                            </div>
-                        </div>
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4"><label for="height">{{ 'Height' | translate }}</label></div>
-                            <div class="ui-grid-col-8">
-                                <input pInputText type="number" min="0" formControlName="height" [(ngModel)]="selected.packaging.height"/>
-                            </div>
-                        </div>
-                        <div class="ui-grid-row">
-                            <div class="ui-grid-col-4"><label for="um">{{ 'Unit of Measure' | translate }}</label></div>
-                            <div class="ui-grid-col-8">
-                                <p-dropdown [options]="ums" formControlName="um" [(ngModel)]="selected.productUm" [style]="{'width':'100%'}"></p-dropdown>
-                            </div>
-                        </div>
-                    </div>
                     </p-accordionTab>
                     <p-accordionTab header="{{ 'Attributes' | translate }}">
                         <!-- <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid">
