@@ -21,6 +21,7 @@ export class DeviceComponent implements OnInit {
     stores: SelectItem[] = [];
     displayPanel: boolean;
     dataform: FormGroup;
+    cols: any[];
 
     constructor(
         private messageService: MessageService,
@@ -30,6 +31,11 @@ export class DeviceComponent implements OnInit {
         private storeService: StoreService,
         private confirmationService: ConfirmationService,
         private fb: FormBuilder) {
+        this.cols = [
+            { field: 'deviceId', header: 'Id' },
+            { field: 'deviceName', header: 'Name' },
+            { field: 'store.storeName', header: 'Store' }
+        ];     
     }
 
     ngOnInit() {

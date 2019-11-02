@@ -1,5 +1,4 @@
-﻿import { Component, OnInit, Input } from '@angular/core';
-import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
+﻿import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
@@ -16,15 +15,13 @@ export class BrandComponent implements OnInit {
     totalRecords = 0;
     brands: Brand[];
     selected: Brand;
-    dataform: FormGroup;
     cols: any[];
 
     constructor(private messageService: MessageService,
         private translate: TranslateService,
         private sessionService: SessionService,
         private brandService: BrandService,
-        private confirmationService: ConfirmationService,
-        private fb: FormBuilder) {
+        private confirmationService: ConfirmationService) {
         this.cols = [
             { field: 'brandId', header: 'Id' },
             { field: 'brandName', header: 'Name' },
@@ -36,14 +33,9 @@ export class BrandComponent implements OnInit {
         this.sessionService.checkCredentials(false);
         this.sessionService.setTitle('Brands');
 
-        this.dataform = this.fb.group({
-            'name': new FormControl('', Validators.required)
-        });
-
         this.brandService
             .getAll()
             .subscribe(result => {
-                console.log(result);
                 this.brands = result;
                 this.totalRecords = this.brands.length;
             }, onerror => this.messageService.add({severity: 'error', summary: '', detail: onerror._body})

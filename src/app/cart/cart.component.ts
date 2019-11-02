@@ -1,5 +1,4 @@
 ﻿import { Component, OnInit, Input } from '@angular/core';
-import { ConfirmationService } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { Basket } from './../shared/models';
@@ -13,11 +12,20 @@ import { CompanyService } from '../services/company.service';
 export class CartComponent implements OnInit {
     totalRecords = 0;
     items: Basket[];
+    cols: any[];
 
     constructor(private messageService: MessageService,
                 private sessionService: SessionService,
-                private companyService: CompanyService,
-                private confirmationService: ConfirmationService) {
+                private companyService: CompanyService) {
+        this.cols = [
+            { field: 'basketId', header: 'Id' },
+            { field: 'registry.registryName', header: 'Customer' },
+            { field: 'basketBarcode', header: 'Barcode' },
+            { field: 'basketProduct', header: 'Product' },
+            { field: 'basketQuantity', header: 'Quantity' },
+            { field: 'basketPrice', header: 'Price' },
+            { field: 'basketUpdated', header: 'UpdatedAt' }
+        ];   
     }
 
     ngOnInit() {

@@ -14,10 +14,25 @@ export class RequestComponent implements OnInit {
     totalRecords = 0;
     items: MwsRequest[];
     xml: string;
+    cols: any[];
 
     constructor(private messageService: MessageService,
                 private sessionService: SessionService,
                 private amazonService: AmazonService) {
+        this.cols = [
+            { field: 'requestSku', header: 'Sku' },
+            { field: 'requestId', header: 'Id' },
+            { field: 'requestParentId', header: 'ParentId' },
+            { field: 'requestSubmissionId', header: 'SubmissionId' },
+            { field: 'requestCreatedAt', header: 'CreatedAt' },
+            { field: 'requestSubmittedAt', header: 'SubmittedAt' },
+            { field: 'requestCompletedAt', header: 'CompletedAt' },
+            { field: 'messagesProcessed', header: 'Process' },
+            { field: 'messagesSuccessful', header: 'Success' },
+            { field: 'messagesWithWarning', header: 'Warning' },
+            { field: 'messagesWithError', header: 'Error' },
+            { field: 'requestCompletedAt', header: 'CompletedAt' }
+        ]; 
     }
 
     ngOnInit() {

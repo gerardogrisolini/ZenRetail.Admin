@@ -403,6 +403,7 @@ body .ui-toolbar-group-right i {
 }
 
 .ui-paginator,
+.ui-table .ui-table-tfoot > tr > td,
 .ui-table .ui-table-thead > tr > th {
   border-color: whitesmoke !important;
   background-color: whitesmoke !important;

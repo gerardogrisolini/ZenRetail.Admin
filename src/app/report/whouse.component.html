@@ -9,17 +9,49 @@
         </div>
     </p-toolbar>
 
-    <p-table [value]="items" [totalRecords]="totalItems" [responsive]="true" #dt>
-        <p-header>
-            <span>{{ 'Loaded' | translate }} <b>{{loaded}}</b></span>
-            &nbsp;&nbsp;<span>{{ 'Unloaded' | translate }} <b>{{unloaded}}</b></span>
-            &nbsp;&nbsp;<span>{{ 'Stock' | translate }} <b>{{stock}}</b></span>
-        </p-header>
-        <p-column field="sku" header="SKU" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}" filterMatchMode="contains"></p-column>     
-        <p-column field="name" header="{{ 'Name' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}" filterMatchMode="contains"></p-column>
-        <p-column field="loaded" header="{{ 'Loaded' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
-        <p-column field="unloaded" header="{{ 'Unloaded' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
-        <p-column field="stock" header="{{ 'Stock' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
+    <p-table [responsive]="true" [value]="items" sortMode="single" [totalRecords]="totalItems">
+
+        <ng-template pTemplate="caption">
+            <div style="text-align: left">        
+                <span>{{ 'Loaded' | translate }} <b>{{loaded}}</b></span>
+                &nbsp;&nbsp;<span>{{ 'Unloaded' | translate }} <b>{{unloaded}}</b></span>
+                &nbsp;&nbsp;<span>{{ 'Stock' | translate }} <b>{{stock}}</b></span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th [pSortableColumn]="'sku'">
+                    SKU
+                    <p-sortIcon [field]="'sku'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'name'">
+                    {{ 'Name' | translate }}
+                    <p-sortIcon [field]="'name'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'loaded'">
+                    {{ 'Loaded' | translate }}
+                    <p-sortIcon [field]="'loaded'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'unloaded'">
+                    {{ 'Unloaded' | translate }}
+                    <p-sortIcon [field]="'unloaded'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'stock'">
+                    {{ 'Stock' | translate }}
+                    <p-sortIcon [field]="'stock'"></p-sortIcon>
+                </th>              
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row let-columns="columns">
+            <tr [pSelectableRow]="row">
+                <td>{{ row.sku }}</td>
+                <td>{{ row.name }}</td>
+                <td>{{ row.loaded }}</td>
+                <td>{{ row.unloaded }}</td>
+                <td>{{ row.stock }}</td>
+            </tr>
+        </ng-template>
+
     </p-table>
 
 </div>

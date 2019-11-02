@@ -2,46 +2,67 @@
 
 <div class="container-fluid">
 
-    <p-toolbar>
-        <div class="ui-toolbar-group-left">
-            <button pButton type="button" title="{{ 'Add' | translate }}" label="{{totalRecords}}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
-            <button pButton type="button" title="{{ 'Edit' | translate }}" (click)="editClick()" [disabled]="!selected" class="ui-button-primary" icon="pi pi-pencil"></button>
-        </div>
-        <div class="ui-toolbar-group-right">
-            <p-splitButton title="{{ 'Details' | translate }}" icon="pi pi-bars" (onClick)="openClick()" [model]="buttons" [disabled]="!selected"></p-splitButton>
-       </div>
-    </p-toolbar>
+     <p-table #dt *ngIf="!displayPanel" [responsive]="true" [value]="items | dateFilter:dateStartValue:dateFinishValue | priceFilter:amountValue:'invoices'"
+        selectionMode="single" [(selection)]="selected" sortMode="single" [contextMenu]="bts"
+        [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [pageLinks]="5">
 
-    <p-table *ngIf="!displayPanel" [responsive]="true" [value]="items | dateFilter:dateStartValue:dateFinishValue | priceFilter:amountValue:'invoices'"
-        selectionMode="single" [(selection)]="selected" [contextMenu]="bts"
-        [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5" #dt>
-        <p-column field="invoiceNumber" header="{{ 'Number' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
-        <p-column field="invoiceDate" header="{{ 'Date' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}">
-            <ng-template pTemplate="filter" let-col>
-                <i class="fa fa-close" (click)="dateStartValue=null;dateFinishValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
-                <p-calendar [locale]="helpers.locale" [(ngModel)]="dateStartValue" [inputStyle]="{'width':'50%','float':'left'}" dateFormat="yy-mm-dd" placeholder="{{ 'Start' | translate }}" styleClass="ui-column-filter"></p-calendar>
-                <p-calendar [locale]="helpers.locale" [(ngModel)]="dateFinishValue" [inputStyle]="{'width':'50%','float':'right'}" dateFormat="yy-mm-dd" placeholder="{{ 'Finish' | translate }}" styleClass="ui-column-filter"></p-calendar>
-            </ng-template>
-            <ng-template let-col let-data="rowData" pTemplate="body">
-                {{data.invoiceDate | date:'yyyy-MM-dd'}}
-            </ng-template>            
-        </p-column>
-        <p-column field="invoiceRegistry.registryName" header="{{ 'Registry' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" filterMatchMode="equals">
-            <ng-template pTemplate="filter" let-col>
-                <p-dropdown [options]="registriesFiltered" [style]="{'width':'100%'}" [filter]="true" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
-            </ng-template>
-        </p-column>
-        <p-column header="{{ 'Amount' | translate }} ({{amountValue||'No Filter'}})" [editable]="false" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}">
-            <ng-template pTemplate="filter" let-col>
-                <i class="fa fa-close" (click)="amountValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
-                <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="amountValue" [min]="5" [max]="1000"></p-slider>
-            </ng-template>
-            <ng-template let-col let-data="rowData" pTemplate="body">
-                {{data.invoiceAmount | currencyFormat}}
-            </ng-template>
-        </p-column>
-     </p-table>
-    
+        <ng-template pTemplate="caption">
+            <div style="text-align: left">
+                <button pButton type="button" title="{{ 'Add' | translate }}" label="{{totalRecords}}" (click)="addClick()" class="ui-button-primary" icon="pi pi-plus"></button>
+                <button pButton type="button" title="{{ 'Edit' | translate }}" (click)="editClick()" [disabled]="!selected" class="ui-button-primary" icon="pi pi-pencil"></button>
+                <div style="float: right">
+                    <p-splitButton title="{{ 'Details' | translate }}" icon="pi pi-bars" (onClick)="openClick()" [model]="buttons" [disabled]="!selected"></p-splitButton>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th [pSortableColumn]="'invoiceNumber'">
+                    {{ 'Number' | translate }}
+                    <p-sortIcon [field]="'invoiceNumber'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'invoiceDate'">
+                    {{ 'Date' | translate }}
+                    <p-sortIcon [field]="'invoiceDate'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'invoiceRegistry.registryName'">
+                    {{ 'Registry' | translate }}
+                    <p-sortIcon [field]="'invoiceRegistry.registryName'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'invoiceAmount'">
+                    {{ 'Amount' | translate }} ({{amountValue||'No Filter'}})
+                    <p-sortIcon [field]="'invoiceAmount'"></p-sortIcon>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <input pInputText type="text" placeholder="{{ 'Search' | translate }}" (input)="dt.filter($event.target.value, 'invoiceNumber', 'contains')">
+                </th>
+                <th>
+                    <i class="fa fa-close" style="float: top; width: 100%;" (click)="dateStartValue=null;dateFinishValue=null;dt.filter(null,'invoiceDate','contains')"></i>
+                    <p-calendar [locale]="helpers.locale" [(ngModel)]="dateStartValue" [inputStyle]="{'width':'100%','float':'top'}" dateFormat="yy-mm-dd" placeholder="{{ 'Start' | translate }}" styleClass="ui-column-filter"></p-calendar>
+                    <p-calendar [locale]="helpers.locale" [(ngModel)]="dateFinishValue" [inputStyle]="{'width':'100%','float':'top'}" dateFormat="yy-mm-dd" placeholder="{{ 'Finish' | translate }}" styleClass="ui-column-filter"></p-calendar>
+                </th>
+                <th>
+                    <p-dropdown [options]="registriesFiltered" [style]="{'width':'100%'}" [filter]="true" (onChange)="dt.filter($event.value,'invoiceRegistry.registryName','equals')" styleClass="ui-column-filter"></p-dropdown>
+                </th>
+                <th>
+                    <i class="fa fa-close" (click)="amountValue=null;dt.filter(null,'invoiceAmount','contains')"></i>
+                    <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="amountValue" [min]="5" [max]="1000"></p-slider>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+            <tr [pSelectableRow]="row">
+                <td>{{ row.invoiceNumber }}</td>
+                <td>{{ row.invoiceDate | date:'yyyy-MM-dd' }}</td>
+                <td>{{ row.invoiceRegistry.registryName }}</td>
+                <td>{{ row.invoiceAmount | currencyFormat }}</td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+
      <p-contextMenu #bts [model]="buttons"></p-contextMenu>
 
      <p-panel *ngIf="displayPanel">

@@ -10,26 +10,43 @@
         </div>
     </p-toolbar>
 
-    <p-table [value]="items" sortField="movementDevice" 
-        rowGroupMode="subheader" groupField="movementDevice" expandableRowGroups="true" [sortableRowGroup]="false"
-        [responsive]="true">
-        <p-footer>
-            <span style="float: left"><b>{{totalItems}}</b> {{ 'receipts' | translate }}</span>
-            <span style="float: right">{{ 'Total' | translate }} <b>{{totalAmount | currencyFormat}}</b></span>
-            <p>&nbsp;</p>
-        </p-footer>
-        <ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['movementDevice']}}</ng-template>
-        <p-column field="movementNumber" header="{{ 'Number' | translate }}" [sortable]="true"></p-column>
-        <p-column field="movementDate" header="{{ 'Date' | translate }}" [sortable]="true"></p-column>
-        <p-column field="movementAmount" header="{{ 'Amount' | translate }}" [sortable]="true">
-            <ng-template let-col let-data="rowData" pTemplate="body">
-                <span>{{data[col.field] | currencyFormat}}</span>
-            </ng-template>
-        </p-column>
-        <ng-template pTemplate="rowgroupfooter" let-data>
-            <td colspan="2" style="text-align:right">{{ 'Subtotal' | translate }}</td>
-            <td><b>{{calculateGroupTotal(data['movementDevice']) | currencyFormat }}</b></td>
-        </ng-template>
-    </p-table>
+    <p-table [value]="items" sortField="movementDevice" [sortableRowGroup]="false" [responsive]="true">
 
+        <ng-template pTemplate="header">
+            <tr>
+                <th [pSortableColumn]="'movementNumber'">
+                    {{ 'Number' | translate }}
+                    <p-sortIcon [field]="'movementNumber'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'movementDate'">
+                    {{ 'Date' | translate }}
+                    <p-sortIcon [field]="'movementDate'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'movementAmount'">
+                    {{ 'Amount' | translate }}
+                    <p-sortIcon [field]="'movementAmount'"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+            <tr class="ui-widget-header" *ngIf="items[row.movementDevice].index === rowIndex">
+                <td colspan="2" style="text-align:right">{{ 'Subtotal' | translate }}</td>
+                <td><b>{{calculateGroupTotal(row['movementDevice']) | currencyFormat }}</b></td>
+            </tr>
+            <tr [pSelectableRow]="row">
+                <td>{{ row.movementNumber }}</td>
+                <td>{{ row.movementDate }}</td>
+                <td>{{ row.movementAmount }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="footer" let-row>
+            <tr>
+                <td colspan="3">
+                    <span style="float: left"><b>{{totalItems}}</b> {{ 'receipts' | translate }}</span>
+                    <span style="float: right">{{ 'Total' | translate }} <b>{{totalAmount | currencyFormat}}</b></span>
+                </td>
+            </tr>
+        </ng-template>
+        
+    </p-table>
 </div>

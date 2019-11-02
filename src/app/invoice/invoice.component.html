@@ -59,5 +59,79 @@
         </p-column>
     </p-table>
 
-    <movement-picker (onPicked)="pickerClick($event)"></movement-picker>
+    <p-table #dt *ngIf="!inputComponent.isOpen" [responsive]="true" 
+        [value]="items | dateFilter:dateStartValue:dateFinishValue | priceFilter:amountValue:'movements'"
+        selectionMode="multiple" [(selection)]="itemsSelected" sortMode="single"
+        [totalRecords]="totalRecords">
+
+        <ng-template pTemplate="caption">
+            <div style="text-align: left">
+                <button pButton type="button" label="{{ 'Delete' | translate }}" (click)="removeClick()" [disabled]="itemsSelected.length===0" class="ui-button-secondary" icon="pi pi-trash"></button>
+                <button pButton label="{{ 'Movement picker' | translate }}" style="float: right" type="button" (click)="showPickerClick()" class="ui-button-primary" icon="pi pi-search"></button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th [pSortableColumn]="'movementNumber'">
+                    {{ 'Number' | translate }}
+                    <p-sortIcon [field]="'movementNumber'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'movementDate'">
+                    {{ 'Date' | translate }}
+                    <p-sortIcon [field]="'movementDate'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'movementCausal.causalName'">
+                    {{ 'Causal' | translate }}
+                    <p-sortIcon [field]="'movementCausal.causalName'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'movementStore.storeName'">
+                    {{ 'Store' | translate }}
+                    <p-sortIcon [field]="'movementStore.storeName'"></p-sortIcon>
+                </th>
+                <th [pSortableColumn]="'movementAmount'">
+                    {{ 'Amount' | translate }} ({{amountValue||'No Filter'}})
+                    <p-sortIcon [field]="'movementAmount'"></p-sortIcon>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <input pInputText type="text" placeholder="{{ 'Search' | translate }}" (input)="dt.filter($event.target.value, 'movementNumber', 'contains')">
+                </th>
+                <th>
+                    <i class="fa fa-close" style="float: top; width: 100%;" (click)="dateStartValue=null;dateFinishValue=null;dt.filter(null,'movementDate','contains')"></i>
+                    <p-calendar [locale]="helpers.locale" [(ngModel)]="dateStartValue" [inputStyle]="{'width':'100%','float':'top'}" dateFormat="yy-mm-dd" placeholder="{{ 'Start' | translate }}" styleClass="ui-column-filter"></p-calendar>
+                    <p-calendar [locale]="helpers.locale" [(ngModel)]="dateFinishValue" [inputStyle]="{'width':'100%','float':'top'}" dateFormat="yy-mm-dd" placeholder="{{ 'Finish' | translate }}" styleClass="ui-column-filter"></p-calendar>
+                </th>
+                <th>
+                    <p-dropdown [options]="causalsFiltered" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,'movementCausal.causalName','contains')" styleClass="ui-column-filter"></p-dropdown>
+                </th>
+                <th>
+                    <p-dropdown [options]="storesFiltered" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,'movementStore.storeName','contains')" styleClass="ui-column-filter"></p-dropdown>
+                </th>                
+                <th>
+                    <i class="fa fa-close" (click)="amountValue=null;dt.filter(null,'movementAmount','contains')"></i>
+                    <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="amountValue" [min]="5" [max]="1000"></p-slider>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+            <tr [pSelectableRow]="row">
+                <td>{{ row.invoiceNumber }}</td>
+                <td>{{ row.invoiceDate | date:'yyyy-MM-dd' }}</td>
+                <td>{{ row.invoiceRegistry.registryName }}</td>
+                <td>{{ row.movementStore.storeName }}</td>
+                <td>{{ row.invoiceAmount | currencyFormat }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <tr>
+                <td colspan="5">
+                    <span style="float: left"><b>{{totalRecords}}</b> rows</span>
+                    <span style="float: right">{{ 'Amount' | translate }} <b>{{totalAmount | currencyFormat}}</b></span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <movement-picker #inputComponent (onPicked)="pickerClick($event)"></movement-picker>
 </div>

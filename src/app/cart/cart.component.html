@@ -2,39 +2,47 @@
 
 <div class="container-fluid">
 
-    <p-toolbar>
-        <div class="ui-toolbar-group-left">
-            <button pButton type="button" title="{{ 'Refresh' | translate }}" (click)="refreshClick()" class="ui-button-primary" icon="pi pi-refresh"></button>
-            {{totalRecords}} {{ 'pending carts' | translate }}
-        </div>
-        <div class="ui-toolbar-group-right">
-            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-            <input #gb type="text" pInputText placeholder="{{ 'Search' | translate }}">
-        </div>
-    </p-toolbar>
-  
-    <p-table [responsive]="true" [value]="items"
-        [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5"
-        [globalFilter]="gb" #dt>
-        <p-column field="basketId" header="Id" [style]="{'width':'100px'}" [sortable]="true"></p-column>
-        <p-column field="registry.registryName" header="{{ 'Customer' | translate }}" [sortable]="true"></p-column>
-        <p-column field="basketBarcode" header="{{ 'Barcode' | translate }}" [sortable]="true"></p-column>
-        <p-column header="{{ 'Product' | translate }}" [sortable]="true">
-            <ng-template let-col let-data="rowData" pTemplate="body">
-                {{data.basketProduct | articleInfo:data.basketBarcode}}
-            </ng-template>
-        </p-column>
-        <p-column field="basketQuantity" header="{{ 'Quantity' | translate }}" [sortable]="true"></p-column>
-        <p-column header="{{ 'Price' | translate }}" [sortable]="true">
-            <ng-template let-col let-data="rowData" pTemplate="body">
-                {{data.basketPrice | currencyFormat}}
-            </ng-template>
-        </p-column>
-        <p-column header="{{ 'UpdatedAt' | translate }}" [sortable]="true">
-            <ng-template let-col let-data="rowData" pTemplate="body">
-                {{data.basketUpdated | dateFormat}}
-            </ng-template>
-        </p-column>
+    <p-table #dt [columns]="cols" [responsive]="true" [value]="items"
+        sortMode="single" [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5">
+
+        <ng-template pTemplate="caption">
+            <div style="text-align: left">        
+                <button pButton type="button" title="{{ 'Refresh' | translate }}" (click)="refreshClick()" class="ui-button-primary" icon="pi pi-refresh"></button>
+                {{totalRecords}} {{ 'pending carts' | translate }}
+                <input type="text" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto; float: right;">
+                <i class="fa fa-search" style="margin:4px 4px 0 0; float: right;"></i>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header | translate}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row let-columns="columns">
+            <tr [pSelectableRow]="row">
+                <td>
+                    {{ row.basketId }}
+                </td>
+                <td>
+                    {{ row.registry.registryName }}
+                </td>
+                <td>
+                    {{ row.basketBarcode }}
+                </td>
+                <td>
+                    {{ row.basketProduct | articleInfo:row.basketBarcode }}
+                </td>
+                <td>
+                    {{ row.basketPrice | currencyFormat }}
+                </td>
+                <td>
+                    {{ row.basketUpdated | dateFormat }}
+                </td>
+            </tr>
+        </ng-template>
+
     </p-table>
-  
 </div>

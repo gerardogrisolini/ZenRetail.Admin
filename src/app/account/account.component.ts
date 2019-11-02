@@ -6,7 +6,6 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { AccountService } from './../services/account.service';
 import { Account } from './../shared/models';
-import { Helpers } from './../shared/helpers';
 
 @Component({
     selector: 'app-account-component',
@@ -19,6 +18,7 @@ export class AccountComponent implements OnInit {
     selected: Account;
     displayPanel: boolean;
     dataform: FormGroup;
+    cols: any[];
 
     constructor(private messageService: MessageService,
         private translate: TranslateService,
@@ -26,6 +26,13 @@ export class AccountComponent implements OnInit {
         private accountService: AccountService,
         private confirmationService: ConfirmationService,
         private fb: FormBuilder) {
+        this.cols = [
+            { field: 'uniqueID', header: 'Id' },
+            { field: 'username', header: 'Username' },
+            { field: 'firstname', header: 'Name' },
+            { field: 'lastname', header: 'Lastname' },
+            { field: 'email', header: 'Email' }
+        ]; 
     }
 
     ngOnInit() {

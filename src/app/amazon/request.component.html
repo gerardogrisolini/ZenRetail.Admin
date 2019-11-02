@@ -2,56 +2,45 @@
 
 <div class="container-fluid">
 
-    <p-toolbar>
-        <div class="ui-toolbar-group-left">
-            <button pButton type="button" title="Refresh" (click)="refreshClick()" class="ui-button-primary" icon="pi pi-refresh"></button>
-            {{totalRecords}} {{ 'pending requests' | translate }}
-        </div>
-        <div class="ui-toolbar-group-right">
-            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-            <input #gb type="text" pInputText placeholder="{{ 'Search' | translate }}">
-        </div>
-    </p-toolbar>
-
     <p-overlayPanel #xmlContent [style]="{'margin-top':'100px'}">
         <textarea [rows]="30" [cols]="120" pInputTextarea [(ngModel)]="xml"></textarea>
     </p-overlayPanel>
 
-    <p-table [value]="items" [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5"
-        [globalFilter]="gb" #dt>
-        <p-column header="XML" [sortable]="false" [style]="{'text-align':'center'}">
-            <ng-template let-col let-data="rowData" pTemplate="body">
-                <button type="button" pButton icon="pi pi-search" (click)="selectXml($event,data.requestXml,xmlContent);"></button>
-            </ng-template>
-        </p-column>
-        <p-column field="requestSku" header="Sku" [sortable]="true" [style]="{'width':'120px', 'text-align':'center'}"></p-column>
-        <p-column field="requestId" header="Id" [sortable]="true" [style]="{'width':'100px', 'text-align':'center'}"></p-column>
-        <p-column field="requestParentId" header="ParentId" [sortable]="true" [style]="{'width':'100px', 'text-align':'center'}"></p-column>
-        <p-column field="requestSubmissionId" header="SubmissionId" [sortable]="true" [style]="{'width':'180px', 'text-align':'center'}"></p-column>
-        <p-column header="{{ 'CreatedAt' | translate }}" [sortable]="true" [style]="{'text-align':'center'}">
-            <ng-template let-col let-data="rowData" pTemplate="body">
-                {{data.requestCreatedAt | dateFormat}}
-            </ng-template>
-        </p-column>
-        <p-column header="{{ 'SubmittedAt' | translate }}" [sortable]="true" [style]="{'text-align':'center'}">
-            <ng-template let-col let-data="rowData" pTemplate="body">
-                {{data.requestSubmittedAt | dateFormat}}
-            </ng-template>
-        </p-column>
-        <p-column header="{{ 'CompletedAt' | translate }}" [sortable]="true" [style]="{'text-align':'center'}">
-            <ng-template let-col let-data="rowData" pTemplate="body">
-                <span *ngIf="data.requestCompletedAt > 0">{{data.requestCompletedAt | dateFormat}}</span>
-            </ng-template>
-        </p-column>
-        <p-column field="messagesProcessed" header="{{ 'Process' | translate }}" [sortable]="true" [style]="{'text-align':'center'}"></p-column>
-        <p-column field="messagesSuccessful" header="{{ 'Success' | translate }}" [sortable]="true" [style]="{'text-align':'center'}"></p-column>
-        <p-column field="messagesWithWarning" header="{{ 'Warning' | translate }}" [sortable]="true" [style]="{'text-align':'center'}"></p-column>
-        <p-column field="messagesWithError" header="{{ 'Error' | translate }}" [sortable]="true" [style]="{'text-align':'center'}"></p-column>
-        <p-column header="{{ 'Info' | translate }}" [sortable]="false" [style]="{'text-align':'center'}">
-            <ng-template let-col let-data="rowData" pTemplate="body">
-                <button type="button" pButton icon="pi pi-question-circle" (click)="selectXml($event,data.errorDescription,xmlContent);"></button>
-            </ng-template>
-        </p-column>
+    <p-table #dt [columns]="cols" [responsive]="true" [value]="items"
+        [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5">
+
+        <ng-template pTemplate="caption">
+            <div style="text-align: left">        
+                <button pButton type="button" title="Refresh" (click)="refreshClick()" class="ui-button-primary" icon="pi pi-refresh"></button>
+                {{totalRecords}} {{ 'pending requests' | translate }}
+                <input type="text" pInputText placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto; float: right;">
+                <i class="fa fa-search" style="margin:4px 4px 0 0; float: right;"></i>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th>XML</th>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header | translate}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+                <th>{{ 'Info' | translate }}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row let-columns="columns">
+            <tr [pSelectableRow]="row">
+                <td>
+                    <button type="button" pButton icon="pi pi-search" (click)="selectXml($event,row.requestXml,xmlContent);"></button>
+                </td>
+                <td *ngFor="let col of columns">
+                    {{row[col.field]}}
+                </td>
+                <td>
+                    <button type="button" pButton icon="pi pi-question-circle" (click)="selectXml($event,row.errorDescription,xmlContent);"></button>
+                </td>
+            </tr>
+        </ng-template>
+
     </p-table>
 
 </div>

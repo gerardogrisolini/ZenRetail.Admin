@@ -37,26 +37,24 @@
         </div>
         <div class="ui-toolbar-group-right">
             <button *ngIf="selected.categoryId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>
-            <button type="button" pButton icon="pi pi-save" (click)="saveClick()" label="{{ 'Save' | translate }}" class="ui-button-primary" [disabled]="!dataform.valid"></button>
+            <button type="button" pButton icon="pi pi-save" (click)="saveClick()" label="{{ 'Save' | translate }}" class="ui-button-primary" [disabled]="selected.brandName===''"></button>
         </div>
     </p-toolbar>
 
     <p-tabView *ngIf="selected">
         <p-tabPanel header="{{ 'Brand' | translate }}">
-        <form [formGroup]="dataform">
-            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
-                <div class="ui-grid-row">
-                    <div class="ui-grid-col-4"><label for="name">{{ 'Name' | translate }}</label></div>
-                    <div class="ui-grid-col-8">
-                        <input pInputText formControlName="name" [(ngModel)]="selected.brandName"/>
-                        <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!dataform.controls['name'].valid&&dataform.controls['name'].dirty">
-                            <i class="fa fa-close"></i> {{ 'Name' | translate }} {{ 'is required' | translate }}
-                        </div>
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-4"><label for="name">{{ 'Name' | translate }}</label></div>
+                <div class="ui-grid-col-8">
+                    <input pInputText [(ngModel)]="selected.brandName"/>
+                    <div class="ui-message ui-messages-error ui-corner-all" *ngIf="selected.brandName===''">
+                        <i class="fa fa-close"></i> {{ 'Name' | translate }} {{ 'is required' | translate }}
                     </div>
                 </div>
-                <app-translation [(translations)]="selected.translations" [style]="{'height':'100px'}"></app-translation>
             </div>
-        </form>
+            <app-translation [(translations)]="selected.translations" [style]="{'height':'100px'}"></app-translation>
+        </div>
         </p-tabPanel>
         <p-tabPanel header="{{ 'Media' | translate }}">
             <app-media [(media)]="selected.media"></app-media>

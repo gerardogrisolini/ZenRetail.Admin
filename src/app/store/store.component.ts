@@ -19,6 +19,7 @@ export class StoreComponent implements OnInit {
     selected: Store;
     displayPanel: boolean;
     dataform: FormGroup;
+    cols: any[];
 
     constructor(
         private messageService: MessageService,
@@ -27,6 +28,12 @@ export class StoreComponent implements OnInit {
         private storeService: StoreService,
         private confirmationService: ConfirmationService,
         private fb: FormBuilder) {
+        this.cols = [
+            { field: 'storeId', header: 'Id' },
+            { field: 'storeName', header: 'Name' },
+            { field: 'storeCity', header: 'City' },
+            { field: 'storeCountry', header: 'Country' }
+        ]; 
     }
 
     ngOnInit() {

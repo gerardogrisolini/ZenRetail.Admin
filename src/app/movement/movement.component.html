@@ -24,55 +24,110 @@
     </div>
 </p-toolbar>
 
-<p-table [rows]="15" [responsive]="true" [editable]="true" [totalRecords]="totalRecords" [value]="items | priceFilter:priceValue:'movement':amountValue | articleFilter:articleValue" #dt>
-    <p-header *ngIf="!committed">
-        <button pButton style="position: absolute;left: 10px; top: 4px;" type="button" title="{{ 'Search' | translate }}" (click)="articlePickerClick()" class="ui-button-primary" icon="pi pi-search"></button>
-        <p-chips [(ngModel)]="barcodes" placeholder="barcode reading" (onAdd)="addBarcode()"></p-chips>
-        <button pButton style="position: absolute;right: 10px; top: 4px;" type="button" title="{{ 'Scanner' | translate }}" (click)="barcodePickerClick()" class="ui-button-primary" icon="pi pi-money-bill"></button>
-    </p-header>
-    <p-footer>
-        <span style="float: left"><b>{{totalRecords}}</b> {{ 'rows' | translate }}</span>
-        <span style="float: right">{{ 'items' | translate }} <b>{{totalItems}}</b> {{ 'amount' | translate }} <b>{{totalAmount | currencyFormat}}</b></span>
-        <p>&nbsp;</p>
-    </p-footer>
-    <p-column field="movementArticleBarcode" header="{{ 'Barcode' | translate }}" [editable]="false" [sortable]="true" [filter]="true" filterMatchMode="contains" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
-    <p-column field="movementArticleProduct" header="{{ 'Product' | translate }}" [editable]="false" [sortable]="true" [filter]="true">
-        <ng-template pTemplate="filter" let-col>
-            <input pInputText [(ngModel)]="articleValue" placeholder="{{ 'Search' | translate }}" style="width: 100%;margin-top: 4px;" styleClass="ui-column-filter"/>
-        </ng-template>
-        <ng-template let-col let-data="rowData" pTemplate="body">
-            {{data.movementArticleProduct | articleInfo:data.movementArticleBarcode}}
-        </ng-template>
-    </p-column>
-    <p-column field="movementArticleQuantity" header="{{ 'Quantity' | translate }}" [editable]="true" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}">
-        <ng-template let-col let-data="rowData" pTemplate="editor">
-            <input pInputText type="number" [disabled]="committed" [(ngModel)]="data.movementArticleQuantity" (change)="onUpdate(data)"/>
-       </ng-template>
-    </p-column>
-    <p-column *ngIf="committed" field="movementArticleDelivered" header="{{ 'Delivered' | translate }}" [editable]="true" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}">
-        <ng-template let-col let-data="rowData" pTemplate="editor">
-            <input pInputText type="number" min="0" [disabled]="item.movementStatus==='Completed'" [(ngModel)]="data.movementArticleDelivered" (change)="onUpdate(data)"/>
-       </ng-template>
-    </p-column>
-    <p-column header="{{ 'Price' | translate }} ({{priceValue||''}})" [editable]="true" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}">
-        <ng-template pTemplate="filter" let-col>
-            <i class="fa fa-close" (click)="priceValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
-            <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="priceValue" [min]="5" [max]="1000"></p-slider>
-        </ng-template>
-        <ng-template let-col let-data="rowData" pTemplate="editor">
-            <input pInputText type="number" min="0" [disabled]="committed" [(ngModel)]="data.movementArticlePrice" (change)="onUpdate(data)"/>
-        </ng-template>
-        <ng-template let-col let-data="rowData" pTemplate="body">
-            {{data.movementArticlePrice | currencyFormat}}
-        </ng-template>
-    </p-column>
-    <p-column header="{{ 'Amount' | translate }} ({{amountValue||''}})" [editable]="false" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}">
-        <ng-template pTemplate="filter" let-col>
-            <i class="fa fa-close" (click)="amountValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
-            <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="amountValue" [min]="5" [max]="10000"></p-slider>
-        </ng-template>
-        <ng-template let-col let-data="rowData" pTemplate="body">
-            {{data.movementArticleAmount | currencyFormat}}
-        </ng-template>
-    </p-column>
+<p-table #dt [responsive]="true" [value]="items | priceFilter:priceValue:'movement':amountValue | articleFilter:articleValue"
+    sortMode="single" [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5">
+
+    <ng-template pTemplate="caption">
+        <div *ngIf="!committed" style="text-align: left; padding-left: 40px;">
+            <button pButton style="position: absolute;left: 10px; top: 4px;" type="button" title="{{ 'Search' | translate }}" (click)="articlePickerClick()" class="ui-button-primary" icon="pi pi-search"></button>
+            <p-chips [(ngModel)]="barcodes" placeholder="barcode reading" (onAdd)="addBarcode()"></p-chips>
+            <button pButton style="position: absolute;right: 10px; top: 4px;" type="button" title="{{ 'Scanner' | translate }}" (click)="barcodePickerClick()" class="ui-button-primary" icon="pi pi-money-bill"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th [pSortableColumn]="'movementArticleBarcode'">
+                {{ 'Barcode' | translate }}
+                <p-sortIcon [field]="'movementArticleBarcode'"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'movementArticleProduct'">
+                {{ 'Product' | translate }}
+                <p-sortIcon [field]="'movementArticleProduct'"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'movementArticleQuantity'">
+                {{ 'Quantity' | translate }}
+                <p-sortIcon [field]="'movementArticleQuantity'"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'movementArticleDelivered'">
+                {{ 'Delivered' | translate }}
+                <p-sortIcon [field]="'movementArticleDelivered'"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'movementArticlePrice'">
+                {{ 'Price' | translate }}
+                <p-sortIcon [field]="'movementArticlePrice'"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'movementArticleAmount'">
+                {{ 'Amount' | translate }}
+                <p-sortIcon [field]="'movementArticleAmount'"></p-sortIcon>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <input pInputText type="text" placeholder="{{ 'Search' | translate }}" (input)="dt.filter($event.target.value, 'movementArticleBarcode', 'contains')">
+            </th>
+            <th>
+                <input pInputText type="text" placeholder="{{ 'Search' | translate }}" (input)="dt.filter($event.target.value, 'movementArticleProduct', 'contains')">
+            </th>
+            <th>
+                <input pInputText type="text" placeholder="{{ 'Search' | translate }}" (input)="dt.filter($event.target.value, 'movementArticleQuantity', 'contains')">
+            </th>
+            <th>
+                <input pInputText type="text" placeholder="{{ 'Search' | translate }}" (input)="dt.filter($event.target.value, 'movementArticleDelivered', 'contains')">
+            </th>
+            <th>
+                <i class="fa fa-close" (click)="priceValue=null;dt.filter(null,'movementArticlePrice','contains')"></i>
+                <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="priceValue" [min]="5" [max]="1000"></p-slider>
+            </th>
+            <th>
+                <i class="fa fa-close" (click)="priceValue=null;dt.filter(null,'movementArticleAmount','contains')"></i>
+                <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="priceValue" [min]="5" [max]="1000"></p-slider>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row>
+        <tr [pSelectableRow]="row">
+            <td>{{ row.movementArticleBarcode }}</td>
+            <td>{{ row.movementArticleProduct | articleInfo:row.movementArticleBarcode }}</td>
+            <td pEditableColumn>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [disabled]="committed" [(ngModel)]="row.movementArticleQuantity" (change)="onUpdate(data)">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{ row.movementArticleQuantity }}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td pEditableColumn>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [disabled]="row.movementStatus==='Completed'" [(ngModel)]="row.movementArticleDelivered" (change)="onUpdate(data)">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{ row.movementArticleDelivered }}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td pEditableColumn>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [disabled]="committed" [(ngModel)]="row.movementArticlePrice" (change)="onUpdate(data)">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{ row.movementArticlePrice | currencyFormat }}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>{{ row.movementArticleAmount | currencyFormat }}</td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <tr>
+            <td colspan="6">
+                <span style="float: left"><b>{{totalRecords}}</b> {{ 'rows' | translate }}</span>
+                <span style="float: right">{{ 'items' | translate }} <b>{{totalItems}}</b> {{ 'amount' | translate }} <b>{{totalAmount | currencyFormat}}</b></span>
+            </td>
+        </tr>
+    </ng-template>
+
 </p-table>

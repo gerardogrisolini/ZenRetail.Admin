@@ -3,14 +3,14 @@
     <h1>{{ 'Login' | translate }}</h1>
     <hr />
 
-    <form [formGroup]="userform">
+    <form [formGroup]="userform" (ngSubmit)="onSubmit(userform.value)">
     <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
         <div class="ui-grid-row">
             <div class="ui-grid-col-2">
                 <label for="username">{{ 'Username' | translate }}</label>
             </div>
             <div class="ui-grid-col-6">
-                <input pInputText [(ngModel)]="user.username" type="email" formControlName="username"/>
+                <input pInputText type="email" formControlName="username"/>
             </div>
             <div class="ui-grid-col-4">
                 <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['username'].valid&&userform.controls['username'].dirty">
@@ -24,7 +24,7 @@
                 <label for="password">{{ 'Password' | translate }}</label>
             </div>
             <div class="ui-grid-col-6">
-                <input pInputText [(ngModel)]="user.password" type="password" formControlName="password"/>
+                <input pInputText type="password" formControlName="password"/>
             </div>
             <div class="ui-grid-col-4">
                 <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!userform.controls['password'].valid&&userform.controls['password'].dirty">
@@ -37,7 +37,7 @@
             <div class="ui-grid-col-2">
             </div>
             <div class="ui-grid-col-4">
-                <button type="button" pButton label="{{ 'Login' | translate }}" (click)="login()" icon="pi pi-sign-in" [disabled]="!userform.valid"></button>
+                <button type="submit" pButton label="{{ 'Login' | translate }}" icon="pi pi-sign-in" [disabled]="!userform.valid"></button>
             </div>
             <div class="ui-grid-col-6"></div>
         </div>

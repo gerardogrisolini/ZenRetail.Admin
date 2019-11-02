@@ -1,45 +1,72 @@
-﻿<p-table *ngIf="isOpen" [responsive]="true" [value]="products | priceFilter:sliderValue | categoryFilter:categoryValue" 
-    selectionMode="multiple" [(selection)]="selected"
-    [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [pageLinks]="5" #dt>
-    <p-header>
-        <div class="ui-helper-clearfix" style="text-align: left">
+﻿<p-table #dt *ngIf="isOpen" [responsive]="true" [value]="products | priceFilter:sliderValue | categoryFilter:categoryValue"
+    selectionMode="multiple" (onRowSelect)="onRowSelect($event)" dataKey="productName"
+    [paginator]="true" [rows]="10" [totalRecords]="totalRecords" [pageLinks]="5">
+
+    <ng-template pTemplate="caption">
+        <div style="text-align: left">
             <span style="font-size:20px;display:inline-block;margin-top:3px"><b>{{ 'Product picker' | translate }}</b></span>
             <button pButton type="button" label="{{ 'Close' | translate }}" (click)="hidePickerClick()" style="float: right" class="ui-button-warning" class="fa fa-close"></button>
         </div>
-    </p-header>
-    <p-footer>
-        <button pButton type="button" label="{{ 'Pickup' | translate }}" (click)="pickerClick()" class="ui-button-success" icon="pi pi-download"></button>
-    </p-footer>
-    <p-column [style]="{'width':'50px'}" selectionMode="multiple"></p-column>
-    <p-column field="productCode" header="{{ 'Code' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
-    <p-column field="productName" header="{{ 'Name' | translate }}" [sortable]="true" [filter]="true" filterPlaceholder="{{ 'Search' | translate }}"></p-column>
-    <p-column field="brand.brandName" header="{{ 'Brand' | translate }}" [sortable]="true" [filter]="true" filterMatchMode="equals" [style]="{'overflow':'visible'}" >
-        <ng-template pTemplate="filter" let-col>
-            <p-dropdown [options]="brands" [filter]="true" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
-        </ng-template>
-    </p-column>     
-    <p-column header="{{ 'Categories' | translate }}" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" >
-        <ng-template pTemplate="filter" let-col>
-            <p-dropdown [options]="categories" [filter]="true" [style]="{'width':'100%'}" [(ngModel)]="categoryValue" styleClass="ui-column-filter"></p-dropdown>
-        </ng-template>
-        <ng-template let-col let-data="rowData" pTemplate="body">
-            <li *ngFor="let item of data.categories"> {{ item.category.categoryName }} </li>
-        </ng-template>
-    </p-column>
-    <p-column header="{{ 'Price' | translate }} ({{sliderValue||''}})" [sortable]="true" [filter]="true" [style]="{'overflow':'visible'}" >
-        <ng-template pTemplate="filter" let-col>
-            <i class="fa fa-close" (click)="sliderValue=null;dt.filter(null,col.field,col.filterMatchMode)"></i>
-            <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="sliderValue" [min]="5" [max]="1000"></p-slider>
-        </ng-template>
-        <ng-template let-col let-data="rowData" pTemplate="body">
-            <div *ngIf="data.discount;then discount_content else price_content"></div>
-            <ng-template #discount_content>
-                <span class="percentage">-{{data.discount.percentage}}%</span>
-                <del>{{data.product.price.selling | currencyFormat}}</del><br><strong>{{data.discount.price | currencyFormat}}</strong>
-            </ng-template>
-            <ng-template #price_content>
-                {{data.price.selling | currencyFormat}}
-            </ng-template>
-        </ng-template>
-    </p-column>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th [pSortableColumn]="'productCode'">
+                {{ 'Code' | translate }}
+                <p-sortIcon [field]="'productCode'"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'productName'">
+                {{ 'Name' | translate }}
+                <p-sortIcon [field]="'productName'"></p-sortIcon>
+            </th>
+            <th [pSortableColumn]="'brand.brandName'">
+                {{ 'Brand' | translate }}
+                <p-sortIcon [field]="'brand.brandName'"></p-sortIcon>
+            </th>
+            <th>
+                {{ 'Categories' | translate }}
+            </th>
+            <th [pSortableColumn]="'price.selling'">
+                {{ 'Price' | translate }}
+                <p-sortIcon [field]="'price.selling'"></p-sortIcon>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <input pInputText type="text" placeholder="Filter" style="width:100%" (input)="dt.filter($event.target.value, 'productCode', 'contains')">
+            </th>
+            <th>
+                <input pInputText type="text" placeholder="Filter" style="width:100%" (input)="dt.filter($event.target.value, 'productName', 'contains')">
+            </th>
+            <th>
+                <p-dropdown [options]="brands" [filter]="true" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,'brand.brandName', 'equals')" styleClass="ui-column-filter"></p-dropdown>
+            </th>
+            <th>
+                <p-dropdown [options]="categories" [filter]="true" [style]="{'width':'100%'}" [(ngModel)]="categoryValue" styleClass="ui-column-filter"></p-dropdown>
+            </th>
+            <th>
+                <i class="fa fa-close" (click)="sliderValue=null;dt.filter(null,null,null)"></i>
+                <p-slider [style]="{'margin-top':'14px','margin-bottom':'5px'}" [(ngModel)]="sliderValue" [min]="5" [max]="1000"></p-slider>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row>
+        <tr [pSelectableRow]="row">
+            <td>{{ row.productCode }}</td>
+            <td>{{ row.productName }}</td>
+            <td>{{ row.brand.brandName }}</td>
+            <td>
+                <li *ngFor="let item of row.categories"> {{ item.category.categoryName }} </li>
+            </td>
+            <td>
+                <div *ngIf="row.discount && row.discount.isValid;then discount_content else price_content"></div>
+                <ng-template #discount_content>
+                    <span class="percentage">-{{row.discount.discountPercentage}}%</span>
+                    <del>{{row.price.selling | currencyFormat}}</del><br><strong>{{row.discount.discountPrice | currencyFormat}}</strong>
+                </ng-template>
+                <ng-template #price_content>
+                    {{row.price.selling | currencyFormat}}
+                </ng-template>    
+            </td>
+        </tr>
+    </ng-template>
 </p-table>

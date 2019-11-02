@@ -3,7 +3,6 @@ import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms'
 import { MessageService } from 'primeng/components/common/messageservice';
 import { SessionService } from './../services/session.service';
 import { Login } from './../shared/models';
-import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'app-login-component',
@@ -12,7 +11,6 @@ import { environment } from '../../environments/environment';
 
 export class LoginComponent implements OnInit {
     userform: FormGroup;
-    public user = environment.production ? new Login('', '') : new Login('admin', 'admin');
 
     constructor(
         private messageService: MessageService,
@@ -28,10 +26,10 @@ export class LoginComponent implements OnInit {
         });
     }
 
-    login() {
-        this.sessionService.login(this.user)
+    onSubmit(user: Login) {
+        this.sessionService.login(user)
             .subscribe(result => {
-                this.sessionService.grantCredentials(this.user.username, result);
+                this.sessionService.grantCredentials(user.username, result);
             }, 
             error => this.messageService.add({ severity: 'error', summary: '', detail: JSON.stringify(error) })
         );
