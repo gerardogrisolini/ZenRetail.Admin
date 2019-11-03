@@ -49,13 +49,13 @@
     <table *ngIf="articleForm" class="inputtext" style="margin: 10px 0" cellpadding="2" cellspacing="2">
         <thead>
             <tr style="background-color: whitesmoke"> 
-                <td *ngFor="let h of articleForm.header" align="center"><strong>{{h}}</strong></td> 
+                <td *ngFor="let h of articleForm.header" style="text-align: center"><strong>{{h}}</strong></td> 
             </tr>
         </thead>
         <tbody> 
             <tr *ngFor="let item of articleForm.body"> 
-                <td *ngFor="let col of item; let i = index" align="center">
-                    <div *ngIf="i < product.attributes.length - 1;then labels else inputs"></div>
+                <td *ngFor="let col of item; let i = index" style="text-align: center">
+                    <div *ngIf="i < (product.attributes.length - 1);then labels else inputs"></div>
                     <ng-template #labels>
                         <span>{{col.value}}</span>
                     </ng-template>

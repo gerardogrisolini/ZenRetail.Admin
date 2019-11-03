@@ -163,10 +163,10 @@ export class VariantComponent implements OnInit {
     }
 
     createSheet() {
-        this.selectedTag = 0;
+        this.selectedTag = -1;
         this.tags = [];
         this.translate.get('Select tag...').subscribe((res: string) =>
-            this.tags.push(Helpers.newSelectItem('', res)));
+            this.tags.push(Helpers.newSelectItem(-1, res)));
         this.translate.get('Default').subscribe((res: string) =>
             this.tags.push(Helpers.newSelectItem(0, res)));
         this.product.articles.forEach(article => {
@@ -181,6 +181,11 @@ export class VariantComponent implements OnInit {
     }
 
     tagChanged(event) {
+        if (this.selectedTag < 0) {
+            this.articleForm.header.length = 0;
+            this.articleForm.body.length = 0;
+            return;
+        }
         this.productService.getStock(this.product.productId, '0', this.selectedTag)
             .subscribe(result => {
                 this.articleForm = result;
