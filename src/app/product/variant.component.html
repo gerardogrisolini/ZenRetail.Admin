@@ -19,12 +19,12 @@
     <tbody> 
         <tr *ngFor="let item of formsSelected"> 
             <td>
-                <p-autoComplete [(ngModel)]="item.name" (onSelect)="updateAttributes($event)" [suggestions]="filteredNames" (completeMethod)="filterAttributes($event)"
+                <p-autoComplete [(ngModel)]="item.name" (onSelect)="updateAttributes($event)" (onUnselect)="updateAttributes($event)" [suggestions]="filteredNames" (completeMethod)="filterAttributes($event)"
                     [minLength]="1">
                 </p-autoComplete>    
             </td> 
             <td>
-                <p-autoComplete [(ngModel)]="item.values" (onSelect)="updateAttributes($event)" [suggestions]="filteredNames" (completeMethod)="filterAttributeValues($event, item.id)" 
+                <p-autoComplete [(ngModel)]="item.values" (onSelect)="updateAttributes($event)" (onUnselect)="updateAttributes($event)" [suggestions]="filteredNames" (completeMethod)="filterAttributeValues($event, item.id)" 
                     [minLength]="1" [multiple]="true">
                 </p-autoComplete>
             </td>

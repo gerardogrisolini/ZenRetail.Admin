@@ -17,7 +17,6 @@ import { Helpers } from '../shared/helpers';
 })
 
 export class VariantComponent implements OnInit {
-    totalRecords = 0;
     forms: AttributeForm[];
     formsSelected: AttributeForm[];
     filteredNames: string[];
@@ -35,12 +34,12 @@ export class VariantComponent implements OnInit {
     }
 
     get product(): Product { return this.productService.product; }
+    get totalRecords(): number { return this.productService.product.articles.length; }
 
     ngOnInit() {
         this.forms = [];
         this.formsSelected = [];
-        this.totalRecords = this.product.articles.length;
-
+ 
         this.product.attributes.forEach(p => {
             const values = p.attributeValues.map(v => v.attributeValue.attributeValueName);
             this.formsSelected.push(<AttributeForm>{ id: p.attribute.attributeId, name: p.attribute.attributeName, values: values });
@@ -103,6 +102,8 @@ export class VariantComponent implements OnInit {
             };
             this.product.attributes.push(productAttribute);
         });
+
+        console.log(this.product.attributes);
     }
 
     filterAttributes(event) {
@@ -145,6 +146,7 @@ export class VariantComponent implements OnInit {
                 accept: () => {
                     const index = this.formsSelected.findIndex(p => p.name === name);
                     this.formsSelected.splice(index, 1);
+                    this.updateAttributes(this);
                 }
             })
         );
