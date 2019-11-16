@@ -1,12 +1,11 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { SelectItem, MenuItem, LazyLoadEvent } from 'primeng/primeng';
+import { SelectItem, MenuItem } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Product } from './../shared/models';
 import { Helpers } from './../shared/helpers';
 import { SessionService } from './../services/session.service';
-import { BrandService } from './../services/brand.service';
 import { ProductService } from './../services/product.service';
 
 @Component({
@@ -17,7 +16,6 @@ import { ProductService } from './../services/product.service';
 export class ProductsComponent implements OnInit {
     totalRecords = 0;
     selected: Product;
-    allbrands: SelectItem[];
     types: SelectItem[];
     brands: SelectItem[];
     sliderValue: number;
@@ -30,8 +28,7 @@ export class ProductsComponent implements OnInit {
         private translate: TranslateService,
         private messageService: MessageService,
         private sessionService: SessionService,
-        private productService: ProductService,
-        private brandService: BrandService) {
+        private productService: ProductService) {
     }
 
     ngOnInit() {
@@ -52,11 +49,6 @@ export class ProductsComponent implements OnInit {
 
         this.productService.getTypes()
             .subscribe(result => this.types = result.map(p => Helpers.newSelectItem(p.value)));
-
-        this.brandService.getAll()
-            .subscribe(result => {
-                this.allbrands = result.map(p => Helpers.newSelectItem(p, p.brandName));
-            });
     }
 
     set products(value) { this.productService.products = value; }
