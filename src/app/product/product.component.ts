@@ -290,21 +290,21 @@ export class ProductComponent implements OnInit, OnDestroy {
             });
     }
 
-    resetClick() {
-        this.translate
-            .get('All information related to this product will be send to Amazon. Are you sure that you want to reset this product?')
-            .subscribe((res: string) =>
-                this.confirmationService.confirm({
-                    message: res,
-                    accept: () => {
-                        this.productService.resetAmazon(this.selected.productId)
-                            .subscribe(result => {
-                                this.messageService.add({severity: 'success', summary: '', detail: 'Reset successfully registered!'})
-                            }, onerror => this.messageService.add({severity: 'error', summary: '', detail: onerror._body}));
-                    }
-                })
-        );
-    }
+    // resetClick() {
+    //     this.translate
+    //         .get('All information related to this product will be send to Amazon. Are you sure that you want to reset this product?')
+    //         .subscribe((res: string) =>
+    //             this.confirmationService.confirm({
+    //                 message: res,
+    //                 accept: () => {
+    //                     this.productService.resetAmazon(this.selected.productId)
+    //                         .subscribe(result => {
+    //                             this.messageService.add({severity: 'success', summary: '', detail: 'Reset successfully registered!'})
+    //                         }, onerror => this.messageService.add({severity: 'error', summary: '', detail: onerror._body}));
+    //                 }
+    //             })
+    //     );
+    // }
 
     deleteClick() {
         this.translate

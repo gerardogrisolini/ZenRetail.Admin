@@ -33,8 +33,8 @@ import { ReportReceiptsComponent } from './report/receipts.component';
 import { ReportSalesComponent } from './report/sales.component';
 import { StatisticsComponent } from './report/statistics.component';
 import { WhouseComponent } from './report/whouse.component';
-import { AmazonComponent } from './setting/amazon.component';
-import { RequestComponent } from './amazon/request.component';
+// import { AmazonComponent } from './setting/amazon.component';
+// import { RequestComponent } from './amazon/request.component';
 import { CartComponent } from './cart/cart.component';
 
 export const routes: Routes = [
@@ -72,9 +72,9 @@ export const routes: Routes = [
     { path: 'report/statistics', component: StatisticsComponent, pathMatch: 'full' },
     { path: 'report/whouse', component: WhouseComponent, pathMatch: 'full' },
     { path: 'import', component: ImportComponent, pathMatch: 'full' },
-    { path: 'amazon', component: AmazonComponent, pathMatch: 'full' },
-    { path: 'request', component: RequestComponent, pathMatch: 'full' },
     { path: 'cart', component: CartComponent, pathMatch: 'full' }
+    // { path: 'amazon', component: AmazonComponent, pathMatch: 'full' },
+    // { path: 'request', component: RequestComponent, pathMatch: 'full' }
 ];
 
 export const AppRoutes = RouterModule.forRoot(routes);

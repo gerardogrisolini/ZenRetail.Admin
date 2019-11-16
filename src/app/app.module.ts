@@ -75,8 +75,8 @@ import { ReportReceiptsComponent } from './report/receipts.component';
 import { ReportSalesComponent } from './report/sales.component';
 import { WhouseComponent } from './report/whouse.component';
 import { StatisticsComponent } from './report/statistics.component';
-import { AmazonComponent } from './setting/amazon.component';
-import { RequestComponent } from './amazon/request.component';
+// import { AmazonComponent } from './setting/amazon.component';
+// import { RequestComponent } from './amazon/request.component';
 import { CartComponent } from './cart/cart.component';
 
 import { SessionService } from './services/session.service';
@@ -97,8 +97,8 @@ import { StatisticService } from './services/statistic.service';
 import { PublicationService } from './services/publication.service';
 import { ImportService } from './services/import.service';
 import { CountryService } from './services/country.service';
-import { AmazonService } from './services/amazon.service';
 import { BarcodeDecoderService } from './services/barcode-decoder.service';
+//import { AmazonService } from './services/amazon.service';
 
 import { CategoryFilterPipe } from './pipes/category-filter.pipe';
 import { PriceFilterPipe } from './pipes/price-filter.pipe';
@@ -194,8 +194,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         StatisticsComponent,
         WhouseComponent,
         ImportComponent,
-        AmazonComponent,
-        RequestComponent,
+        //AmazonComponent,
+        //RequestComponent,
         CartComponent
     ],
     providers: [
@@ -220,7 +220,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         PublicationService,
         ImportService,
         CountryService,
-        AmazonService,
+        //Service,
         BarcodeDecoderService
     ],
     entryComponents: [

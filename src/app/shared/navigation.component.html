@@ -39,7 +39,7 @@
         <div [ngClass]="{'submenushow': (retailmenu.id == activeMenuId), 'submenuhide': (retailmenu.id != activeMenuId)}">
             <a [routerLink]="['/device']" (click)="onMenuItemClick()"><i class="fa fa-mobile"></i>&nbsp;&nbsp;{{ 'Devices' | translate }}</a>
             <a [routerLink]="['/cart']" (click)="onMenuItemClick()"><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;{{ 'Carts' | translate }}</a>
-            <a [routerLink]="['/request']" (click)="onMenuItemClick()"><i class="fa fa-amazon"></i>&nbsp;&nbsp;Amazon</a>
+            <!-- <a [routerLink]="['/request']" (click)="onMenuItemClick()"><i class="fa fa-amazon"></i>&nbsp;&nbsp;Amazon</a> -->
         </div>
 
         <a id="reportmenu" #reportmenu [class.active-menuitem]="reportmenu.id == activeMenuId" (click)="activeMenuId = (activeMenuId === reportmenu.id ? null : reportmenu.id)">
@@ -68,7 +68,7 @@
             <a [routerLink]="['/smtp']" (click)="onMenuItemClick()"><i class="fa fa-envelope"></i>&nbsp;&nbsp;{{ 'SMTP' | translate }}</a>
             <a [routerLink]="['/payment']" (click)="onMenuItemClick()"><i class="fa fa-money"></i>&nbsp;&nbsp;{{ 'Payment' | translate }}</a>
             <a [routerLink]="['/shipping']" (click)="onMenuItemClick()"><i class="fa fa-truck"></i>&nbsp;&nbsp;{{ 'Shipping' | translate }}</a>
-            <a [routerLink]="['/amazon']" (click)="onMenuItemClick()"><i class="fa fa-amazon"></i>&nbsp;&nbsp;Amazon</a>
+            <!-- <a [routerLink]="['/amazon']" (click)="onMenuItemClick()"><i class="fa fa-amazon"></i>&nbsp;&nbsp;Amazon</a> -->
          </div>
          <a (click)="logoutClick()">
             <span><i class="fa fa-sign-in"></i>&nbsp;&nbsp;{{ 'Logout' | translate }}</span>

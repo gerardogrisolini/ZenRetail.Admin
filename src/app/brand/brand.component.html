@@ -36,7 +36,7 @@
             <button *ngIf="selected" pButton type="button" label="{{ 'Close' | translate }}" (click)="closeClick()" class="ui-button-secondary" icon="pi pi-times"></button>
         </div>
         <div class="ui-toolbar-group-right">
-            <button *ngIf="selected.categoryId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>
+            <button *ngIf="selected.brandId>0" type="button" pButton icon="pi pi-trash" class="ui-button-secondary" (click)="deleteClick()" label="{{ 'Delete' | translate }}"></button>
             <button type="button" pButton icon="pi pi-save" (click)="saveClick()" label="{{ 'Save' | translate }}" class="ui-button-primary" [disabled]="selected.brandName===''"></button>
         </div>
     </p-toolbar>

@@ -201,7 +201,7 @@
         </p-tabPanel>
         <p-tabPanel header="{{ 'Publication' | translate }}">
             <div *ngIf="publication">
-                <table style="width: 100%;">
+                <table style="width: 100%; margin: 30px;">
                     <tr>
                         <td>
                             <p>
@@ -214,7 +214,7 @@
                                 <br/>
                                 <p-inputSwitch [(ngModel)]="publication.publicationNew"></p-inputSwitch>
                             </p>
-                            <button type="button" pButton icon="pi pi-refresh" class="ui-button-warning" (click)="resetClick()" label="{{ 'Reset data on Amazon' | translate }}"></button>
+                            <!-- <button type="button" pButton icon="pi pi-refresh" class="ui-button-warning" (click)="resetClick()" label="{{ 'Reset data on Amazon' | translate }}"></button> -->
                         </td>
                         <td>
                             <p>
