@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, Input } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
@@ -10,7 +10,7 @@ import { CausalService } from './../services/causal.service';
 import { RegistryService } from './../services/registry.service';
 import { MovementService } from './../services/movement.service';
 import { TagService } from './../services/tag.service';
-import { Movement, Device, TagGroup, Tag, TagValue } from './../shared/models';
+import { Movement, Device, TagGroup, Tag } from './../shared/models';
 import { Helpers } from './../shared/helpers';
 
 @Component({

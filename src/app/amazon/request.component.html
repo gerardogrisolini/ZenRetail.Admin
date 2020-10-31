@@ -6,8 +6,7 @@
         <textarea [rows]="30" [cols]="120" pInputTextarea [(ngModel)]="xml"></textarea>
     </p-overlayPanel>
 
-    <p-table #dt [columns]="cols" [responsive]="true" [value]="items"
-        [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5">
+    <p-table #dt [columns]="cols" [responsive]="true" [value]="items" [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [pageLinks]="5">
 
         <ng-template pTemplate="caption">
             <div style="text-align: left">        

@@ -99,8 +99,8 @@ import { ReportReceiptsComponent } from './report/receipts.component';
 import { ReportSalesComponent } from './report/sales.component';
 import { WhouseComponent } from './report/whouse.component';
 import { StatisticsComponent } from './report/statistics.component';
-// import { AmazonComponent } from './setting/amazon.component';
-// import { RequestComponent } from './amazon/request.component';
+import { AmazonComponent } from './setting/amazon.component';
+import { RequestComponent } from './amazon/request.component';
 import { CartComponent } from './cart/cart.component';
 
 import { SessionService } from './services/session.service';
@@ -218,8 +218,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         StatisticsComponent,
         WhouseComponent,
         ImportComponent,
-        //AmazonComponent,
-        //RequestComponent,
+        AmazonComponent,
+        RequestComponent,
         CartComponent
     ],
     providers: [
