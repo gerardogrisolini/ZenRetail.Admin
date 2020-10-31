@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, Input } from '@angular/core';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { MessageService } from 'primeng/api';
 import { SessionService } from './../services/session.service';
 import { MovementService } from './../services/movement.service';
 import { MovementArticle, Period } from './../shared/models';

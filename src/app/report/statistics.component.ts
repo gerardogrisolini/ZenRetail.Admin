@@ -2,7 +2,8 @@
 import { TranslateService } from '@ngx-translate/core';
 import { SessionService } from './../services/session.service';
 import { StatisticService } from './../services/statistic.service';
-import { SelectItem, UIChart } from 'primeng/primeng';
+import { SelectItem } from 'primeng/api';
+import { UIChart } from 'primeng/chart';
 
 @Component({
     selector: 'statistics-component',

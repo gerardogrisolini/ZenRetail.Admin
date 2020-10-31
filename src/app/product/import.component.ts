@@ -1,7 +1,7 @@
 import { Component, OnInit  } from '@angular/core';
 import { SessionService } from './../services/session.service';
-import { SelectItem } from 'primeng/primeng';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { SelectItem } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { ImportService, CodartInfo } from './../services/import.service';
 import {
     Product, Brand, Category, ProductCategory, Price, Tax,

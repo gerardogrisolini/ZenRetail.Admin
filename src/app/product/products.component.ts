@@ -1,8 +1,8 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { SelectItem, MenuItem } from 'primeng/primeng';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { SelectItem, MenuItem } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { Product } from './../shared/models';
 import { Helpers } from './../shared/helpers';
 import { SessionService } from './../services/session.service';

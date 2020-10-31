@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ConfirmationService } from 'primeng/primeng';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { SessionService } from './../services/session.service';
 import { BrandService } from './../services/brand.service';
 import { Brand, Media } from './../shared/models';

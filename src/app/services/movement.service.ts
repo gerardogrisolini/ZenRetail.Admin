@@ -1,9 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { HttpClient } from '@angular/common/http';
 import { Movement, MovementArticle, Item, ItemValue, Cost, Period, Whouse } from '../shared/models';
-import { Helpers } from '../shared/helpers';
 
 @Injectable()
 export class MovementService {

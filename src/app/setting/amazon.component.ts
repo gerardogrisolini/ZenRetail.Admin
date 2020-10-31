@@ -1,5 +1,5 @@
 ﻿// import { Component, OnInit } from '@angular/core';
-// import { MessageService } from 'primeng/components/common/messageservice';
+// import { MessageService } from 'primeng/api';
 // import { SessionService } from './../services/session.service';
 // import { MwsConfig } from './../shared/models';
 // import { AmazonService } from '../services/amazon.service';

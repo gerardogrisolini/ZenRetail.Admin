@@ -5,21 +5,45 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-    SharedModule, PaginatorModule,
-    MultiSelectModule, DropdownModule, SliderModule,
-    ConfirmDialogModule, ConfirmationService, ToolbarModule,
-    TreeModule, ButtonModule, InputTextModule, InputSwitchModule,
-    PanelModule, SplitButtonModule, PickListModule, GrowlModule,
-    SelectButtonModule, ChipsModule, InputTextareaModule,
-    ContextMenuModule, TooltipModule, CalendarModule,
-    FileUploadModule, ChartModule, CarouselModule, SidebarModule,
-    SpinnerModule, StepsModule, AutoCompleteModule, TabViewModule,
-    AccordionModule, ProgressSpinnerModule, OrderListModule, OverlayPanelModule,
-    EditorModule
-} from 'primeng/primeng';
-import {TableModule} from 'primeng/table';
-import { MessageService } from 'primeng/components/common/messageservice';
+
+import { SharedModule } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
+import { DropdownModule } from 'primeng/dropdown';
+import { SliderModule } from 'primeng/slider';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToolbarModule } from 'primeng/toolbar';
+import { TreeModule } from 'primeng/tree';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { PanelModule } from 'primeng/panel';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { PickListModule } from 'primeng/picklist';
+import { PaginatorModule } from 'primeng/paginator';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { TableModule } from 'primeng/table';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { ChipsModule } from 'primeng/chips';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { TooltipModule } from 'primeng/tooltip';
+import { CalendarModule } from 'primeng/calendar';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ChartModule } from 'primeng/chart';
+import { CarouselModule } from 'primeng/carousel';
+import { SidebarModule } from 'primeng/sidebar';
+import { SpinnerModule } from 'primeng/spinner';
+import { StepsModule } from 'primeng/steps';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { TabViewModule } from 'primeng/tabview';
+import { AccordionModule } from 'primeng/accordion';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { OrderListModule } from 'primeng/orderlist';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { EditorModule } from 'primeng/editor';
+
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -122,7 +146,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         TableModule, SharedModule, PaginatorModule, SidebarModule,
         MultiSelectModule, DropdownModule, SliderModule, TreeModule,
         ButtonModule, InputTextModule, InputSwitchModule, ProgressSpinnerModule,
-        PanelModule, SplitButtonModule, PickListModule, GrowlModule,
+        PanelModule, SplitButtonModule, PickListModule, ToastModule,
         ConfirmDialogModule, ToolbarModule, SelectButtonModule, OrderListModule,
         ChipsModule, InputTextareaModule, FileUploadModule, AutoCompleteModule,
         ContextMenuModule, TooltipModule, CalendarModule, ChartModule, EditorModule,

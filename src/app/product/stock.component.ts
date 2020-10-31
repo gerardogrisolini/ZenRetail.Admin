@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { SelectItem } from 'primeng/primeng';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { SelectItem } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import {
     Product, ProductCategory, Category, ProductAttribute, Attribute,
     ProductAttributeValue, Article, ArticleAttributeValue, AttributeValue, ArticleForm

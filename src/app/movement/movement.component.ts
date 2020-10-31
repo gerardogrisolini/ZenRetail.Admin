@@ -2,8 +2,8 @@
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { ConfirmationService, SelectItem } from 'primeng/primeng';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { ConfirmationService, SelectItem } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { SessionService } from './../services/session.service';
 import { MovementService } from './../services/movement.service';
 import { Movement, MovementArticle } from './../shared/models';

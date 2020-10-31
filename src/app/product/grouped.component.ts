@@ -1,16 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Message } from 'primeng/primeng';
-import { MessageService } from 'primeng/components/common/messageservice';
-import { ConfirmationService } from 'primeng/primeng';
-import {
-    Product, Article, Barcode, GroupItem, Packaging
-} from './../shared/models';
-import { Helpers } from './../shared/helpers';
+import { MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
+import { Product, GroupItem } from './../shared/models';
 import { SessionService } from './../services/session.service';
 import { ProductService } from './../services/product.service';
 import { ProductComponent } from './product.component';
-import { ArticlePickerComponent } from '../shared/article-picker.component';
-import { EventEmitter } from 'events';
 
 @Component({
     selector: 'app-grouped',

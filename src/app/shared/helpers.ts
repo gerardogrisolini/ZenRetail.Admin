@@ -1,4 +1,4 @@
-import { SelectItem, TreeNode } from 'primeng/primeng';
+import { SelectItem, TreeNode } from 'primeng/api';
 import { Company, Translation } from './models';
 
 export class Helpers {

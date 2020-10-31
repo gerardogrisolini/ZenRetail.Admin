@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ConfirmationService } from 'primeng/primeng';
+import { ConfirmationService } from 'primeng/api';
 import { CompanyService } from '../services/company.service';
 import { Media } from './../shared/models';
 import { SessionService } from './../services/session.service';

@@ -1,8 +1,8 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { ConfirmationService } from 'primeng/primeng';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { SessionService } from './../services/session.service';
 import { RegistryService } from './../services/registry.service';
 import { Registry } from './../shared/models';

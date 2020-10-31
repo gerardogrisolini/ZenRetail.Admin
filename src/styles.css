@@ -356,7 +356,7 @@ footer {
   height: 100% !important;
 }
 
-.ui-growl {
+.ui-toast {
   margin-top: 60px;
   z-index: 10000;
 }

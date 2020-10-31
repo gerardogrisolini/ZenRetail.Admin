@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit, EventEmitter, ViewChild, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { SelectItem } from 'primeng/primeng';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { SelectItem } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { Product, ProductCategory, ArticleForm } from './models';
 import { Helpers } from './helpers';
 import { ProductService } from './../services/product.service';

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Translation } from './../shared/models';
-import { SelectItem } from 'primeng/primeng';
+import { SelectItem } from 'primeng/api';
 import { Helpers } from './helpers';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { MessageService } from 'primeng/components/common/messageservice';
-import { ConfirmationService, TreeNode, Message, SelectItem } from 'primeng/primeng';
+import { MessageService } from 'primeng/api';
+import { ConfirmationService, TreeNode, Message, SelectItem } from 'primeng/api';
 import {
     Product, Attribute, AttributeValue, AttributeForm,
     ProductAttribute, ProductAttributeValue, ArticleForm, Article, Packaging, Barcode, Tag

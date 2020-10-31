@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location, DOCUMENT } from '@angular/common';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { MessageService } from 'primeng/api';
 import { SessionService } from './../services/session.service';
 import { MovementService } from './../services/movement.service';
 import { CompanyService } from './../services/company.service';

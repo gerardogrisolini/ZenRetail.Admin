@@ -2,8 +2,8 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { ConfirmationService, SelectItem, MenuItem } from 'primeng/primeng';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { ConfirmationService, SelectItem, MenuItem } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { SessionService } from './../services/session.service';
 import { StoreService } from './../services/store.service';
 import { CausalService } from './../services/causal.service';
