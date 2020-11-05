@@ -70,7 +70,7 @@ export class CategoryComponent implements OnInit {
     // }
 
     saveClick() {
-        if (this.selected.media.name === '') {
+        if (this.selected.media !== null && this.selected.media.name === '') {
             this.selected.media = null;
         }
         if (this.isNew) {
